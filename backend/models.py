@@ -166,6 +166,14 @@ class OtherAsset(TimeStampedModel):
     name = models.CharField(max_length=128)
     value = models.FloatField(max_length=128,null=True,blank=True)
 
+class Crypto(TimeStampedModel):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_crypto')
+    created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
+    crypto_type = models.CharField(max_length=128)
+    wallet_name = models.CharField(max_length=128)
+    value = models.FloatField(max_length=128,null=True,blank=True)
+
 class CreditCard(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_creditcard')

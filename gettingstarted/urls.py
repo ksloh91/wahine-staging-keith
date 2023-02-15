@@ -24,6 +24,7 @@ urlpatterns = [
 	path("v2/assets/property",assets_property_modelform,name="assets-property-createform"),
 	path("v2/assets/vehicle",assets_vehicle_modelform,name="assets-vehicle-createform"),
 	path("v2/assets/others",assets_other_modelform,name="assets-other-createform"),
+	path("v2/assets/crypto",assets_crypto_modelform,name="assets-crypto-createform"),
 
 	path("v2/liabilities/creditcard",liabilities_creditcard_modelform,name="liabilities-creditcard-createform"),
 	path("v2/liabilities/personalloan",liabilities_personalloan_modelform,name="liabilities-personalloan-createform"),

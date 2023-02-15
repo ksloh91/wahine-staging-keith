@@ -346,6 +346,30 @@ OtherAssetModelFormset = modelformset_factory(
     }
 )
 
+CryptoModelFormset = modelformset_factory(
+    Crypto,
+    fields=('crypto_type',
+            'wallet_name',
+            'value',
+            'user',
+            ),
+    extra=1,
+    widgets={
+        'crypto_type': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter crypto type here'
+        }),
+        'wallet_name': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter wallet name here'
+        }),
+        'value': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter asset value here'
+        }),
+    }
+)
+
 class EpfForm(forms.ModelForm):
     class Meta:
         model = Epf
