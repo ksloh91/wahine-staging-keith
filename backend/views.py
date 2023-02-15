@@ -209,9 +209,9 @@ def assets_other_modelform(request):
         if 'skip' in request.POST:
             item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Other Assets',created_by=request.user)
             if item:
-                return redirect('assets-other-createform')
+                return redirect('assets-crypto-createform')
             item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Other Assets',created_by=request.user)
-            return redirect('assets-other-createform')
+            return redirect('assets-crypto-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
             post_data['form-%d-user' % i] = request.user
@@ -221,7 +221,7 @@ def assets_other_modelform(request):
         if formset.is_valid():
             formset.save()
             messages.success(request, "Saved successfully.")
-            return redirect('assets-other-createform')
+            return redirect('assets-crypto-createform')
 
         messages.error(request, "Please correct the errors in the form and try again.")
         return render(request,"backend/assets-other-create.html",context)
@@ -230,6 +230,33 @@ def assets_other_modelform(request):
     formset = OtherAssetModelFormset(queryset=OtherAsset.objects.none())
     context = {'formset':formset}
     return render(request,"backend/assets-other-create.html",context)
+
+def assets_crypto_modelform(request):
+    if request.method == 'POST':
+        if 'skip' in request.POST:
+            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
+            if item:
+                return redirect('assets-crypto-createform')
+            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
+            return redirect('assets-crypto-createform')
+        post_data = request.POST.copy()
+        for i in range(int(post_data['form-TOTAL_FORMS'])):
+            post_data['form-%d-user' % i] = request.user
+        formset = CryptoModelFormset(post_data)
+        context = {'formset':formset}
+
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, "Saved successfully.")
+            return redirect('assets-crypto-createform')
+
+        messages.error(request, "Please correct the errors in the form and try again.")
+        return render(request,"backend/assets-crypto-create.html",context)
+
+    # we don't want to display the already saved model instances
+    formset = CryptoModelFormset(queryset=Crypto.objects.none())
+    context = {'formset':formset}
+    return render(request,"backend/assets-crypto-create.html",context)
 
 def liabilities_creditcard_modelform(request):
     if request.method == 'POST':
