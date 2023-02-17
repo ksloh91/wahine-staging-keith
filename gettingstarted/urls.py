@@ -7,6 +7,7 @@ admin.autodiscover()
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django_registration.backends.activation.views import RegistrationView
 # To add a new path, first import the app:
 # import blog
 #
@@ -90,5 +91,17 @@ urlpatterns = [
  	
  	path("dashboard/", dashboard,name="dashboard"),
  	path("admin/", admin.site.urls),
+
+ 	## Django Registration Urls
+    path('accounts/register/',
+        RegistrationView.as_view(
+            form_class=MyCustomUserForm
+        ),
+        name='django_registration_register',
+    ),
+    path('accounts/',
+        include('django_registration.backends.activation.urls')
+    ),
+    path('accounts/', include('django.contrib.auth.urls')),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

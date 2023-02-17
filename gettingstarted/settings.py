@@ -28,10 +28,17 @@ IS_HEROKU = "DYNO" in os.environ
 # SECURITY WARNING: keep the secret key used in production secret!
 ## Use environment variable
 SECRET_KEY = "fjd12489hHFG*$&H9h4r78TG08hyfO$*Ghy"
-
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 if 'SECRET_KEY' in os.environ:
     SECRET_KEY = os.environ["SECRET_KEY"]
 
+### SMTP Sendinblue
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'rejina@Wcapital.asia'
+EMAIL_HOST_PASSWORD = 'xTNzYdXD4kLInGmq'
 
 # Generally avoid wildcards(*). However since Heroku router provides hostname validation it is ok
 if IS_HEROKU:

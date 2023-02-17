@@ -10,6 +10,24 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from django_registration.forms import RegistrationForm
+
+from backend.models import *
+
+
+class MyCustomUserForm(RegistrationForm):
+    gender = forms.ChoiceField(choices=GENDER_CHOICES)
+    class Meta(RegistrationForm.Meta):
+        model = User
+        fields = [
+            "last_name",
+            "email",
+            "gender",
+            "age",
+            "referral_code",
+            "password1",
+        ]
+
 def validate_ic_length(value):
     if value.length != 12:
         raise ValidationError(
