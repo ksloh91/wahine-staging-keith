@@ -1,4 +1,4 @@
-#!/Users/keith/wahine-staging-KT221212/env/bin/python3.10
+#!/Users/chengkaitao/Python/wahine-staging-server/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

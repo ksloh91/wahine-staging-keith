@@ -41,6 +41,11 @@ ACCOUNT_TYPE_CHOICES = [
         ('Fixed Deposit', 'Fixed Deposit'),
     ]
 
+OVERSEAS_OR_LOCAL = [
+        ('Local', 'Local'),
+        ('Oversea', 'Oversea'),
+    ]
+
 BANK_NAME_CHOICES = [
         ('AEON Credit Service (M) Berhad','AEON Credit Service (M) Berhad'),
         ('Affin Bank Berhad','Affin Bank Berhad'),
@@ -243,6 +248,67 @@ InsuranceModelFormset = modelformset_factory(
 #         }),
 #     }
 # )
+
+SecuritiesInvestmentModelFormset = modelformset_factory(
+    SecuritiesInvestment,
+    fields=('broker_name',
+            'account_type',
+            'account_no',
+            'account_value',
+            'user',
+            ),
+    extra=1,
+    widgets={
+        'account_type': forms.RadioSelect(choices=OVERSEAS_OR_LOCAL,attrs={
+        }),
+        'broker_name': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter broker name here'
+        }),
+        'account_no': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter account no. here'
+        }),
+        'account_value': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter account value here'
+        }),
+    }
+)
+
+UnitTrustInvestmentModelFormset = modelformset_factory(
+    UnitTrustInvestment,
+    fields=('unittrust_name',
+            'account_no',
+            'account_value',
+            'agent_name',
+            'agent_contact_no',
+            'user',
+            ),
+    extra=1,
+    widgets={
+        'unittrust_name': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter unit trust name here'
+        }),
+        'account_no': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter account no. here'
+        }),
+        'agent_name': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter agent no. here'
+        }),
+        'agent_contact_no': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter contact no. here'
+        }),
+        'account_value': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter account value here'
+        }),
+    }
+)
 
 from django.forms import BaseModelFormSet
 

@@ -140,6 +140,25 @@ class Investment(TimeStampedModel):
     account_no = models.CharField(max_length=128)
     account_value = models.FloatField(max_length=128,null=True,blank=True)
 
+class SecuritiesInvestment(TimeStampedModel):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_securities_investment')
+    created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
+    account_type = models.CharField(max_length=128)
+    broker_name = models.CharField(max_length=128)
+    account_no = models.CharField(max_length=128)
+    account_value = models.FloatField(max_length=128,null=True,blank=True)
+
+class UnitTrustInvestment(TimeStampedModel):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_unittrust_investment')
+    created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
+    unittrust_name = models.CharField(max_length=128)
+    account_no = models.CharField(max_length=128)
+    agent_name = models.CharField(max_length=128)
+    agent_contact_no = models.CharField(max_length=128)
+    account_value = models.FloatField(max_length=128,null=True,blank=True)
+
 class Property(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_property')

@@ -32,9 +32,9 @@
 			</a>
 		</li>
 		<!-- Step 4 -->
-		<li class=" text-center form-stepper-list {% if request.resolver_match.url_name == 'assets-investment-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}"
+		<li class=" text-center form-stepper-list {% if request.resolver_match.url_name == 'assets-securities-investment-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}"
 			step="4">
-			<a class="mx-2" href="{% url 'assets-investment-createform' %}">
+			<a class="mx-2" href="{% url 'assets-securities-investment-createform' %}">
 				<span class="form-stepper-circle text-muted">
 					<span>4</span>
 				</span>
@@ -121,10 +121,10 @@
 		</div>
 	</div>
 	<div
-		class="carousel-cell {% if request.resolver_match.url_name == 'assets-investment-createform' or request.resolver_match.url_name == 'assets-property-createform' or request.resolver_match.url_name == 'assets-vehicle-createform' %} is-initial-select {% endif %}">
+		class="carousel-cell {% if request.resolver_match.url_name == 'assets-securities-investment-createform' or request.resolver_match.url_name == 'assets-property-createform' or request.resolver_match.url_name == 'assets-vehicle-createform' %} is-initial-select {% endif %}">
 		<div
-			class="form-stepper-list {% if request.resolver_match.url_name == 'assets-investment-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}">
-			<a class="mx-2" href="{% url 'assets-investment-createform' %}">
+			class="form-stepper-list {% if request.resolver_match.url_name == 'assets-securities-investment-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}">
+			<a class="mx-2" href="{% url 'assets-securities-investment-createform' %}">
 				<span class="form-stepper-circle">
 					<span>4</span>
 				</span>

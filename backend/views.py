@@ -62,6 +62,7 @@ def assets_epf_modelform(request):
             return redirect('assets-socso-createform')
 
         messages.error(request, "Please correct the errors in the form and try again.")
+        print(form.errors)
         return render(request,"backend/assets-epf-create.html",context)
 
     # we don't want to display the already saved model instances
@@ -100,9 +101,9 @@ def assets_insurance_modelform(request):
         if 'skip' in request.POST:
             item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
             if item:
-                return redirect('assets-investment-createform')
+                return redirect('assets-securities-investment-createform')
             item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
-            return redirect('assets-investment-createform')
+            return redirect('assets-securities-investment-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
             post_data['form-%d-user' % i] = request.user
@@ -112,7 +113,7 @@ def assets_insurance_modelform(request):
         if formset.is_valid():
             formset.save()
             messages.success(request, "Saved successfully.")
-            return redirect('assets-investment-createform')
+            return redirect('assets-securities-investment-createform')
 
         messages.error(request, "Please correct the errors in the form and try again.")
         return render(request,"backend/assets-insurance-create.html",context)
@@ -148,6 +149,60 @@ def assets_investment_modelform(request):
     formset = InvestmentModelFormset(queryset=Investment.objects.none())
     context = {'formset':formset}
     return render(request,"backend/assets-investment-create.html",context)
+
+def assets_securities_investment_modelform(request):
+    if request.method == 'POST':
+        if 'skip' in request.POST:
+            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            if item:
+                return redirect('assets-unittrust-investment-createform')
+            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            return redirect('assets-unittrust-investment-createform')
+        post_data = request.POST.copy()
+        for i in range(int(post_data['form-TOTAL_FORMS'])):
+            post_data['form-%d-user' % i] = request.user
+        formset = SecuritiesInvestmentModelFormset(post_data)
+        context = {'formset':formset}
+
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, "Saved successfully.")
+            return redirect('assets-unittrust-investment-createform')
+
+        messages.error(request, "Please correct the errors in the form and try again.")
+        return render(request,"backend/assets-securities-investment-create.html",context)
+
+    # we don't want to display the already saved model instances
+    formset = SecuritiesInvestmentModelFormset(queryset=Investment.objects.none())
+    context = {'formset':formset}
+    return render(request,"backend/assets-securities-investment-create.html",context)
+
+def assets_unittrust_investment_modelform(request):
+    if request.method == 'POST':
+        if 'skip' in request.POST:
+            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            if item:
+                return redirect('assets-property-createform')
+            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            return redirect('assets-property-createform')
+        post_data = request.POST.copy()
+        for i in range(int(post_data['form-TOTAL_FORMS'])):
+            post_data['form-%d-user' % i] = request.user
+        formset = UnitTrustInvestmentModelFormset(post_data)
+        context = {'formset':formset}
+
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, "Saved successfully.")
+            return redirect('assets-property-createform')
+
+        messages.error(request, "Please correct the errors in the form and try again.")
+        return render(request,"backend/assets-unittrust-investment-create.html",context)
+
+    # we don't want to display the already saved model instances
+    formset = UnitTrustInvestmentModelFormset(queryset=Investment.objects.none())
+    context = {'formset':formset}
+    return render(request,"backend/assets-unittrust-investment-create.html",context)
 
 def assets_property_modelform(request):
     if request.method == 'POST':
