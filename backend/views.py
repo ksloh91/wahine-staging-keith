@@ -537,7 +537,7 @@ def signup(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("bank_account_form")
+                return redirect("assets-bank-createform")
             messages.info(request, f"You can login now.")
             return redirect('login')
         else:
@@ -1440,7 +1440,7 @@ def dashboard(request):
     items = Item.objects.filter(user=user)
     print(items.count())
     if items.count() == 0:
-        return redirect('bank_account_form')
+        return redirect('assets-bank-createform')
     banks = items.filter(item_type='Bank Account')
     bank_total = 0
     bank_values = banks.values('data')

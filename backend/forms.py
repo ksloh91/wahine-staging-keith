@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import modelformset_factory, inlineformset_factory
 # from dal import autocomplete
 from django.contrib.auth import get_user_model
-
+import re
 """ Beginning of V2 Forms """
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -28,12 +28,6 @@ class MyCustomUserForm(RegistrationForm):
             "password1",
         ]
 
-def validate_ic_length(value):
-    if value.length != 12:
-        raise ValidationError(
-            _('%(value)s is not of length 12'),
-            params={'value': value},
-        )
 
 ACCOUNT_TYPE_CHOICES = [
         ('Saving Account', 'Saving Account'),
@@ -158,8 +152,21 @@ GENDER_CHOICES = [
         ('Prefer not to respond', 'Prefer not to respond'),
     ]
 
+class BankForm(forms.ModelForm):
+    def clean_account_no(self):
+        account_no = str(self.cleaned_data.get('account_no', False))
+        if re.search('[a-zA-Z]', account_no):
+            raise ValidationError(
+                _('Account no should not contain any characters'),
+                params={'account_no': account_no},
+            )
+
+        return account_no
+
+
 BankModelFormset = modelformset_factory(
     Bank,
+    form=BankForm,
     fields=('account_type',
             'bank_name',
             'account_no',
@@ -186,8 +193,19 @@ BankModelFormset = modelformset_factory(
     }
 )
 
+class InsuranceForm(forms.ModelForm):
+    def clean_nominee_name(self):
+        nominee_name = str(self.cleaned_data.get('nominee_name', False))
+        if re.search('[0-9]', nominee_name):
+            raise ValidationError(
+                _('Nominee name should not contain any numbers'),
+                params={'nominee_name': nominee_name},
+            )
+        return nominee_name
+
 InsuranceModelFormset = modelformset_factory(
     Insurance,
+    form=InsuranceForm,
     fields=('insurance_type',
             'provider',
             'policy_no',
@@ -218,36 +236,6 @@ InsuranceModelFormset = modelformset_factory(
     }
 )
 
-# InvestmentModelFormset = modelformset_factory(
-#     Investment,
-#     fields=('insurance_type',
-#             'provider',
-#             'policy_no',
-#             'nominee_name',
-#             'sum_insured',
-#             ),
-#     extra=1,
-#     widgets={
-#         'insurance_type': forms.RadioSelect(choices=INSURANCE_TYPE_CHOICES,attrs={
-#         }),
-#         'provider': forms.TextInput(attrs={
-#             'class': 'form-control',
-#             'placeholder': 'Enter provider name here'
-#         }),
-#         'policy_no': forms.TextInput(attrs={
-#             'class': 'form-control',
-#             'placeholder': 'Enter policy no. here'
-#         }),
-#         'nominee_name': forms.TextInput(attrs={
-#             'class': 'form-control',
-#             'placeholder': 'Enter nominee name here'
-#         }),
-#         'sum_insured': forms.TextInput(attrs={
-#             'class': 'form-control',
-#             'placeholder': 'Enter sum insured here'
-#         }),
-#     }
-# )
 
 SecuritiesInvestmentModelFormset = modelformset_factory(
     SecuritiesInvestment,
@@ -328,7 +316,19 @@ class PropertyForm(forms.ModelForm):
             'postcode',
             'titleno',
             'user']
-
+    def clean_postcode(self):
+        postcode = str(self.cleaned_data.get('postcode', False))
+        if re.search('[a-zA-Z]', postcode):
+            raise ValidationError(
+                _('Postcode should not contain any characters'),
+                params={'postcode': postcode},
+            )
+        if len(postcode) != 5:
+            raise ValidationError(
+                _('Only 5 digits allowed'),
+                params={'postcode': postcode},
+            )
+        return postcode
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # self.fields['residential_type'].widget = forms.Select(choices=PROPERTY_TYPE_CHOICES)
@@ -473,6 +473,16 @@ class EpfForm(forms.ModelForm):
         }),
         }
 
+    def clean_account_no(self):
+        account_no = str(self.cleaned_data.get('account_no', False))
+        if len(account_no) !=8:
+            raise ValidationError(
+                _('Account no should be 8 characters long'),
+                params={'account_no': account_no},
+            )
+
+        return account_no
+
 class SocsoForm(forms.ModelForm):
     class Meta:
         model = Socso
@@ -495,7 +505,9 @@ class SocsoForm(forms.ModelForm):
                 _('Account no should be 12 characters long'),
                 params={'account_no': account_no},
             )
+
         return account_no
+
 
 CreditCardModelFormset = modelformset_factory(
     CreditCard,
