@@ -48,7 +48,7 @@ urlpatterns = [
 	path("return-refund-policy/",return_refund_policy,name="return-refund-policy"),
 	path("profile/",profile,name="profile"),
 	path("signup/",signup,name="signup"),
-	path("login/",login_view,name="login"),
+	
 	path("plan/",selectplan,name="plan"),
 	path("faq/",faq,name="faq"),
 	path("dashboard/",dashboard,name="dashboard"),
@@ -104,5 +104,5 @@ urlpatterns = [
         include('django_registration.backends.activation.urls')
     ),
     path('accounts/', include('django.contrib.auth.urls')),
-
+	path("login/",login_view,name="login"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

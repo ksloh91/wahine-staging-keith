@@ -537,7 +537,7 @@ def signup(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("assets-bank-createform")
+                return redirect('assets-bank-createform')
             messages.info(request, f"You can login now.")
             return redirect('login')
         else:
