@@ -103,7 +103,5 @@ urlpatterns = [
         include('django_registration.backends.activation.urls')
     ),
     path('accounts/', include('django.contrib.auth.urls')),
-	# path("signup/",signup,name="signup"),
 	# path("login/",login_view,name="login"),
-
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
