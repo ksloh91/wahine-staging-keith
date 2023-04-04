@@ -8,15 +8,19 @@ from django.contrib.auth.forms import AuthenticationForm #add this
 from django.views.generic.edit import UpdateView
 from django.db.models import Avg, Count, Min, Sum
 import datetime
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 ## TODO
 ## IF data exist, show existing data/edit mode
 ## If fields can have multiple entry (eg policy), show no of policies
+
+@login_required
 def load_residential_type(request):
     property_type = request.GET.get('property_type')
     residential_types = ResidentialType.objects.filter(property_type__name=property_type).order_by('name')
     return render(request, 'backend/residential-type-dropdown-list.html', {'residential_types': residential_types})
 
+@login_required
 def assets_bank_modelform(request):
     if request.method == 'POST':
         post_data = request.POST.copy()
@@ -43,13 +47,12 @@ def assets_bank_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-bank-create.html",context)
 
+@login_required
 def assets_epf_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='EPF',created_by=request.user)
-            if item:
-                return redirect('assets-socso-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='EPF',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='EPF',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-socso-createform')
         post_data = request.POST.copy()
         post_data['user'] = request.user
@@ -70,13 +73,12 @@ def assets_epf_modelform(request):
     context = {'form':form}
     return render(request,"backend/assets-epf-create.html",context)
 
+@login_required
 def assets_socso_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Socso',created_by=request.user)
-            if item:
-                return redirect('assets-insurance-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Socso',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Socso',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-insurance-createform')
         post_data = request.POST.copy()
         post_data['user'] = request.user
@@ -96,13 +98,12 @@ def assets_socso_modelform(request):
     context = {'form':form}
     return render(request,"backend/assets-socso-create.html",context)
 
+@login_required
 def assets_insurance_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
-            if item:
-                return redirect('assets-securities-investment-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-securities-investment-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -123,13 +124,12 @@ def assets_insurance_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-insurance-create.html",context)
 
+@login_required
 def assets_investment_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
-            if item:
-                return redirect('assets-property-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-property-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -150,13 +150,12 @@ def assets_investment_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-investment-create.html",context)
 
+@login_required
 def assets_securities_investment_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
-            if item:
-                return redirect('assets-unittrust-investment-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-unittrust-investment-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -177,13 +176,12 @@ def assets_securities_investment_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-securities-investment-create.html",context)
 
+@login_required
 def assets_unittrust_investment_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
-            if item:
-                return redirect('assets-property-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Investment',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-property-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -204,13 +202,12 @@ def assets_unittrust_investment_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-unittrust-investment-create.html",context)
 
+@login_required
 def assets_property_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Property',created_by=request.user)
-            if item:
-                return redirect('assets-vehicle-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Property',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Property',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-vehicle-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -232,13 +229,12 @@ def assets_property_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-property-create.html",context)
 
+@login_required
 def assets_vehicle_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Vehicle',created_by=request.user)
-            if item:
-                return redirect('assets-other-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Vehicle',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Vehicle',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-other-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -259,13 +255,12 @@ def assets_vehicle_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-vehicle-create.html",context)
 
+@login_required
 def assets_other_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Other Assets',created_by=request.user)
-            if item:
-                return redirect('assets-crypto-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Other Assets',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Other Assets',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-crypto-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -286,13 +281,12 @@ def assets_other_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-other-create.html",context)
 
+@login_required
 def assets_crypto_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
-            if item:
-                return redirect('assets-crypto-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('assets-crypto-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -313,13 +307,12 @@ def assets_crypto_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/assets-crypto-create.html",context)
 
+@login_required
 def liabilities_creditcard_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Credit Card',created_by=request.user)
-            if item:
-                return redirect('liabilities-personalloan-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Credit Card',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Credit Card',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('liabilities-personalloan-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -340,13 +333,12 @@ def liabilities_creditcard_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/liabilities-creditcard-create.html",context)
 
+@login_required
 def liabilities_personalloan_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Personal Loan',created_by=request.user)
-            if item:
-                return redirect('liabilities-vehicleloan-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Personal Loan',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Personal Loan',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('liabilities-vehicleloan-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -367,13 +359,12 @@ def liabilities_personalloan_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/liabilities-personalloan-create.html",context)
 
+@login_required
 def liabilities_vehicleloan_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Vehicle Loan',created_by=request.user)
-            if item:
-                return redirect('liabilities-propertyloan-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Vehicle Loan',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Vehicle Loan',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('liabilities-propertyloan-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -394,13 +385,12 @@ def liabilities_vehicleloan_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/liabilities-vehicleloan-create.html",context)
 
+@login_required
 def liabilities_propertyloan_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Property Loan',created_by=request.user)
-            if item:
-                return redirect('liabilities-other-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Property Loan',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Property Loan',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('liabilities-other-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -421,13 +411,12 @@ def liabilities_propertyloan_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/liabilities-propertyloan-create.html",context)
 
+@login_required
 def liabilities_other_modelform(request):
     if request.method == 'POST':
         if 'skip' in request.POST:
-            item = Item.objects.get(user=request.user,data={'nodata':True},item_type='Other Liabilities',created_by=request.user)
-            if item:
-                return redirect('liabilities-other-createform')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Other Liabilities',created_by=request.user)
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Other Liabilities',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('liabilities-other-createform')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
@@ -448,6 +437,7 @@ def liabilities_other_modelform(request):
     context = {'formset':formset}
     return render(request,"backend/liabilities-other-create.html",context)
 
+@login_required
 def assets_overview_v2(request):
     user = request.user
     """ Check if user skipped form"""
@@ -470,7 +460,8 @@ class ItemUpdateView(UpdateView):
     model = Item
     fields = ['data']
     template_name_suffix = '_update_form'
-
+    
+@login_required
 def liabilities_overview_v2(request):
     user = request.user
     items = Item.objects.filter(user=user)

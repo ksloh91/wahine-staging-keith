@@ -12,7 +12,7 @@
 			</a>
 		</li>
 		<!-- Step 2 -->
-		<li class="text-center form-stepper-list {% if request.resolver_match.url_name == 'assets-epf-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}"
+		<li class="text-center form-stepper-list {% if request.resolver_match.url_name == 'assets-epf-createform' or request.resolver_match.url_name == 'assets-socso-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}"
 			step="2">
 			<a class="mx-2" href="{% url 'assets-epf-createform' %}">
 				<span class="form-stepper-circle text-muted">
@@ -32,7 +32,7 @@
 			</a>
 		</li>
 		<!-- Step 4 -->
-		<li class=" text-center form-stepper-list {% if request.resolver_match.url_name == 'assets-securities-investment-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}"
+		<li class=" text-center form-stepper-list {% if request.resolver_match.url_name == 'assets-securities-investment-createform' or request.resolver_match.url_name == 'assets-unittrust-investment-createform' %} form-stepper-active {% else %} form-stepper-unfinished {% endif %}"
 			step="4">
 			<a class="mx-2" href="{% url 'assets-securities-investment-createform' %}">
 				<span class="form-stepper-circle text-muted">

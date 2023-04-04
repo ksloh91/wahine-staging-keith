@@ -2,8 +2,8 @@ from django.urls import path, include
 
 from django.contrib import admin
 from backend.views import *
-
-admin.autodiscover()
+from backend.admin import *
+# admin.autodiscover()
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -47,8 +47,6 @@ urlpatterns = [
 	path("privacy-policy/",privacy_policy,name="privacy-policy"),
 	path("return-refund-policy/",return_refund_policy,name="return-refund-policy"),
 	path("profile/",profile,name="profile"),
-	path("signup/",signup,name="signup"),
-	path("login/",login_view,name="login"),
 	path("plan/",selectplan,name="plan"),
 	path("faq/",faq,name="faq"),
 	path("dashboard/",dashboard,name="dashboard"),
@@ -93,6 +91,7 @@ urlpatterns = [
  	path("dashboard/", dashboard,name="dashboard"),
  	path("admin/", admin.site.urls),
 
+ 	
  	## Django Registration Urls
     path('accounts/register/',
         RegistrationView.as_view(
@@ -104,5 +103,7 @@ urlpatterns = [
         include('django_registration.backends.activation.urls')
     ),
     path('accounts/', include('django.contrib.auth.urls')),
+	# path("signup/",signup,name="signup"),
+	# path("login/",login_view,name="login"),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

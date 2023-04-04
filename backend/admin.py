@@ -46,5 +46,25 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 admin.site.register(Item, JsonAdmin)
 
-admin.site.register(PropertyType)
+## Assets ##
+admin.site.register(Bank)
+admin.site.register(Epf)
+admin.site.register(Socso)
+admin.site.register(SecuritiesInvestment)
+admin.site.register(UnitTrustInvestment)
+admin.site.register(Property)
+admin.site.register(Insurance)
+admin.site.register(Vehicle)
+admin.site.register(Crypto)
+admin.site.register(OtherAsset)
+## Assets ##
+
+## Liabilities ##
+admin.site.register(CreditCard)
+admin.site.register(PersonalLoan)
+admin.site.register(VehicleLoan)
+admin.site.register(PropertyLoan)
+admin.site.register(OtherLiability)
+
+
 admin.site.register(ResidentialType)

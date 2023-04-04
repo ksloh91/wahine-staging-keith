@@ -51,6 +51,8 @@ DEBUG = False
 if not IS_HEROKU:
     DEBUG = True
 
+LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'assets-bank-createform'
 # Application definition
 
 INSTALLED_APPS = [
