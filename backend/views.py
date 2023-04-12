@@ -465,11 +465,11 @@ class ItemUpdateView(UpdateView):
 def liabilities_overview_v2(request):
     user = request.user
     items = Item.objects.filter(user=user)
-    creditcard = items.filter(item_type='Credit Card').last()
-    personalloan = items.filter(item_type='Personal Loan').last()
-    vehicleloan = items.filter(item_type='Vehicle Loan').last()
-    propertyloan = items.filter(item_type='Property Loan').last()
-    others_liabilities = items.filter(item_type='Other Liabilities').last()
+    creditcard = CreditCard.objects.filter(item_type='Credit Card').last()
+    personalloan = PersonalLoan.objects.filter(item_type='Personal Loan').last()
+    vehicleloan = VehicleLoan.objects.filter(item_type='Vehicle Loan').last()
+    propertyloan = PropertyLoan.objects.filter(item_type='Property Loan').last()
+    others_liabilities = OtherLiability.objects.filter(item_type='Other Liabilities').last()
     context = {'items':items,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
     return render(request,'backend/liabilities-overview.html',context)
 
