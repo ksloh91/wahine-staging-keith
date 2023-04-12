@@ -102,7 +102,7 @@ class Epf(TimeStampedModel):
     user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_epf')
     created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
     account_no = models.CharField(max_length=128)
-    account_value = encrypt(models.FloatField(max_length=128,null=True,blank=True))
+    account_value = models.FloatField(max_length=128,null=True,blank=True)
     nominee_name = models.CharField(max_length=128,null=True,blank=True)
 
     def __str__(self):
@@ -131,7 +131,7 @@ class Bank(TimeStampedModel):
     account_type = models.CharField(max_length=128)
     bank_name = models.CharField(max_length=128)
     account_no = models.CharField(max_length=128)
-    account_value = encrypt(models.FloatField(max_length=128,null=True,blank=True))
+    account_value = models.FloatField(max_length=128,null=True,blank=True)
 
     def __str__(self):
         return self.bank_name
@@ -144,7 +144,7 @@ class Insurance(TimeStampedModel):
     provider = models.CharField(max_length=128)
     policy_no = models.CharField(max_length=128)
     nominee_name = models.CharField(max_length=128,null=True,blank=True)
-    sum_insured = encrypt(models.FloatField(max_length=128,null=True,blank=True))
+    sum_insured = models.FloatField(max_length=128,null=True,blank=True)
 
     def __str__(self):
         return self.provider
@@ -156,7 +156,7 @@ class Investment(TimeStampedModel):
     account_type = models.CharField(max_length=128)
     bank_name = models.CharField(max_length=128)
     account_no = models.CharField(max_length=128)
-    account_value = encrypt(models.FloatField(max_length=128,null=True,blank=True))
+    account_value = models.FloatField(max_length=128,null=True,blank=True)
 
     def __str__(self):
         return self.bank_name
