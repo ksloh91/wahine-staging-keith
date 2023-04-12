@@ -287,7 +287,7 @@ def assets_crypto_modelform(request):
         if 'skip' in request.POST:
             item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
             messages.success(request, "Saved successfully.")
-            return redirect('assets-crypto-createform')
+            return redirect('assets_overview')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
             post_data['form-%d-user' % i] = request.user
@@ -297,7 +297,7 @@ def assets_crypto_modelform(request):
         if formset.is_valid():
             formset.save()
             messages.success(request, "Saved successfully.")
-            return redirect('assets-crypto-createform')
+            return redirect('assets_overview')
 
         messages.error(request, "Please correct the errors in the form and try again.")
         return render(request,"backend/assets-crypto-create.html",context)
@@ -1399,15 +1399,25 @@ def access_list_form(request):
 
 def assets_overview(request):
     user = request.user
-    items = Item.objects.filter(user=user)
-    banks = items.filter(item_type='Bank Account').last()
-    epf_socso = items.filter(item_type='EPF Socso').last()
-    insurances = items.filter(item_type='Insurance').last()
-    investments = items.filter(item_type='Investment').last()
-    properties = items.filter(item_type='Property').last()
-    vehicles = items.filter(item_type='Vehicle').last()
-    others = items.filter(item_type='Other Assets').last()
-    context = {'items':items,'banks':banks,'epf_socso':epf_socso,'insurances':insurances,'investments':investments,'vehicles':vehicles,'properties':properties,'others':others}
+    banks = Bank.objects.filter(user=user).last()
+    epf = Epf.objects.filter(user=user).last()
+    socso = Socso.objects.filter(user=user).last()
+    insurances = Insurance.objects.filter(user=user).last()
+    
+    investments = SecuritiesInvestment.objects.filter(user=user).last()
+    investments = UnitTrustInvestment.objects.filter(user=user).last()
+    properties = Property.objects.filter(user=user).last()
+    vehicles = Vehicle.objects.filter(user=user).last()
+    others = OtherAsset.objects.filter(user=user).last()
+    cryptos = Crypto.objects.filter(user=user).last()
+    # banks = items.filter(item_type='Bank Account').last()
+    # epf_socso = items.filter(item_type='EPF Socso').last()
+    # insurances = items.filter(item_type='Insurance').last()
+    # investments = items.filter(item_type='Investment').last()
+    # properties = items.filter(item_type='Property').last()
+    # vehicles = items.filter(item_type='Vehicle').last()
+    # others = items.filter(item_type='Other Assets').last()
+    context = {'banks':banks,'epf':epf,'socso':socso,'investments':investments,'insurances':insurances,'vehicles':vehicles,'properties':properties,'others':others,'cryptos':cryptos}
     return render(request,'backend/assets-overview.html',context)
 
 class ItemUpdateView(UpdateView):
@@ -1425,6 +1435,108 @@ def liabilities_overview(request):
     others_liabilities = items.filter(item_type='Other Liabilities').last()
     context = {'items':items,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
     return render(request,'backend/liabilities-overview.html',context)
+
+def dashboard_new(request):
+    user = request.user
+    # banks = Item.objects.filter(user=user)
+    # print(items.count())
+    # if items.count() == 0:
+        # return redirect('assets-bank-createform')
+    banks = Bank.objects.filter(user=user)
+    bank_total = 0
+    bank_values = banks.values('account_value')
+    for x in bank_values:
+        if x['account_value'] == "" or x['account_value'] is None:
+            bank_total = bank_total
+        else:
+            bank_total += float(x['account_value'])
+
+    # insurances = items.filter(item_type='Insurance')
+    # insurance_total = 0
+    # insurance_values = insurances.values('data')
+    # for x in insurance_values:
+    #     if 'sum_insured' in x['data']:
+    #         if x['data']['sum_insured'] == "" or x['data']['sum_insured'] is None:
+    #             insurance_total = insurance_total
+    #         else:
+    #             insurance_total += float(x['data']['sum_insured'])
+
+    # investments = items.filter(item_type='Investment')
+    # investment_total = 0
+    # investment_values = investments.values('data')
+    # for x in investment_values:
+    #     if 'account_value' in x['data']:
+    #         if x['data']['account_value'] == "" or x['data']['account_value'] is None:
+    #             investment_total = investment_total
+    #         else:
+    #             investment_total += float(x['data']['account_value'])
+
+    # epf_socso = items.filter(item_type='EPF Socso')
+    # properties = items.filter(item_type='Property')
+    # vehicles = items.filter(item_type='Vehicle')
+
+    # others = items.filter(item_type='Other Assets')
+    # other_asset_total = 0
+    # asset_values = others.values('data')
+    # for x in asset_values:
+    #     if 'asset_value' in x['data']:
+    #         if x['data']['asset_value'] == "" or x['data']['asset_value'] is None:
+    #             other_asset_total = other_asset_total
+    #         else:
+    #             other_asset_total += float(x['data']['asset_value'])
+
+    # creditcard = items.filter(item_type='Credit Card')
+    # creditcard_total = 0
+    # creditcard_values = creditcard.values('data')
+    # for x in creditcard_values:
+    #     if 'amount_outstanding' in x['data']:
+    #         if x['data']['amount_outstanding'] == "" or x['data']['amount_outstanding'] is None:
+    #             creditcard_total = creditcard_total
+    #         else:
+    #             creditcard_total += float(x['data']['amount_outstanding'])
+
+    # personalloan = items.filter(item_type='Personal Loan')
+    # personalloan_total = 0
+    # personalloan_values = personalloan.values('data')
+    # for x in personalloan_values:
+    #     if 'loan_amount' in x['data']:
+    #         if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
+    #             personalloan_total = personalloan_total
+    #         else:
+    #             personalloan_total += float(x['data']['loan_amount'])
+
+    # vehicleloan = items.filter(item_type='Vehicle Loan')
+    # vehicleloan_total = 0
+    # vehicleloan_values = vehicleloan.values('data')
+    # for x in vehicleloan_values:
+    #     if 'loan_amount' in x['data']:
+    #         if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
+    #             vehicleloan_total = vehicleloan_total
+    #         else:
+    #             vehicleloan_total += float(x['data']['loan_amount'])
+
+    # propertyloan = items.filter(item_type='Property Loan')
+    # propertyloan_total = 0
+    # propertyloan_values = propertyloan.values('data')
+    # for x in propertyloan_values:
+    #     if 'loan_amount' in x['data']:
+    #         if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
+    #             propertyloan_total = propertyloan_total
+    #         else:
+    #             propertyloan_total += float(x['data']['loan_amount'])
+
+    # others_liabilities = items.filter(item_type='Other Liabilities')
+    # other_liabilities_total = 0
+    # liabilities_values = others_liabilities.values('data')
+    # for x in liabilities_values:
+    #     if 'liabilities_values' in x['data']:
+    #         if x['data']['liabilities_value'] == "" or x['data']['liabilities_value'] is None:
+    #             other_liabilities_total = other_liabilities_total
+    #         other_liabilities_total += float(x['data']['liabilities_value'])
+
+    context = {'bank_total':bank_total,'banks':banksk}
+    # context = {'creditcard_total':creditcard_total,'personalloan_total':personalloan_total,'vehicleloan_total':vehicleloan_total,'propertyloan_total':propertyloan_total,'other_liabilities_total':other_liabilities_total,'other_asset_total':other_asset_total,'insurance_total':insurance_total,'investment_total':investment_total,'bank_total':bank_total,'items':items,'banks':banks,'epf_socso':epf_socso,'insurances':insurances,'properties':properties,'investments':investments,'vehicles':vehicles,'others':others,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
+    return render(request,'backend/dashboard-new.html',context)
 
 def dashboard(request):
     user = request.user

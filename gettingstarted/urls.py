@@ -50,6 +50,7 @@ urlpatterns = [
 	path("plan/",selectplan,name="plan"),
 	path("faq/",faq,name="faq"),
 	path("dashboard/",dashboard,name="dashboard"),
+	path("dashboard-new/",dashboard_new,name="dashboard-new"),
 	path("logout/",logout_view,name="logout"),
 	## Onboarding Assets 
 	path("assets/overview",assets_overview,name="assets_overview"),
