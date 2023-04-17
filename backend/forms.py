@@ -16,7 +16,7 @@ from backend.models import *
 
 
 class MyCustomUserForm(RegistrationForm):
-    gender = forms.ChoiceField(choices=GENDER_CHOICES)
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, initial='Female')
     class Meta(RegistrationForm.Meta):
         model = User
         fields = [
@@ -30,7 +30,7 @@ class MyCustomUserForm(RegistrationForm):
 
 
 ACCOUNT_TYPE_CHOICES = [
-        ('Saving Account', 'Saving Account'),
+        ('Saving Account', 'Savings Account'),
         ('Current Account', 'Current Account'),
         ('Fixed Deposit', 'Fixed Deposit'),
     ]
@@ -209,6 +209,7 @@ UNIT_TRUST_CHOICES = [
 ('Uob Asset Management (Malaysia) Berhad','Uob Asset Management (Malaysia) Berhad'),
 ('Uob Kay Hian Securities (M) Sdn Bhd','Uob Kay Hian Securities (M) Sdn Bhd'),
     ]
+    
 RESIDENTIAL_TYPE_CHOICES = [
         ('Landed','Landed'),
         ('Condominium','Condominium'),
@@ -226,8 +227,8 @@ INSURANCE_TYPE_CHOICES = [
 
 
 GENDER_CHOICES = [
-        ('Male', 'Male'),
         ('Female', 'Female'),
+        ('Male', 'Male'),        
         ('Prefer not to respond', 'Prefer not to respond'),
     ]
 

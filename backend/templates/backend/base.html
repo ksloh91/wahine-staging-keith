@@ -29,6 +29,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
     integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Include Font Awesome CSS -->
+  <script src="https://kit.fontawesome.com/c616ac1eb5.js" crossorigin="anonymous"></script>
   {% block extrahead %}
   {% endblock %}
 
@@ -78,9 +81,9 @@
     position: relative;
     color: black;
 }
-.bg-gray {
-  background:;
-}
+/* .bg-gray {
+  background:
+} */
 .btn-radio select,
 .btn-radio input[type="text"],
 input[type="select"] {
@@ -370,7 +373,14 @@ $(document).on('click', '.remove-form-row', function(e){
     deleteForm('form', $(this));
     return false;
 });
+
+// <!-- Pop Up Message Before Bank Asset -->
+$(document).ready(function() {
+    // Show popup message
+    $('#exampleModal').modal('show');
+  }); 
 </script>
+
 <!-- Formset Logic -->
 </body>
 
@@ -385,7 +395,7 @@ $(document).on('click', '.remove-form-row', function(e){
               <br /></span><span style="font-weight: 400;">2 </span><span style="font-weight: 400;">Jalan Kiara, Mont
               Kiara, <br />50480 Kuala Lumpur, <br />Wilayah Persekutuan Kuala Lumpur</span></span></p>
         <p><span style="font-size: 85%;">Email:
-            hello@wcapital.asia</span></p>
+          hellowahine@wcapital.asia</span></p>
       </div>
       <div class="col-lg-7">
         <h5>Disclaimer</h5>
@@ -412,7 +422,7 @@ $(document).on('click', '.remove-form-row', function(e){
           </a>
         </div>
         <div><a href="{% url 'return-refund-policy' %}" class="p-0">
-            <p>REFUND POLICY</p>
+            <p>CANCELLATION & REFUND POLICY</p>
           </a>
         </div>
       </div>
