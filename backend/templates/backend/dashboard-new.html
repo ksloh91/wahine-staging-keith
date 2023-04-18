@@ -49,20 +49,20 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">1/7 Assets</small>
+														<small class="col Color-Primary">1/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">Bank Account</h5>
 													<br>
 													<!-- Bank Asset #1 -->
 													{% for x in banks %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
-														<small class="Color-Secondary">{{x.counter}}</small><br>
-														<small>Bank Type: {{x.data.account_type}}</small><br>
-														<small>Bank Name: {{x.data.bank_name}}</small><br>
-														<small>Account Number: {{x.data.account_no}}</small><br>
-														<small>Account Value: RM{{x.data.account_value}}</small><br>
+														<small class="">{{forloop.counter}}</small><br>
+														<small>Bank Type: {{x.account_type}}</small><br>
+														<small>Bank Name: {{x.bank_name}}</small><br>
+														<small>Account Number: {{x.account_no}}</small><br>
+														<small>Account Value: RM{{x.account_value}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 													<div class="mt-3">
@@ -88,7 +88,7 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">2/7 Assets</small>
+														<small class="col Color-Primary">2/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">EPF/SOCSO</h5>
@@ -96,18 +96,28 @@
 
 													<br>
 													<!-- EPF #1 -->
-													<div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
-<label class="form-label" for="customFile">Upload File</label>
-<input type="file" class="" id="customFile" />
-      </div>
-      <btn class="btn btn-success"> Upload </btn>
-													{% for x in epf_socso %}
-													{% if not x.data.nodata %}
+													{% for x in epf %}
+													{% if not x.nodata %}
 													<div>
-														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Membership Number: {{x.data.epf_member_no}}</small><br>
-														<small>Nominee Details: {{x.data.epf_nominee_name}}</small><br>
-														<small>Account Value: RM{{x.data.epf_account_value}}</small><br>
+														<small class="Color-Secondary">EPF</small><br>
+														<small>Membership Number: {{x.account_no}}</small><br>
+														<small>Nominee Details: {{x.nominee_name}}</small><br>
+														<small>Account Value: RM{{x.account_value}}</small><br>
+														<small>Last Updated: {{x.created_at}}</small>
+													</div><br>
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'edit_epf_socso_form' uuid=x.uuid %}" role="button">Edit</a>
+													</div>
+													<br>
+													{% endif %}
+													{% endfor %}
+													{% for x in socso %}
+													{% if not x.nodata %}
+													<div>
+														<small class="Color-Secondary">SOCSO</small><br>
+														<small>Membership Number: {{x.account_no}}</small><br>
+														<small>Nominee Details: {{x.nominee_name}}</small><br>
+														<small>Account Value: RM{{x.account_value}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 													<div class="mt-3">
@@ -130,20 +140,20 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">3/7 Assets</small>
+														<small class="col Color-Primary">3/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">Insurance</h5>
 													<br>
 													<!-- Life Insurance #1 -->
 													{% for x in insurances %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>{{x.data.insurance_type}}</small><br>
-														<small>Policy Number: {{x.data.policy_no}}</small><br>
-														<small>Nominee Details: {{x.data.nominee_name}}</small><br>
-														<small>Sum Insured: RM{{x.data.sum_insured}}</small><br>
+														<small>{{x.insurance_type}}</small><br>
+														<small>Policy Number: {{x.policy_no}}</small><br>
+														<small>Nominee Details: {{x.nominee_name}}</small><br>
+														<small>Sum Insured: RM{{x.sum_insured}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 
 													</div>
@@ -165,20 +175,39 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">4/7 Assets</small>
+														<small class="col Color-Primary">4/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">Investment</h5>
 													<br>
 													<!-- Public Investment #1 -->
-													{% for x in investments %}
-													{% if not x.data.nodata %}
+													{% for x in security_investments %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>{{x.data.investment_type}}</small><br>
-														<small>Investment Type: {{x.data.fund_name}} </small><br>
-														<small>Account Number: {{x.data.account_no}}</small><br>
-														<small>Account Value: RM{{x.data.account_value}}</small><br>
+														<small>Securities</small><br>
+														<small>Account Type: {{x.account_type}} </small><br>
+														<small>Account Number: {{x.account_no}}</small><br>
+														<small>Account Value: RM{{x.account_value}}</small><br>
+														<small>Last Updated: {{x.created_at}}</small>
+													</div>
+													<br>
+
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'edit_investment_form' uuid=x.uuid %}" role="button">Edit</a>
+													</div><br>
+													{% endif %}
+													{% endfor %}
+													<!-- Private Investment #2 -->
+				<!-- Public Investment #1 -->
+													{% for x in unittrust_investments %}
+													{% if not x.nodata %}
+													<div>
+														<small class="Color-Secondary">{{forloop.counter}}</small><br>
+														<small>Unit Trusts</small><br>
+														<small>Investment Type: {{x.fund_name}} </small><br>
+														<small>Account Number: {{x.account_no}}</small><br>
+														<small>Account Value: RM{{x.account_value}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div>
 													<br>
@@ -201,7 +230,7 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">5/7 Assets</small>
+														<small class="col Color-Primary">5/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">Property</h5>
@@ -209,15 +238,15 @@
 
 													<!-- Property #1 -->
 													{% for x in properties %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Property Type:{{x.data.property_type}}</small><br>
-														<small>Residential Type: {{x.data.residential_type}}
+														<small>Property Type:{{x.property_type}}</small><br>
+														<small>Residential Type: {{x.residential_type}}
 														</small><br>
-														<small>Address: {{x.data.address}}</small><br>
-														<small>Postcode: {{x.data.postcode}}</small><br>
-														<small>State: {{x.data.state}}</small><br>
+														<small>Address: {{x.address}}</small><br>
+														<small>Postcode: {{x.postcode}}</small><br>
+														<small>State: {{x.state}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 
@@ -237,7 +266,7 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">6/7 Assets</small>
+														<small class="col Color-Primary">6/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">Vehicles</h5>
@@ -246,13 +275,13 @@
 													<br>
 													<!-- Vehicles #1 -->
 													{% for x in vehicles %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
-														<small class="Color-Secondary">#1</small><br>
-														<small>Vehicle Type: {{x.data.vehicle_type}}</small><br>
-														<small>Vehicle Registration Number: {{x.data.registration_no}}
+														<small class="Color-Secondary">{{forloop.counter}}</small><br>
+														<small>Vehicle Type: {{x.vehicle_type}}</small><br>
+														<small>Vehicle Registration Number: {{x.registration_no}}
 														</small><br>
-														<small>Vehicle Make & Model: {{x.data.make_model}} </small><br>
+														<small>Vehicle Make & Model: {{x.make_model}} </small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div>
 													<br>
@@ -274,7 +303,7 @@
 											<div class="card bg-light border-0 h-100">
 												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
 													<div class="row align-items-center pt-4 ">
-														<small class="col Color-Primary">7/7 Assets</small>
+														<small class="col Color-Primary">7/8 Assets</small>
 													</div>
 													<br>
 													<h5 class="Color-Secondary">Others</h5>
@@ -283,12 +312,12 @@
 
 													<br>
 													<!-- Others #1 -->
-													{% for x in others %}
-													{% if not x.data.nodata %}
+													{% for x in other_assets %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Asset Type: {{x.dataasset_type}}</small><br>
-														<small>Asset Value: RM{{x.data.asset_value}}</small><br>
+														<small>Asset Type: {{x.name}}</small><br>
+														<small>Asset Value: RM{{x.value}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 
@@ -302,6 +331,37 @@
 											</div>
 										</div>
 
+<div class="col-lg-4 mb-5">
+											<div class="card bg-light border-0 h-100">
+												<div class="card-body text-start p-4 p-lg-4 pt-0 pt-lg-0">
+													<div class="row align-items-center pt-4 ">
+														<small class="col Color-Primary">8/8 Crypto</small>
+													</div>
+													<br>
+													<h5 class="Color-Secondary">Crypto</h5>
+													<br>
+													<br>
+
+													<br>
+													<!-- Others #1 -->
+													{% for x in crypto %}
+													{% if not x.nodata %}
+													<div>
+														<small class="Color-Secondary">{{forloop.counter}}</small><br>
+														<small>Asset Type: {{x.name}}</small><br>
+														<small>Asset Value: RM{{x.value}}</small><br>
+														<small>Last Updated: {{x.created_at}}</small>
+													</div><br>
+
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'edit_asset_others_form' uuid=x.uuid %}" role="button">Edit</a>
+													</div><br>
+													{% endif %}
+													{% endfor %}
+													<!-- Upload Documents -->
+												</div>
+											</div>
+										</div>
 
 									</div>
 								</div>
@@ -327,12 +387,12 @@
 													<br>
 													<!-- Bank Asset #1 -->
 													{% for x in creditcard %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Bank Name: {{x.data.bank_name}}</small><br>
-														<small>Account Number: {{x.data.account_no}}</small><br>
-														<small>Amount Outstanding: RM{{x.data.account_outstanding}}</small><br>
+														<small>Bank Name: {{x.bank_name}}</small><br>
+														<small>Account Number: {{x.account_no}}</small><br>
+														<small>Amount Outstanding: RM{{x.amount_outstanding}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 
 													</div><br>
@@ -365,13 +425,13 @@
 													<br>
 													<!-- EPF #1 -->
 													{% for x in personalloan %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">Personal Loan</small><br>
-														<small>Bank Name: {{x.data.bank_name}}</small><br>
-														<small>Account No: {{x.data.account_no}}</small><br>
-														<small>Loan Amount: RM{{x.data.loan_amount}}</small><br>
-														<small>Loan Tenure: {{x.data.loan_tenure}}</small><br>
+														<small>Bank Name: {{x.bank_name}}</small><br>
+														<small>Account No: {{x.account_no}}</small><br>
+														<small>Loan Amount: RM{{x.amount_outstanding}}</small><br>
+														<small>Loan Tenure: {{x.loan_tenure}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 
@@ -397,13 +457,13 @@
 													<br>
 													<!-- Life Insurance #1 -->
 													{% for x in vehicleloan %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Bank Name: {{x.data.bank_name}}</small><br>
-														<small>Account No: {{x.data.account_no}}</small><br>
-														<small>Loan Amount: RM{{x.data.loan_amount}}</small><br>
-														<small>Loan Tenure: {{x.data.loan_tenure}}</small><br>
+														<small>Bank Name: {{x.bank_name}}</small><br>
+														<small>Account No: {{x.account_no}}</small><br>
+														<small>Loan Amount: RM{{x.amount_outstanding}}</small><br>
+														<small>Loan Tenure: {{x.loan_tenure}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 
 													</div>
@@ -432,13 +492,13 @@
 													<br>
 													<!-- Public Investment #1 -->
 													{% for x in propertyloan %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Bank Name: {{x.data.bank_name}}</small><br>
-														<small>Account No: {{x.data.account_no}}</small><br>
-														<small>Loan Amount: {{x.data.loan_amount}}</small><br>
-														<small>Loan Tenure: {{x.data.loan_tenure}}</small><br>
+														<small>Bank Name: {{x.bank_name}}</small><br>
+														<small>Account No: {{x.account_no}}</small><br>
+														<small>Loan Amount: {{x.amount_outstanding}}</small><br>
+														<small>Loan Tenure: {{x.loan_tenure}}</small><br>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div>
 													<br>
@@ -465,12 +525,12 @@
 
 													<!-- Property #1 -->
 													{% for x in other_liabilities %}
-													{% if not x.data.nodata %}
+													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
 													<small class="Color-Secondary">{{forloop.counter}}</small><br>
-														<small>Liability Type: {{x.dataasset_type}}</small><br>
-														<small>Liability Value: RM{{x.data.asset_value}}</small>
+														<small>Liability Type: {{x.sset_type}}</small><br>
+														<small>Liability Value: RM{{x.asset_value}}</small>
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 

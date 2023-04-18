@@ -417,7 +417,7 @@ def liabilities_other_modelform(request):
         if 'skip' in request.POST:
             item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Other Liabilities',created_by=request.user)
             messages.success(request, "Saved successfully.")
-            return redirect('liabilities-other-createform')
+            return redirect('liabilities_overview')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
             post_data['form-%d-user' % i] = request.user
@@ -427,7 +427,7 @@ def liabilities_other_modelform(request):
         if formset.is_valid():
             formset.save()
             messages.success(request, "Saved successfully.")
-            return redirect('liabilities-other-createform')
+            return redirect('liabilities_overview')
 
         messages.error(request, "Please correct the errors in the form and try again.")
         return render(request,"backend/liabilities-other-create.html",context)
@@ -1139,14 +1139,14 @@ def personal_loan_form(request):
             loan_tenure = form.cleaned_data['loan_tenure']
             bank_name = form.cleaned_data['bank_name']
             account_no = form.cleaned_data['account_no']
-            loan_amount = form.cleaned_data['loan_amount']
+            amount_outstanding = form.cleaned_data['amount_outstanding']
             loan_tenure_2 = form.cleaned_data['loan_tenure_2']
             bank_name_2 = form.cleaned_data['bank_name_2']
             account_no_2 = form.cleaned_data['account_no_2']
-            loan_amount_2 = form.cleaned_data['loan_amount_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'loan_amount':loan_amount,'loan_tenure':loan_tenure},item_type='Personal Loan',created_by=request.user)
-            if bank_name_2 and account_no_2 and loan_amount_2 and loan_tenure_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'loan_amount':loan_amount_2,'loan_tenure':loan_tenure_2},item_type='Personal Loan',created_by=request.user)
+            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
+            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding,'loan_tenure':loan_tenure},item_type='Personal Loan',created_by=request.user)
+            if bank_name_2 and account_no_2 and amount_outstanding_2 and loan_tenure_2:
+                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2,'loan_tenure':loan_tenure_2},item_type='Personal Loan',created_by=request.user)
                 messages.add_message(request, messages.INFO, 'Added Personal Loan.')
             messages.add_message(request, messages.INFO, 'Added Personal Loan.')
             return redirect('vehicles_loan_form')
@@ -1156,7 +1156,7 @@ def personal_loan_form(request):
 def edit_personal_loan_form(request,uuid):
     instance = Item.objects.get(uuid=uuid)
     account_no = instance.data['account_no']
-    loan_amount = instance.data['loan_amount']
+    amount_outstanding = instance.data['amount_outstanding']
     loan_tenure = instance.data['loan_tenure']
     bank_name = instance.data['bank_name']
     item_type = 'Personal Loan'
@@ -1164,7 +1164,7 @@ def edit_personal_loan_form(request,uuid):
     form = EditItemModelForm(request.POST,instance=instance,initial={
         'item_type':item_type,
         'bank_name':bank_name,
-        'loan_amount':loan_amount,
+        'amount_outstanding':amount_outstanding,
         'loan_tenure':loan_tenure,
         'account_no':account_no,
         }
@@ -1173,7 +1173,7 @@ def edit_personal_loan_form(request,uuid):
     if request.POST:
         instance.data['bank_name'] = form.data['bank_name']
         instance.data['loan_tenure'] = form.data['loan_tenure']
-        instance.data['loan_amount'] = form.data['loan_amount']
+        instance.data['amount_outstanding'] = form.data['amount_outstanding']
         instance.data['account_no'] = form.data['account_no']
         instance.data['item_type'] = "Personal Loan"
         instance.updated_at = datetime.datetime.now()
@@ -1181,7 +1181,7 @@ def edit_personal_loan_form(request,uuid):
         print(instance)
         messages.add_message(request, messages.INFO, 'Personal loan data successfully updated.')
         return redirect('dashboard')
-    context = {'form':form,'loan_tenure':loan_tenure,'loan_amount':loan_amount,'bank_name':bank_name,'account_no':account_no}
+    context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-2-personal-loan.html',context)
 
 def vehicles_loan_form(request):
@@ -1196,15 +1196,15 @@ def vehicles_loan_form(request):
             loan_tenure = form.cleaned_data['loan_tenure']
             bank_name = form.cleaned_data['bank_name']
             account_no = form.cleaned_data['account_no']
-            loan_amount = form.cleaned_data['loan_amount']
+            amount_outstanding = form.cleaned_data['amount_outstanding']
             loan_tenure_2 = form.cleaned_data['loan_tenure_2']
             bank_name_2 = form.cleaned_data['bank_name_2']
             account_no_2 = form.cleaned_data['account_no_2']
-            loan_amount_2 = form.cleaned_data['loan_amount_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'loan_amount':loan_amount,'loan_tenure':loan_tenure},item_type='Vehicle Loan',created_by=request.user)
+            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
+            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding,'loan_tenure':loan_tenure},item_type='Vehicle Loan',created_by=request.user)
             messages.add_message(request, messages.INFO, 'Vehicle Loan Added.')
             if bank_name_2 and account_no_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'loan_amount':loan_amount_2,'loan_tenure':loan_tenure_2},item_type='Vehicle Loan',created_by=request.user)
+                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2,'loan_tenure':loan_tenure_2},item_type='Vehicle Loan',created_by=request.user)
                 messages.add_message(request, messages.INFO, 'Vehicle Loan Added.')
             return redirect('property_loan_form')
     context = {'form':form}
@@ -1213,7 +1213,7 @@ def vehicles_loan_form(request):
 def edit_vehicle_loan_form(request,uuid):
     instance = Item.objects.get(uuid=uuid)
     account_no = instance.data['account_no']
-    loan_amount = instance.data['loan_amount']
+    amount_outstanding = instance.data['amount_outstanding']
     loan_tenure = instance.data['loan_tenure']
     bank_name = instance.data['bank_name']
     item_type = 'Vehicle Loan'
@@ -1221,7 +1221,7 @@ def edit_vehicle_loan_form(request,uuid):
     form = EditItemModelForm(request.POST,instance=instance,initial={
         'item_type':item_type,
         'bank_name':bank_name,
-        'loan_amount':loan_amount,
+        'amount_outstanding':amount_outstanding,
         'loan_tenure':loan_tenure,
         'account_no':account_no,
         }
@@ -1230,7 +1230,7 @@ def edit_vehicle_loan_form(request,uuid):
     if request.POST:
         instance.data['bank_name'] = form.data['bank_name']
         instance.data['loan_tenure'] = form.data['loan_tenure']
-        instance.data['loan_amount'] = form.data['loan_amount']
+        instance.data['amount_outstanding'] = form.data['amount_outstanding']
         instance.data['account_no'] = form.data['account_no']
         instance.data['item_type'] = "Vehicle Loan"
         instance.updated_at = datetime.datetime.now()
@@ -1238,7 +1238,7 @@ def edit_vehicle_loan_form(request,uuid):
         print(instance)
         messages.add_message(request, messages.INFO, 'Vehicle loan data successfully updated.')
         return redirect('dashboard')
-    context = {'form':form,'loan_tenure':loan_tenure,'loan_amount':loan_amount,'bank_name':bank_name,'account_no':account_no}
+    context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-3-vehicle-loan.html',context)
 
 
@@ -1254,14 +1254,14 @@ def property_loan_form(request):
             loan_tenure = form.cleaned_data['loan_tenure']
             bank_name = form.cleaned_data['bank_name']
             account_no = form.cleaned_data['account_no']
-            loan_amount = form.cleaned_data['loan_amount']
+            amount_outstanding = form.cleaned_data['amount_outstanding']
             loan_tenure_2 = form.cleaned_data['loan_tenure_2']
             bank_name_2 = form.cleaned_data['bank_name_2']
             account_no_2 = form.cleaned_data['account_no_2']
-            loan_amount_2 = form.cleaned_data['loan_amount_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'loan_amount':loan_amount,'loan_tenure':loan_tenure},item_type='Property Loan',created_by=request.user)
+            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
+            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding,'loan_tenure':loan_tenure},item_type='Property Loan',created_by=request.user)
             if bank_name_2 and account_no_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'loan_amount':loan_amount_2,'loan_tenure':loan_tenure_2},item_type='Property Loan',created_by=request.user)
+                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2,'loan_tenure':loan_tenure_2},item_type='Property Loan',created_by=request.user)
                 messages.add_message(request, messages.INFO, 'Property Loan Added.')
             messages.add_message(request, messages.INFO, 'Property Loan Added.')
             return redirect('liabilities_others_form')
@@ -1271,7 +1271,7 @@ def property_loan_form(request):
 def edit_property_loan_form(request,uuid):
     instance = Item.objects.get(uuid=uuid)
     account_no = instance.data['account_no']
-    loan_amount = instance.data['loan_amount']
+    amount_outstanding = instance.data['amount_outstanding']
     loan_tenure = instance.data['loan_tenure']
     bank_name = instance.data['bank_name']
     item_type = 'Property Loan'
@@ -1279,7 +1279,7 @@ def edit_property_loan_form(request,uuid):
     form = EditItemModelForm(request.POST,instance=instance,initial={
         'item_type':item_type,
         'bank_name':bank_name,
-        'loan_amount':loan_amount,
+        'amount_outstanding':amount_outstanding,
         'loan_tenure':loan_tenure,
         'account_no':account_no,
         }
@@ -1288,7 +1288,7 @@ def edit_property_loan_form(request,uuid):
     if request.POST:
         instance.data['bank_name'] = form.data['bank_name']
         instance.data['loan_tenure'] = form.data['loan_tenure']
-        instance.data['loan_amount'] = form.data['loan_amount']
+        instance.data['amount_outstanding'] = form.data['amount_outstanding']
         instance.data['account_no'] = form.data['account_no']
         instance.data['item_type'] = "Vehicle Loan"
         instance.updated_at = datetime.datetime.now()
@@ -1296,7 +1296,7 @@ def edit_property_loan_form(request,uuid):
         print(instance)
         messages.add_message(request, messages.INFO, 'Property loan data successfully updated.')
         return redirect('dashboard')
-    context = {'form':form,'loan_tenure':loan_tenure,'loan_amount':loan_amount,'bank_name':bank_name,'account_no':account_no}
+    context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-4-property-loan.html',context)
 
 def liabilities_others_form(request):
@@ -1438,10 +1438,9 @@ def liabilities_overview(request):
 
 def dashboard_new(request):
     user = request.user
-    # banks = Item.objects.filter(user=user)
-    # print(items.count())
-    # if items.count() == 0:
-        # return redirect('assets-bank-createform')
+    items = Item.objects.filter(user=user)
+    if items.count() == 0:
+        return redirect('assets-bank-createform')
     banks = Bank.objects.filter(user=user)
     bank_total = 0
     bank_values = banks.values('account_value')
@@ -1451,91 +1450,113 @@ def dashboard_new(request):
         else:
             bank_total += float(x['account_value'])
 
-    # insurances = items.filter(item_type='Insurance')
-    # insurance_total = 0
-    # insurance_values = insurances.values('data')
-    # for x in insurance_values:
-    #     if 'sum_insured' in x['data']:
-    #         if x['data']['sum_insured'] == "" or x['data']['sum_insured'] is None:
-    #             insurance_total = insurance_total
-    #         else:
-    #             insurance_total += float(x['data']['sum_insured'])
+    insurances = Insurance.objects.filter(user=user)
+    insurance_total = 0
+    insurance_values = insurances.values('sum_insured')
+    for x in insurance_values:
+        if x['sum_insured'] == "" or x['sum_insured'] is None:
+            insurance_total = insurance_total
+        else:
+            insurance_total += float(x['sum_insured'])
 
-    # investments = items.filter(item_type='Investment')
-    # investment_total = 0
-    # investment_values = investments.values('data')
-    # for x in investment_values:
-    #     if 'account_value' in x['data']:
-    #         if x['data']['account_value'] == "" or x['data']['account_value'] is None:
-    #             investment_total = investment_total
-    #         else:
-    #             investment_total += float(x['data']['account_value'])
+    security_investments = SecuritiesInvestment.objects.filter(user=user)
+    unittrust_investments = UnitTrustInvestment.objects.filter(user=user)
+    investment_total = 0
+    security_investment_values = security_investments.values('account_value')
+    unittrust_investment_values = unittrust_investments.values('account_value')
+    for x in security_investment_values:
+        if x['account_value'] == "" or x['account_value'] is None:
+            investment_total = investment_total
+        else:
+            investment_total += float(x['account_value'])
+    for x in unittrust_investment_values:
+        if x['account_value'] == "" or x['account_value'] is None:
+            investment_total = investment_total
+        else:
+            investment_total += float(x['account_value'])
 
-    # epf_socso = items.filter(item_type='EPF Socso')
-    # properties = items.filter(item_type='Property')
-    # vehicles = items.filter(item_type='Vehicle')
+    epf = Epf.objects.filter(user=user)
+    socso = Socso.objects.filter(user=user)
+    properties = Property.objects.filter(user=user)
+    vehicles = Vehicle.objects.filter(user=user)
 
-    # others = items.filter(item_type='Other Assets')
-    # other_asset_total = 0
-    # asset_values = others.values('data')
-    # for x in asset_values:
-    #     if 'asset_value' in x['data']:
-    #         if x['data']['asset_value'] == "" or x['data']['asset_value'] is None:
-    #             other_asset_total = other_asset_total
-    #         else:
-    #             other_asset_total += float(x['data']['asset_value'])
+    other_assets = OtherAsset.objects.filter(user=user)
+    other_asset_total = 0
+    asset_values = other_assets.values('value')
+    for x in asset_values:
+        if x['value'] == "" or x['value'] is None:
+            other_asset_total = other_asset_total
+        else:
+            other_asset_total += float(x['value'])
 
-    # creditcard = items.filter(item_type='Credit Card')
-    # creditcard_total = 0
-    # creditcard_values = creditcard.values('data')
-    # for x in creditcard_values:
-    #     if 'amount_outstanding' in x['data']:
-    #         if x['data']['amount_outstanding'] == "" or x['data']['amount_outstanding'] is None:
-    #             creditcard_total = creditcard_total
-    #         else:
-    #             creditcard_total += float(x['data']['amount_outstanding'])
+    creditcard = CreditCard.objects.filter(user=user)
+    creditcard_total = 0
+    creditcard_values = creditcard.values('amount_outstanding')
+    for x in creditcard_values:
+        if x['amount_outstanding'] == "" or x['amount_outstanding'] is None:
+            creditcard_total = creditcard_total
+        else:
+            creditcard_total += float(x['amount_outstanding'])
 
-    # personalloan = items.filter(item_type='Personal Loan')
-    # personalloan_total = 0
-    # personalloan_values = personalloan.values('data')
-    # for x in personalloan_values:
-    #     if 'loan_amount' in x['data']:
-    #         if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
-    #             personalloan_total = personalloan_total
-    #         else:
-    #             personalloan_total += float(x['data']['loan_amount'])
+    personalloan = PersonalLoan.objects.filter(user=user)
+    personalloan_total = 0
+    personalloan_values = personalloan.values('amount_outstanding')
+    for x in personalloan_values:
+        if x['amount_outstanding'] == "" or x['amount_outstanding'] is None:
+            personalloan_total = personalloan_total
+        else:
+            personalloan_total += float(x['amount_outstanding'])
 
-    # vehicleloan = items.filter(item_type='Vehicle Loan')
-    # vehicleloan_total = 0
-    # vehicleloan_values = vehicleloan.values('data')
-    # for x in vehicleloan_values:
-    #     if 'loan_amount' in x['data']:
-    #         if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
-    #             vehicleloan_total = vehicleloan_total
-    #         else:
-    #             vehicleloan_total += float(x['data']['loan_amount'])
+    vehicleloan = VehicleLoan.objects.filter(user=user)
+    vehicleloan_total = 0
+    vehicleloan_values = vehicleloan.values('amount_outstanding')
+    for x in vehicleloan_values:
+        if x['amount_outstanding'] == "" or x['amount_outstanding'] is None:
+            vehicleloan_total = vehicleloan_total
+        else:
+            vehicleloan_total += float(x['amount_outstanding'])
 
-    # propertyloan = items.filter(item_type='Property Loan')
-    # propertyloan_total = 0
-    # propertyloan_values = propertyloan.values('data')
-    # for x in propertyloan_values:
-    #     if 'loan_amount' in x['data']:
-    #         if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
-    #             propertyloan_total = propertyloan_total
-    #         else:
-    #             propertyloan_total += float(x['data']['loan_amount'])
+    propertyloan = PropertyLoan.objects.filter(user=user)
+    propertyloan_total = 0
+    propertyloan_values = propertyloan.values('amount_outstanding')
+    for x in propertyloan_values:
+        if x['amount_outstanding'] == "" or x['amount_outstanding'] is None:
+            propertyloan_total = propertyloan_total
+        else:
+            propertyloan_total += float(x['amount_outstanding'])
 
-    # others_liabilities = items.filter(item_type='Other Liabilities')
-    # other_liabilities_total = 0
-    # liabilities_values = others_liabilities.values('data')
-    # for x in liabilities_values:
-    #     if 'liabilities_values' in x['data']:
-    #         if x['data']['liabilities_value'] == "" or x['data']['liabilities_value'] is None:
-    #             other_liabilities_total = other_liabilities_total
-    #         other_liabilities_total += float(x['data']['liabilities_value'])
+    other_liabilities = OtherLiability.objects.filter(user=user)
+    other_liabilities_total = 0
+    liabilities_values = other_liabilities.values('value')
+    for x in liabilities_values:
+        if x['value'] == "" or x['value'] is None:
+            other_liabilities_total = other_liabilities_total
+        other_liabilities_total += float(x['value'])
 
-    context = {'bank_total':bank_total,'banks':banksk}
-    # context = {'creditcard_total':creditcard_total,'personalloan_total':personalloan_total,'vehicleloan_total':vehicleloan_total,'propertyloan_total':propertyloan_total,'other_liabilities_total':other_liabilities_total,'other_asset_total':other_asset_total,'insurance_total':insurance_total,'investment_total':investment_total,'bank_total':bank_total,'items':items,'banks':banks,'epf_socso':epf_socso,'insurances':insurances,'properties':properties,'investments':investments,'vehicles':vehicles,'others':others,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
+    context = {'bank_total':bank_total,
+                'banks':banks,
+                'epf':epf,
+                'socso':socso,
+                'insurance_total':insurance_total,
+                'insurances':insurances,
+                'security_investments':security_investments,
+                'unittrust_investments':unittrust_investments,
+                'investment_total':investment_total,
+                'properties':properties,
+                'vehicles':vehicles,
+                'other_assets':other_assets,
+                'other_asset_total':other_asset_total,
+                'creditcard':creditcard,
+                'creditcard_total':creditcard_total,
+                'personalloan':personalloan,
+                'personalloan_total':personalloan_total,
+                'vehicleloan':vehicleloan,
+                'vehicleloan_total':vehicleloan_total,
+                'propertyloan':propertyloan,
+                'propertyloan_total':propertyloan_total,
+                'other_liabilities':other_liabilities,
+                'other_liabilities_total':other_liabilities_total
+                }
     return render(request,'backend/dashboard-new.html',context)
 
 def dashboard(request):
@@ -1602,31 +1623,31 @@ def dashboard(request):
     personalloan_total = 0
     personalloan_values = personalloan.values('data')
     for x in personalloan_values:
-        if 'loan_amount' in x['data']:
-            if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
+        if 'amount_outstanding' in x['data']:
+            if x['data']['amount_outstanding'] == "" or x['data']['amount_outstanding'] is None:
                 personalloan_total = personalloan_total
             else:
-                personalloan_total += float(x['data']['loan_amount'])
+                personalloan_total += float(x['data']['amount_outstanding'])
 
     vehicleloan = items.filter(item_type='Vehicle Loan')
     vehicleloan_total = 0
     vehicleloan_values = vehicleloan.values('data')
     for x in vehicleloan_values:
-        if 'loan_amount' in x['data']:
-            if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
+        if 'amount_outstanding' in x['data']:
+            if x['data']['amount_outstanding'] == "" or x['data']['amount_outstanding'] is None:
                 vehicleloan_total = vehicleloan_total
             else:
-                vehicleloan_total += float(x['data']['loan_amount'])
+                vehicleloan_total += float(x['data']['amount_outstanding'])
 
     propertyloan = items.filter(item_type='Property Loan')
     propertyloan_total = 0
     propertyloan_values = propertyloan.values('data')
     for x in propertyloan_values:
-        if 'loan_amount' in x['data']:
-            if x['data']['loan_amount'] == "" or x['data']['loan_amount'] is None:
+        if 'amount_outstanding' in x['data']:
+            if x['data']['amount_outstanding'] == "" or x['data']['amount_outstanding'] is None:
                 propertyloan_total = propertyloan_total
             else:
-                propertyloan_total += float(x['data']['loan_amount'])
+                propertyloan_total += float(x['data']['amount_outstanding'])
 
     others_liabilities = items.filter(item_type='Other Liabilities')
     other_liabilities_total = 0

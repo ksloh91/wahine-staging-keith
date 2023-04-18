@@ -67,4 +67,5 @@ admin.site.register(PropertyLoan)
 admin.site.register(OtherLiability)
 
 
+admin.site.register(PropertyType)
 admin.site.register(ResidentialType)
