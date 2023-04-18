@@ -155,7 +155,7 @@ input[type="select"] {
       <!-- Button -->
       <div class="order-lg-3 order-3">
         {% if request.user.is_authenticated %}
-        <a class="btn Btn-Primary px-2 mx-1" role="button" href="{% url 'dashboard' %}">Dashboard</a> <a
+        <a class="btn Btn-Primary px-2 mx-1" role="button" href="{% url 'dashboard-new' %}">Dashboard</a> <a
           class="btn Btn-Primary px-2 mx-1" role="button" href="{% url 'logout' %}">Log out</a>
         {% else %}
         <a class="btn Btn-Primary px-2 mx-1" href="{% url 'faq' %}" role="button" style="margin:0">Sign Up</a>

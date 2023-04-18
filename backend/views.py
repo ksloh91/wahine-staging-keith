@@ -548,8 +548,8 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect("dashboard")
-            return redirect('dashboard')
+                return redirect("dashboard-new")
+            return redirect('dashboard-new')
         else:
             return render(request,'backend/login.html', {'form': form})
     form = AuthenticationForm()
@@ -1312,7 +1312,7 @@ def liabilities_others_form(request):
             liability_value = form.cleaned_data['liability_value']
             item = Item.objects.create(user=request.user,data={'liability_value':liability_value,'liability_name':liability_name},item_type='Other Liabilities',created_by=request.user)
             messages.add_message(request, messages.INFO, 'Added Other Liabilities.')
-            return redirect('liabilities_overview')
+            return redirect('notifier_list_form')
     context = {'form':form}
     return render(request,'backend/liabilities-5-others.html',context)
 
@@ -1391,7 +1391,7 @@ def access_list_form(request):
                 item = Item.objects.create(user=request.user,data={'accesslist_name':accesslist_name_2,'accesslist_email':accesslist_email_2,'accesslist_relationship':accesslist_relationship_2,'accesslist_contactno':accesslist_contactno_2,'accesslist_ic':accesslist_ic_2},item_type='Access List',created_by=request.user)
                 messages.add_message(request, messages.INFO, 'Added Access List.')
             messages.add_message(request, messages.INFO, 'Added Access List.')
-            return redirect('dashboard')
+            return redirect('dashboard-new')
         else:
             messages.add_message(request, messages.INFO, 'Please make sure to key in Name and Email.')
     context = {'form':form}
@@ -1439,9 +1439,11 @@ def liabilities_overview(request):
 def dashboard_new(request):
     user = request.user
     items = Item.objects.filter(user=user)
+    banks = Bank.objects.filter(user=user)
+    if banks.count() == 0:
+        return redirect('assets-bank-createform')
     if items.count() == 0:
         return redirect('assets-bank-createform')
-    banks = Bank.objects.filter(user=user)
     bank_total = 0
     bank_values = banks.values('account_value')
     for x in bank_values:
