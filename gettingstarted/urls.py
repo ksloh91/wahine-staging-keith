@@ -34,8 +34,8 @@ urlpatterns = [
 	path("v2/liabilities/property",liabilities_propertyloan_modelform,name="liabilities-propertyloan-createform"),
 	path("v2/liabilities/others",liabilities_other_modelform,name="liabilities-other-createform"),
 
-	path("v2/assets/overview",assets_overview_v2,name="assets-overview"),
-	path("v2/liabilities/overview",liabilities_overview_v2,name="liabilities-overview"),
+	path("v2/assets/overview",assets_overview,name="assets-overview"),
+	path("v2/liabilities/overview",liabilities_overview,name="liabilities-overview"),
 
     path('ajax/load-residential-type/', load_residential_type, name='data-residential-type-url'),
 

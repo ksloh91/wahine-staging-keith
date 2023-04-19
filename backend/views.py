@@ -462,7 +462,7 @@ class ItemUpdateView(UpdateView):
     template_name_suffix = '_update_form'
     
 @login_required
-def liabilities_overview_v2(request):
+def liabilities_overview(request):
     user = request.user
     items = Item.objects.filter(user=user)
     creditcard = CreditCard.objects.filter(item_type='Credit Card').last()
@@ -1425,7 +1425,7 @@ class ItemUpdateView(UpdateView):
     fields = ['data']
     template_name_suffix = '_update_form'
 
-def liabilities_overview(request):
+def liabilities_overview_v2(request):
     user = request.user
     items = Item.objects.filter(user=user)
     creditcard = items.filter(item_type='Credit Card').last()
