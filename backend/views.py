@@ -1425,7 +1425,7 @@ class ItemUpdateView(UpdateView):
     fields = ['data']
     template_name_suffix = '_update_form'
 
-def liabilities_overview_v2(request):
+def liabilities_overview_v2 (request):
     user = request.user
     items = Item.objects.filter(user=user)
     creditcard = items.filter(item_type='Credit Card').last()
@@ -1441,8 +1441,6 @@ def dashboard_new(request):
     items = Item.objects.filter(user=user)
     banks = Bank.objects.filter(user=user)
     if banks.count() == 0:
-        return redirect('assets-bank-createform')
-    if items.count() == 0:
         return redirect('assets-bank-createform')
     bank_total = 0
     bank_values = banks.values('account_value')
