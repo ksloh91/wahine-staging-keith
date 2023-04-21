@@ -618,6 +618,30 @@ def bank_account_form(request):
     context = {'form':form}
     return render(request,'backend/assets-1-bank.html',context)
 
+
+def assets_bank_editform(request,uuid):
+    instance = Bank.objects.get(uuid=uuid)
+    form = BankForm(request.POST or None,instance=instance)
+    account_type = instance.account_type
+    bank_name = instance.bank_name
+    account_no = instance.account_no
+    account_value = instance.account_value
+    item_type = 'Bank Account'
+
+    if request.POST:
+        instance.account_no = form.account_no
+        instance.account_value = form.account_value
+        instance.account_type = form.account_type
+        instance.bank_name = form.bank_name
+        instance.item_type = "Bank Account"
+        instance.updated_at = datetime.datetime.now()
+        instance.save()
+        messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
+        return redirect('dashboard-new')
+
+    context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
+    return render(request,'backend/edit-assets-1-bank.html',context)
+
 def edit_bank_account_form(request,uuid):
     instance = Item.objects.get(uuid=uuid)
     account_type = instance.data['account_type']
@@ -649,6 +673,27 @@ def edit_bank_account_form(request,uuid):
 
     context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
     return render(request,'backend/edit-assets-1-bank.html',context)
+
+def assets_epf_editform(request,uuid):
+    instance = Epf.objects.get(uuid=uuid)
+    form = EpfForm(request.POST or None,instance=instance)
+    account_no = instance.account_no
+    account_value = instance.account_value
+    nominee_name = instance.nominee_name
+    item_type = 'EPF'
+
+    if request.POST:
+        instance.account_no = form.account_no
+        instance.account_value = form.account_value
+        instance.nominee_name = form.nominee_name
+        instance.item_type = "EPF"
+        instance.updated_at = datetime.datetime.now()
+        instance.save()
+        messages.add_message(request, messages.INFO, 'EPF data successfully updated.')
+        return redirect('dashboard-new')
+
+    context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
+    return render(request,'backend/edit-assets-2-bank.html',context)
 
 def epf_socso_form(request):
     form = EpfSocsoForm()
@@ -1479,6 +1524,15 @@ def dashboard_new(request):
     socso = Socso.objects.filter(user=user)
     properties = Property.objects.filter(user=user)
     vehicles = Vehicle.objects.filter(user=user)
+
+    cryptos = Crypto.objects.filter(user=user)
+    crypto_total = 0
+    crypto_values = cryptos.values('value')
+    for x in crypto_values:
+        if x['value'] == "" or x['value'] is None:
+            crypto_total = crypto_total
+        else:
+            crypto_total = float[x['value']]
 
     other_assets = OtherAsset.objects.filter(user=user)
     other_asset_total = 0

@@ -63,6 +63,7 @@ urlpatterns = [
 	path("assets/others/",asset_others_form,name="asset_others_form"),
 	
 	## Editing Assets
+	path("v2/assets/bank/edit/<uuid>",assets_bank_editform,name="assets-bank-editform"),
 	path("assets/bank/edit/<uuid>",edit_bank_account_form,name="edit_bank_account_form"),
 	path("assets/epf/edit/<uuid>",edit_epf_socso_form,name="edit_epf_socso_form"),
 	path("assets/insurance/edit/<uuid>",edit_insurance_form,name="edit_insurance_form"),
