@@ -328,6 +328,17 @@ function cloneMore(selector, prefix) {
             count++;
         }
     });
+    newElement.find(':input([type=file])').each(function() {
+        var name = $(this).attr('name')
+        var id = $(this).attr('id')
+        var count = 0
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            id = id.replace('-' + (total-1) + '-', '-' + total + '-');
+            // $(this).attr({'name': name, 'id': id}).removeAttr('checked').prop('checked', false);
+            count++;
+        }
+    });
     newElement.find('label').each(function() {
         var forValue = $(this).attr('for');
         if (forValue) {

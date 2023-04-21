@@ -1532,7 +1532,7 @@ def dashboard_new(request):
         if x['value'] == "" or x['value'] is None:
             crypto_total = crypto_total
         else:
-            crypto_total = float[x['value']]
+            crypto_total += float(x['value'])
 
     other_assets = OtherAsset.objects.filter(user=user)
     other_asset_total = 0
