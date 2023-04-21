@@ -64,7 +64,7 @@
 													<td>{% if not creditcard %}
 														<a href="{% url 'liabilities-creditcard-createform' %}">Credit Card</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Credit Card</a>
+														<a href="{% url 'dashboard-new' %}">Credit Card</a>
 														{% endif %}
 													</td>
 													<td>{{creditcard.created_at}}</td>
@@ -80,7 +80,7 @@
 													<td>{% if not personalloan %}
 														<a href="{% url 'liabilities-personalloan-createform' %}">Personal Loan</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Personal Loan</a>
+														<a href="{% url 'dashboard-new' %}">Personal Loan</a>
 														{% endif %}
 													</td>
 													<td>{{personalloan.created_at}}</td>
@@ -96,7 +96,7 @@
 													<td>{% if not vehicleloan %}
 														<a href="{% url 'liabilities-vehicleloan-createform' %}">Vehicle Loan</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Vehicle Loan</a>
+														<a href="{% url 'dashboard-new' %}">Vehicle Loan</a>
 														{% endif %}
 													</td>
 													<td>{{vehicleloan.created_at}}</td>
@@ -112,7 +112,7 @@
 													<td>{% if not propertyloan %}
 														<a href="{% url 'liabilities-propertyloan-createform' %}">Property Loan</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Property Loan</a>
+														<a href="{% url 'dashboard-new' %}">Property Loan</a>
 														{% endif %}
 													</td>
 													<td>{{propertyloan.created_at}}</td>
@@ -130,7 +130,7 @@
 														<a href="{% url 'liabilities-other-createform' %}">Other
 															Liabilities</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Other Liabilities</a>{% endif %}
+														<a href="{% url 'dashboard-new' %}">Other Liabilities</a>{% endif %}
 
 													</td>
 													<td>{{others.created_at}}</td>

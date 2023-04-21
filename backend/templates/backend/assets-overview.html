@@ -66,7 +66,7 @@
 													<td>{% if not banks %}
 														<a href="{% url 'assets-bank-createform' %}">Bank</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Bank</a>
+														<a href="{% url 'dashboard-new' %}">Bank</a>
 														{% endif %} 
 													</td>
 													<td>{{banks.created_at}}</td>
@@ -82,7 +82,7 @@
 													<td>{% if not epf %}
 														<a href="{% url 'assets-epf-createform' %}">EPF/SOCSO</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">EPF/SOCSO</a>
+														<a href="{% url 'dashboard-new' %}">EPF/SOCSO</a>
 														{% endif %}
 													</td>
 													<td>{{epf.created_at}}</td>
@@ -98,7 +98,7 @@
 													<td>{% if not insurances %}
 														<a href="{% url 'assets-insurance-createform' %}">Insurances</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Insurances</a>
+														<a href="{% url 'dashboard-new' %}">Insurances</a>
 														{% endif %}
 													</td>
 													<td>{{insurances.created_at}}</td>
@@ -114,7 +114,7 @@
 													<td>{% if not investments %}
 														<a href="{% url 'assets-unittrust-investment-createform' %}">Investments</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Investments</a>
+														<a href="{% url 'dashboard-new' %}">Investments</a>
 														{% endif %}
 
 													</td>
@@ -132,7 +132,7 @@
 													<td>{% if not properties %}
 														<a href="{% url 'assets-property-createform' %}">Property</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Property</a>
+														<a href="{% url 'dashboard-new' %}">Property</a>
 														{% endif %}
 													</td>
 													<td>{{properties.created_at}}</td>
@@ -150,7 +150,7 @@
 													<td>{% if not vehicles %}
 														<a href="{% url 'assets-vehicle-createform' %}">Vehicle</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Vehicle</a>
+														<a href="{% url 'dashboard-new' %}">Vehicle</a>
 														{% endif %}
 													</td>
 													<td>{{vehicles.created_at}}</td>
@@ -168,7 +168,7 @@
 													<td>{% if not others %}
 														<a href="{% url 'assets-other-createform' %}">Others</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Others</a>
+														<a href="{% url 'dashboard-new' %}">Others</a>
 														{% endif %}
 													</td>
 													<td>{{others.created_at}}</td>
@@ -184,7 +184,7 @@
 													<td>{% if not cryptos %}
 														<a href="{% url 'assets-crypto-createform' %}">Cryptos</a>
 														{% else %}
-														<a href="{% url 'dashboard' %}">Others</a>
+														<a href="{% url 'dashboard-new' %}">Crypto</a>
 														{% endif %}
 													</td>
 													<td>{{cryptos.created_at}}</td>
