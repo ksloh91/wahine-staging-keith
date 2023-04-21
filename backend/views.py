@@ -1425,16 +1425,7 @@ def access_list_form(request):
             accesslist_contactno = form.cleaned_data['accesslist_contactno']
             accesslist_relationship = form.cleaned_data['accesslist_relationship']
 
-            accesslist_name_2 = form.cleaned_data['accesslist_name_2']
-            accesslist_email_2 = form.cleaned_data['accesslist_email_2']
-            accesslist_ic_2 = form.cleaned_data['accesslist_ic_2']
-            accesslist_contactno_2 = form.cleaned_data['accesslist_contactno_2']
-            accesslist_relationship_2 = form.cleaned_data['accesslist_relationship_2']
-
             item = Item.objects.create(user=request.user,data={'accesslist_name':accesslist_name,'accesslist_email':accesslist_email,'accesslist_relationship':accesslist_relationship,'accesslist_contactno':accesslist_contactno,'accesslist_ic':accesslist_ic},item_type='Access List',created_by=request.user)
-            if accesslist_name_2 and accesslist_email_2 and accesslist_contactno_2:
-                item = Item.objects.create(user=request.user,data={'accesslist_name':accesslist_name_2,'accesslist_email':accesslist_email_2,'accesslist_relationship':accesslist_relationship_2,'accesslist_contactno':accesslist_contactno_2,'accesslist_ic':accesslist_ic_2},item_type='Access List',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Added Access List.')
             messages.add_message(request, messages.INFO, 'Added Access List.')
             return redirect('dashboard-new')
         else:
@@ -1598,6 +1589,8 @@ def dashboard_new(request):
                 'investment_total':investment_total,
                 'properties':properties,
                 'vehicles':vehicles,
+                'cryptos':cryptos,
+                'crypto_total':crypto_total,
                 'other_assets':other_assets,
                 'other_asset_total':other_asset_total,
                 'creditcard':creditcard,
