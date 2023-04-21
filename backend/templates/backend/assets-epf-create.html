@@ -66,10 +66,19 @@
         {{form.account_no}}
         <small class="text-danger">{{ form.account_no.errors }}</small>
       </div>
+<div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
+        <label for="{{ form.nominee_name.id_for_label }}">{{form.nominee_name.label}}</label>
+        {{form.nominee_name}}
+        <small class="text-danger">{{ form.nominee_name.errors }}</small>
+      </div>
 
       <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
 <label class="form-label" for="customFile">Upload File</label>
 <input type="file" class="" id="customFile" />
+      </div>
+<div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
+<label class="form-label" for="customFile2">Upload File</label>
+<input type="file" class="" id="customFile2" />
       </div>
         <!-- End process each form fields manually -->
 
