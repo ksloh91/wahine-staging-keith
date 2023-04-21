@@ -629,11 +629,10 @@ def assets_bank_editform(request,uuid):
     item_type = 'Bank Account'
 
     if request.POST:
-        instance.account_no = form.account_no
-        instance.account_value = form.account_value
-        instance.account_type = form.account_type
-        instance.bank_name = form.bank_name
-        instance.item_type = "Bank Account"
+        instance.account_no = account_no
+        instance.account_value = account_value
+        instance.account_type = account_type
+        instance.bank_name = bank_name
         instance.updated_at = datetime.datetime.now()
         instance.save()
         messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
