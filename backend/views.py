@@ -573,102 +573,24 @@ def selectplan(request):
 def profile(request):
     return render(request,'backend/profile.html')
 
-def bank_account_form(request):
-    form = BankAccountForm()
-    # formset = formset_factory(form)
-    if request.POST:
-        form = BankAccountForm(request.POST)
-        # formset = formset_factory(form)
-        if form.is_valid():
-            account_type = form.cleaned_data['account_type']
-            bank_name = form.cleaned_data['bank_name']
-            account_no = form.cleaned_data['account_no']
-            account_value = form.cleaned_data['account_value']
-            account_type_2 = form.cleaned_data['account_type_2']
-            bank_name_2 = form.cleaned_data['bank_name_2']
-            account_no_2 = form.cleaned_data['account_no_2']
-            account_value_2 = form.cleaned_data['account_value_2']
-
-            item = Item.objects.create(
-                user=request.user,
-                data={'account_type':account_type,
-                    'bank_name':bank_name,
-                    'account_no':account_no,
-                    'account_value':account_value},
-                item_type='Bank Account',
-                created_by=request.user
-                )
-            messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
-
-            if bank_name_2 and account_no_2:
-                item = Item.objects.create(
-                user=request.user,
-                data={'account_type':account_type_2,
-                    'bank_name':bank_name_2,
-                    'account_no':account_no_2,
-                    'account_value':account_value_2},
-                item_type='Bank Account',
-                created_by=request.user
-                )
-                messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
-            return redirect('epf_socso_form')
-        else:
-            context = {'form':form}
-            return render(request,'backend/assets-1-bank.html',context)
-    context = {'form':form}
-    return render(request,'backend/assets-1-bank.html',context)
-
-
 def assets_bank_editform(request,uuid):
     instance = Bank.objects.get(uuid=uuid)
     form = BankForm(request.POST or None,instance=instance)
+    print(instance.account_type)
     account_type = instance.account_type
     bank_name = instance.bank_name
     account_no = instance.account_no
     account_value = instance.account_value
     item_type = 'Bank Account'
-
-    if request.POST:
-        instance.account_no = account_no
-        instance.account_value = account_value
-        instance.account_type = account_type
-        instance.bank_name = bank_name
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+    if request.POST and form.is_valid():
+        form.account_no = account_no
+        form.account_value = account_value
+        form.account_type = account_type
+        form.bank_name = bank_name
+        form.updated_at = datetime.datetime.now()
+        form.save()
         messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
         return redirect('dashboard-new')
-
-    context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
-    return render(request,'backend/edit-assets-1-bank.html',context)
-
-def edit_bank_account_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    account_type = instance.data['account_type']
-    bank_name = instance.data['bank_name']
-    account_no = instance.data['account_no']
-    account_value = instance.data['account_value']
-    item_type = 'Bank Account'
-
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'account_value':account_value,
-        'account_type':account_type,
-        'bank_name':bank_name,
-        'account_no':account_no
-        }
-        )
-
-    if request.POST:
-        instance.data['account_no'] = form.data['account_no']
-        instance.data['account_value'] = form.data['account_value']
-        instance.data['account_type'] = form.data['account_type']
-        instance.data['bank_name'] = form.data['bank_name']
-        instance.data['item_type'] = "Bank Account"
-        instance.updated_at = datetime.datetime.now()
-
-        instance.save()
-        print(instance)
-        messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
-        return redirect('dashboard')
 
     context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
     return render(request,'backend/edit-assets-1-bank.html',context)
@@ -679,172 +601,55 @@ def assets_epf_editform(request,uuid):
     account_no = instance.account_no
     account_value = instance.account_value
     nominee_name = instance.nominee_name
+    form.user = request.user
     item_type = 'EPF'
+    print(form.is_valid())
+    print(form.errors)
 
-    if request.POST:
-        instance.account_no = form.account_no
-        instance.account_value = form.account_value
-        instance.nominee_name = form.nominee_name
-        instance.item_type = "EPF"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+    if request.POST and form.is_valid():
+        form.account_no = account_no
+        form.account_value = account_value
+        form.nominee_name = nominee_name
+        form.item_type = "EPF"
+
+        form.updated_at = datetime.datetime.now()
+        form.save()
         messages.add_message(request, messages.INFO, 'EPF data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
-    return render(request,'backend/edit-assets-2-bank.html',context)
-
-def epf_socso_form(request):
-    form = EpfSocsoForm()
-    if request.POST:
-        form = EpfSocsoForm(request.POST)
-        if form.data['yesno'] == 'no':
-            messages.add_message(request, messages.INFO, 'No data added.')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='EPF Socso',created_by=request.user)
-            return redirect('insurance_form')
-        if form.data['is_socso_member'] == 'no':
-            # remember old state
-            _mutable = form.data._mutable
-
-            # set to mutable
-            form.data._mutable = True
-
-            # сhange the values you want
-            form.data['socso_member_no'] = 'n/a'
-            # set mutable flag back
-            form.data._mutable = _mutable
-            if form.is_valid():
-                is_epf_member = form.cleaned_data['is_epf_member']
-                epf_member_no = form.cleaned_data['epf_member_no']
-                epf_nominee_name = form.cleaned_data['epf_nominee_name']
-                is_socso_member = form.cleaned_data['is_socso_member']
-                socso_member_no = form.cleaned_data['socso_member_no']
-                epf_account_value = form.cleaned_data['epf_account_value']
-                item = Item.objects.create(
-                user=request.user,
-                data={'is_epf_member':is_epf_member,
-                    'is_socso_member':is_socso_member,
-                    'epf_member_no':epf_member_no,
-                    'socso_member_no':socso_member_no,
-                    'epf_nominee_name':epf_nominee_name,
-                    'epf_account_value':epf_account_value,
-                }  ,
-                item_type='EPF Socso',
-                created_by=request.user
-                )
-                messages.add_message(request, messages.INFO, 'EPF/Socso successfully updated.')
-                return redirect('insurance_form')
-        if form.is_valid():
-            is_epf_member = form.cleaned_data['is_epf_member']
-            epf_member_no = form.cleaned_data['epf_member_no']
-            epf_nominee_name = form.cleaned_data['epf_nominee_name']
-            is_socso_member = form.cleaned_data['is_socso_member']
-            socso_member_no = form.cleaned_data['socso_member_no']
-            epf_account_value = form.cleaned_data['epf_account_value']
-            item = Item.objects.create(
-                user=request.user,
-                data={'is_epf_member':is_epf_member,
-                    'is_socso_member':is_socso_member,
-                    'epf_member_no':epf_member_no,
-                    'socso_member_no':socso_member_no,
-                    'epf_nominee_name':epf_nominee_name,
-                    'epf_account_value':epf_account_value,
-                }  ,
-                item_type='EPF Socso',
-                created_by=request.user
-                )
-            messages.add_message(request, messages.INFO, 'EPF/Socso successfully updated.')
-            return redirect('insurance_form')
-        else:
-            print(form.errors)
-            context = {'form':form}
-            return render(request,'backend/assets-2-epf.html',context)
-    context = {'form':form}
-    return render(request,'backend/assets-2-epf.html',context)
-
-def edit_epf_socso_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    epf_member_no = instance.data['epf_member_no']
-    epf_nominee_name = instance.data['epf_nominee_name']
-    socso_member_no = instance.data['socso_member_no']
-    epf_account_value = instance.data['epf_account_value']
-    item_type = 'EPF Socso'
-
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'epf_member_no':epf_member_no,
-        'epf_nominee_name':epf_nominee_name,
-        'socso_member_no':socso_member_no,
-        'epf_account_value':epf_account_value
-        }
-        )
-
-    if request.POST:
-        instance.data['epf_member_no'] = form.data['epf_member_no']
-        instance.data['epf_nominee_name'] = form.data['epf_nominee_name']
-        instance.data['socso_member_no'] = form.data['socso_member_no']
-        instance.data['epf_account_value'] = form.data['epf_account_value']
-        instance.data['item_type'] = "EPF/Socso"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
-        print(instance)
-        messages.add_message(request, messages.INFO, 'EPF/Socso data successfully updated.')
-        return redirect('dashboard')
-
-    context = {'form':form,'epf_member_no':epf_member_no,'epf_nominee_name':epf_nominee_name,'socso_member_no':socso_member_no,'epf_account_value':epf_account_value}
+    context = {'form':form,'account_value':account_value,'account_no':account_no,'nominee_name':nominee_name}
     return render(request,'backend/edit-assets-2-epf.html',context)
 
-def insurance_form(request):
-    form = InsuranceForm()
-    form2 = InsuranceForm()
-    # insuranceformset = formset_factory(InsuranceForm,extra=4)
-    # formset = insuranceformset()
-    if request.POST:
-        form = InsuranceForm(request.POST)
-        if form.data['yesno'] == 'no':
-            messages.add_message(request, messages.INFO, 'No Insurance Added.')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
-            return redirect('investment_form')
-        if form.is_valid():
-            insurance_type = form.cleaned_data['insurance_type']
-            policy_no = form.cleaned_data['policy_no']
-            nominee_name = form.cleaned_data['nominee_name']
-            sum_insured = form.cleaned_data['sum_insured']
-            provider_name = form.cleaned_data['provider_name']
-            item = Item.objects.create(user=request.user,data={'provider_name':provider_name,'insurance_type':insurance_type,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured},item_type='Insurance',created_by=request.user)
-            insurance_type_2 = form.cleaned_data['insurance_type_2']
-            policy_no_2 = form.cleaned_data['policy_no_2']
-            nominee_name_2 = form.cleaned_data['nominee_name_2']
-            provider_name_2 = form.cleaned_data['provider_name_2']
-            sum_insured_2 = form.cleaned_data['sum_insured_2']
-            if insurance_type_2 and policy_no_2:
-                item2 = Item.objects.create(user=request.user,data={'insurance_type':insurance_type_2,'policy_no':policy_no_2,'nominee_name':nominee_name_2,'sum_insured':sum_insured_2},item_type='Insurance',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Insurance data successfully added.')
-            messages.add_message(request, messages.INFO, 'Insurance data successfully added.')
-            return redirect('investment_form')
-        else:
-            messages.add_message(request, messages.INFO, 'Something went wrong, please make sure all fields are entered correctly')
-            return redirect('insurance_form')
+def assets_socso_editform(request,uuid):
+    instance = Socso.objects.get(uuid=uuid)
+    account_no = instance.account_no
+    nominee_name = instance.nominee_name
+    account_value = instance.account_value
+    form = SocsoForm(request.POST or None,instance=instance)
+    item_type = 'Socso'
 
-    context = {'form':form}
-    return render(request,'backend/assets-3-insurance.html',context)
+    if request.POST and form.is_valid():
+        form.account_no = account_no
+        form.account_value = account_value
+        form.nominee_name = nominee_name
+        form.updated_at = datetime.datetime.now()
+        form.save()
+        messages.add_message(request, messages.INFO, 'Socso data successfully updated.')
+        return redirect('dashboard-new')
 
-def edit_insurance_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    insurance_type = instance.data['insurance_type']
-    provider_name = instance.data['provider_name']
-    policy_no = instance.data['policy_no']
-    nominee_name = instance.data['nominee_name']
-    sum_insured = instance.data['sum_insured']
+    context = {'form':form,'account_value':account_value,'account_no':account_no,'nominee_name':nominee_name}
+    return render(request,'backend/edit-assets-2-socso.html',context)
+
+def assets_insurance_editform(request,uuid):
+    instance = Insurance.objects.get(uuid=uuid)
+    form = InsuranceForm(request.POST or None,instance=instance)    
+    insurance_type = instance.insurance_type
+    provider = instance.provider
+    policy_no = instance.policy_no
+    nominee_name = instance.nominee_name
+    sum_insured = instance.sum_insured
+
     item_type = 'Insurance'
-
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'insurance_type':insurance_type,
-        'provider_name':provider_name,
-        'policy_no':policy_no,
-        'nominee_name':nominee_name,
-        'sum_insured':sum_insured
-        }
-        )
 
     if request.POST:
         instance.data['insurance_type'] = form.data['insurance_type']
@@ -857,10 +662,11 @@ def edit_insurance_form(request,uuid):
         instance.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Insurance data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
 
-    context = {'form':form,'insurance_type':insurance_type,'provider_name':provider_name,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured}
+    context = {'form':form,'insurance_type':insurance_type,'provider':provider,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured}
     return render(request,'backend/edit-assets-3-insurance.html',context)
+
 
 def investment_form(request):
     form = InvestmentForm()
@@ -898,6 +704,80 @@ def investment_form(request):
     return render(request,'backend/assets-4-investment.html',context)
 
 def edit_investment_form(request,uuid):
+    instance = Item.objects.get(uuid=uuid)
+    investment_type = instance.data['investment_type']
+    if instance.data['fund_name']:
+        fund_name = instance.data['fund_name']
+    else:
+        fund_name = ''
+    account_no = instance.data['account_no']
+
+    if instance.data['account_value']:
+        account_value = instance.data['account_value']
+    else:
+        account_value = ''
+    item_type = 'Investment'
+
+    form = EditItemModelForm(request.POST,instance=instance,initial={
+        'item_type':item_type,
+        'investment_type':investment_type,
+        'fund_name':fund_name,
+        'account_no':account_no,
+        }
+        )
+
+    if request.POST:
+        instance.data['investment_type'] = form.data['investment_type']
+        instance.data['fund_name'] = form.data['fund_name']
+        instance.data['account_no'] = form.data['account_no']
+        instance.data['account_value'] = form.data['account_value']
+        instance.data['item_type'] = "Investment"
+        instance.updated_at = datetime.datetime.now()
+        instance.save()
+        print(instance)
+        messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
+        return redirect('dashboard')
+    context = {'form':form,'investment_type':investment_type,'fund_name':fund_name,'account_no':account_no,'account_value':account_value}
+    return render(request,'backend/edit-assets-4-investment.html',context)
+
+def assets_securityinvestment_editform(request,uuid):
+    instance = Item.objects.get(uuid=uuid)
+    investment_type = instance.data['investment_type']
+    if instance.data['fund_name']:
+        fund_name = instance.data['fund_name']
+    else:
+        fund_name = ''
+    account_no = instance.data['account_no']
+
+    if instance.data['account_value']:
+        account_value = instance.data['account_value']
+    else:
+        account_value = ''
+    item_type = 'Investment'
+
+    form = EditItemModelForm(request.POST,instance=instance,initial={
+        'item_type':item_type,
+        'investment_type':investment_type,
+        'fund_name':fund_name,
+        'account_no':account_no,
+        }
+        )
+
+    if request.POST:
+        instance.data['investment_type'] = form.data['investment_type']
+        instance.data['fund_name'] = form.data['fund_name']
+        instance.data['account_no'] = form.data['account_no']
+        instance.data['account_value'] = form.data['account_value']
+        instance.data['item_type'] = "Investment"
+        instance.updated_at = datetime.datetime.now()
+        instance.save()
+        print(instance)
+        messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
+        return redirect('dashboard')
+    context = {'form':form,'investment_type':investment_type,'fund_name':fund_name,'account_no':account_no,'account_value':account_value}
+    return render(request,'backend/edit-assets-4-investment.html',context)
+
+def assets_unittrustinvestment_editform(request,uuid):
     instance = Item.objects.get(uuid=uuid)
     investment_type = instance.data['investment_type']
     if instance.data['fund_name']:
@@ -1455,22 +1335,6 @@ def assets_overview(request):
     context = {'banks':banks,'epf':epf,'socso':socso,'investments':investments,'insurances':insurances,'vehicles':vehicles,'properties':properties,'others':others,'cryptos':cryptos}
     return render(request,'backend/assets-overview.html',context)
 
-class ItemUpdateView(UpdateView):
-    model = Item
-    fields = ['data']
-    template_name_suffix = '_update_form'
-
-def liabilities_overview_v2 (request):
-    user = request.user
-    items = Item.objects.filter(user=user)
-    creditcard = items.filter(item_type='Credit Card').last()
-    personalloan = items.filter(item_type='Personal Loan').last()
-    vehicleloan = items.filter(item_type='Vehicle Loan').last()
-    propertyloan = items.filter(item_type='Property Loan').last()
-    others_liabilities = items.filter(item_type='Other Liabilities').last()
-    context = {'items':items,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
-    return render(request,'backend/liabilities-overview.html',context)
-
 def dashboard_new(request):
     user = request.user
     items = Item.objects.filter(user=user)
@@ -1605,6 +1469,123 @@ def dashboard_new(request):
                 }
     return render(request,'backend/dashboard-new.html',context)
 
+
+
+################################################ OLD
+################################################ OLD
+################################################ OLD
+################################################ OLD
+################################################ OLD
+
+def bank_account_form(request):
+    form = BankAccountForm()
+    # formset = formset_factory(form)
+    if request.POST:
+        form = BankAccountForm(request.POST)
+        # formset = formset_factory(form)
+        if form.is_valid():
+            account_type = form.cleaned_data['account_type']
+            bank_name = form.cleaned_data['bank_name']
+            account_no = form.cleaned_data['account_no']
+            account_value = form.cleaned_data['account_value']
+            account_type_2 = form.cleaned_data['account_type_2']
+            bank_name_2 = form.cleaned_data['bank_name_2']
+            account_no_2 = form.cleaned_data['account_no_2']
+            account_value_2 = form.cleaned_data['account_value_2']
+
+            item = Item.objects.create(
+                user=request.user,
+                data={'account_type':account_type,
+                    'bank_name':bank_name,
+                    'account_no':account_no,
+                    'account_value':account_value},
+                item_type='Bank Account',
+                created_by=request.user
+                )
+            messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
+
+            if bank_name_2 and account_no_2:
+                item = Item.objects.create(
+                user=request.user,
+                data={'account_type':account_type_2,
+                    'bank_name':bank_name_2,
+                    'account_no':account_no_2,
+                    'account_value':account_value_2},
+                item_type='Bank Account',
+                created_by=request.user
+                )
+                messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
+            return redirect('epf_socso_form')
+        else:
+            context = {'form':form}
+            return render(request,'backend/assets-1-bank.html',context)
+    context = {'form':form}
+    return render(request,'backend/assets-1-bank.html',context)
+
+def edit_epf_socso_form(request,uuid):
+    instance = Item.objects.get(uuid=uuid)
+    epf_member_no = instance.data['epf_member_no']
+    epf_nominee_name = instance.data['epf_nominee_name']
+    socso_member_no = instance.data['socso_member_no']
+    epf_account_value = instance.data['epf_account_value']
+    item_type = 'EPF Socso'
+
+    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
+        'epf_member_no':epf_member_no,
+        'epf_nominee_name':epf_nominee_name,
+        'socso_member_no':socso_member_no,
+        'epf_account_value':epf_account_value
+        }
+        )
+
+    if request.POST:
+        instance.data['epf_member_no'] = form.data['epf_member_no']
+        instance.data['epf_nominee_name'] = form.data['epf_nominee_name']
+        instance.data['socso_member_no'] = form.data['socso_member_no']
+        instance.data['epf_account_value'] = form.data['epf_account_value']
+        instance.data['item_type'] = "EPF/Socso"
+        instance.updated_at = datetime.datetime.now()
+        instance.save()
+        print(instance)
+        messages.add_message(request, messages.INFO, 'EPF/Socso data successfully updated.')
+        return redirect('dashboard')
+
+    context = {'form':form,'epf_member_no':epf_member_no,'epf_nominee_name':epf_nominee_name,'socso_member_no':socso_member_no,'epf_account_value':epf_account_value}
+    return render(request,'backend/edit-assets-2-epf.html',context)
+
+## old
+def edit_bank_account_form(request,uuid):
+    instance = Item.objects.get(uuid=uuid)
+    account_type = instance.data['account_type']
+    bank_name = instance.data['bank_name']
+    account_no = instance.data['account_no']
+    account_value = instance.data['account_value']
+    item_type = 'Bank Account'
+
+    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
+        'account_value':account_value,
+        'account_type':account_type,
+        'bank_name':bank_name,
+        'account_no':account_no
+        }
+        )
+
+    if request.POST:
+        instance.data['account_no'] = form.data['account_no']
+        instance.data['account_value'] = form.data['account_value']
+        instance.data['account_type'] = form.data['account_type']
+        instance.data['bank_name'] = form.data['bank_name']
+        instance.data['item_type'] = "Bank Account"
+        instance.updated_at = datetime.datetime.now()
+
+        instance.save()
+        print(instance)
+        messages.add_message(request, messages.INFO, 'Bank data successfully updated.')
+        return redirect('dashboard')
+
+    context = {'form':form,'account_value':account_value,'account_no':account_no,'bank_name':bank_name,'account_type':account_type}
+    return render(request,'backend/edit-assets-1-bank.html',context)
+
 def dashboard(request):
     user = request.user
     items = Item.objects.filter(user=user)
@@ -1703,7 +1684,159 @@ def dashboard(request):
             if x['data']['liabilities_value'] == "" or x['data']['liabilities_value'] is None:
                 other_liabilities_total = other_liabilities_total
             other_liabilities_total += float(x['data']['liabilities_value'])
-
-
     context = {'creditcard_total':creditcard_total,'personalloan_total':personalloan_total,'vehicleloan_total':vehicleloan_total,'propertyloan_total':propertyloan_total,'other_liabilities_total':other_liabilities_total,'other_asset_total':other_asset_total,'insurance_total':insurance_total,'investment_total':investment_total,'bank_total':bank_total,'items':items,'banks':banks,'epf_socso':epf_socso,'insurances':insurances,'properties':properties,'investments':investments,'vehicles':vehicles,'others':others,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
     return render(request,'backend/dashboard.html',context)
+
+class ItemUpdateView(UpdateView):
+    model = Item
+    fields = ['data']
+    template_name_suffix = '_update_form'
+
+def liabilities_overview_v2(request):
+    user = request.user
+    items = Item.objects.filter(user=user)
+    creditcard = items.filter(item_type='Credit Card').last()
+    personalloan = items.filter(item_type='Personal Loan').last()
+    vehicleloan = items.filter(item_type='Vehicle Loan').last()
+    propertyloan = items.filter(item_type='Property Loan').last()
+    others_liabilities = items.filter(item_type='Other Liabilities').last()
+    context = {'items':items,'creditcard':creditcard,'personalloan':personalloan,'vehicleloan':vehicleloan,'propertyloan':propertyloan,'others_liabilities':others_liabilities}
+    return render(request,'backend/liabilities-overview.html',context)
+
+
+def epf_socso_form(request):
+    form = EpfSocsoForm()
+    if request.POST:
+        form = EpfSocsoForm(request.POST)
+        if form.data['yesno'] == 'no':
+            messages.add_message(request, messages.INFO, 'No data added.')
+            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='EPF Socso',created_by=request.user)
+            return redirect('insurance_form')
+        if form.data['is_socso_member'] == 'no':
+            # remember old state
+            _mutable = form.data._mutable
+
+            # set to mutable
+            form.data._mutable = True
+
+            # сhange the values you want
+            form.data['socso_member_no'] = 'n/a'
+            # set mutable flag back
+            form.data._mutable = _mutable
+            if form.is_valid():
+                is_epf_member = form.cleaned_data['is_epf_member']
+                epf_member_no = form.cleaned_data['epf_member_no']
+                epf_nominee_name = form.cleaned_data['epf_nominee_name']
+                is_socso_member = form.cleaned_data['is_socso_member']
+                socso_member_no = form.cleaned_data['socso_member_no']
+                epf_account_value = form.cleaned_data['epf_account_value']
+                item = Item.objects.create(
+                user=request.user,
+                data={'is_epf_member':is_epf_member,
+                    'is_socso_member':is_socso_member,
+                    'epf_member_no':epf_member_no,
+                    'socso_member_no':socso_member_no,
+                    'epf_nominee_name':epf_nominee_name,
+                    'epf_account_value':epf_account_value,
+                }  ,
+                item_type='EPF Socso',
+                created_by=request.user
+                )
+                messages.add_message(request, messages.INFO, 'EPF/Socso successfully updated.')
+                return redirect('insurance_form')
+        if form.is_valid():
+            is_epf_member = form.cleaned_data['is_epf_member']
+            epf_member_no = form.cleaned_data['epf_member_no']
+            epf_nominee_name = form.cleaned_data['epf_nominee_name']
+            is_socso_member = form.cleaned_data['is_socso_member']
+            socso_member_no = form.cleaned_data['socso_member_no']
+            epf_account_value = form.cleaned_data['epf_account_value']
+            item = Item.objects.create(
+                user=request.user,
+                data={'is_epf_member':is_epf_member,
+                    'is_socso_member':is_socso_member,
+                    'epf_member_no':epf_member_no,
+                    'socso_member_no':socso_member_no,
+                    'epf_nominee_name':epf_nominee_name,
+                    'epf_account_value':epf_account_value,
+                }  ,
+                item_type='EPF Socso',
+                created_by=request.user
+                )
+            messages.add_message(request, messages.INFO, 'EPF/Socso successfully updated.')
+            return redirect('insurance_form')
+        else:
+            print(form.errors)
+            context = {'form':form}
+            return render(request,'backend/assets-2-epf.html',context)
+    context = {'form':form}
+    return render(request,'backend/assets-2-epf.html',context)
+
+def insurance_form(request):
+    form = InsuranceForm()
+    form2 = InsuranceForm()
+    # insuranceformset = formset_factory(InsuranceForm,extra=4)
+    # formset = insuranceformset()
+    if request.POST:
+        form = InsuranceForm(request.POST)
+        if form.data['yesno'] == 'no':
+            messages.add_message(request, messages.INFO, 'No Insurance Added.')
+            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Insurance',created_by=request.user)
+            return redirect('investment_form')
+        if form.is_valid():
+            insurance_type = form.cleaned_data['insurance_type']
+            policy_no = form.cleaned_data['policy_no']
+            nominee_name = form.cleaned_data['nominee_name']
+            sum_insured = form.cleaned_data['sum_insured']
+            provider_name = form.cleaned_data['provider_name']
+            item = Item.objects.create(user=request.user,data={'provider_name':provider_name,'insurance_type':insurance_type,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured},item_type='Insurance',created_by=request.user)
+            insurance_type_2 = form.cleaned_data['insurance_type_2']
+            policy_no_2 = form.cleaned_data['policy_no_2']
+            nominee_name_2 = form.cleaned_data['nominee_name_2']
+            provider_name_2 = form.cleaned_data['provider_name_2']
+            sum_insured_2 = form.cleaned_data['sum_insured_2']
+            if insurance_type_2 and policy_no_2:
+                item2 = Item.objects.create(user=request.user,data={'insurance_type':insurance_type_2,'policy_no':policy_no_2,'nominee_name':nominee_name_2,'sum_insured':sum_insured_2},item_type='Insurance',created_by=request.user)
+                messages.add_message(request, messages.INFO, 'Insurance data successfully added.')
+            messages.add_message(request, messages.INFO, 'Insurance data successfully added.')
+            return redirect('investment_form')
+        else:
+            messages.add_message(request, messages.INFO, 'Something went wrong, please make sure all fields are entered correctly')
+            return redirect('insurance_form')
+
+    context = {'form':form}
+    return render(request,'backend/assets-3-insurance.html',context)
+
+def edit_insurance_form(request,uuid):
+    instance = Item.objects.get(uuid=uuid)
+    insurance_type = instance.data['insurance_type']
+    provider_name = instance.data['provider_name']
+    policy_no = instance.data['policy_no']
+    nominee_name = instance.data['nominee_name']
+    sum_insured = instance.data['sum_insured']
+    item_type = 'Insurance'
+
+    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
+        'insurance_type':insurance_type,
+        'provider_name':provider_name,
+        'policy_no':policy_no,
+        'nominee_name':nominee_name,
+        'sum_insured':sum_insured
+        }
+        )
+
+    if request.POST:
+        instance.data['insurance_type'] = form.data['insurance_type']
+        instance.data['policy_no'] = form.data['policy_no']
+        instance.data['provider_name'] = form.data['provider_name']
+        instance.data['nominee_name'] = form.data['nominee_name']
+        instance.data['sum_insured'] = form.data['sum_insured']
+        instance.data['item_type'] = "Insurance"
+        instance.updated_at = datetime.datetime.now()
+        instance.save()
+        print(instance)
+        messages.add_message(request, messages.INFO, 'Insurance data successfully updated.')
+        return redirect('dashboard')
+
+    context = {'form':form,'insurance_type':insurance_type,'provider_name':provider_name,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured}
+    return render(request,'backend/edit-assets-3-insurance.html',context)

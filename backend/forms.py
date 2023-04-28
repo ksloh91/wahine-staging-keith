@@ -538,7 +538,7 @@ CryptoModelFormset = modelformset_factory(
 class EpfForm(forms.ModelForm):
     class Meta:
         model = Epf
-        fields = ['account_no','account_value','nominee_name','user']
+        fields = ['account_no','account_value','nominee_name']
         widgets={
             'account_no': forms.TextInput(attrs={
             'class': 'form-control',
@@ -894,20 +894,20 @@ class EpfSocsoForm(forms.Form):
     epf_account_value = forms.IntegerField(required = False)
     yesno = forms.CharField(required = False)
 
-class InsuranceForm(forms.Form):
-    insurance_type = forms.CharField()
-    provider_name = forms.CharField()
-    provider_name_custom = forms.CharField(required = False)
-    policy_no = forms.CharField()
-    nominee_name = forms.CharField(required = False)
-    sum_insured = forms.IntegerField(required = False)
-    insurance_type_2 = forms.CharField(required=False)
-    provider_name_2 = forms.CharField(required=False)
-    provider_name_custom_2 = forms.CharField(required=False)
-    policy_no_2 = forms.CharField(required=False)
-    nominee_name_2 = forms.CharField(required = False)
-    sum_insured_2 = forms.IntegerField(required = False)
-    yesno = forms.CharField(required = False)
+# class InsuranceForm(forms.Form):
+#     insurance_type = forms.CharField()
+#     provider_name = forms.CharField()
+#     provider_name_custom = forms.CharField(required = False)
+#     policy_no = forms.CharField()
+#     nominee_name = forms.CharField(required = False)
+#     sum_insured = forms.IntegerField(required = False)
+#     insurance_type_2 = forms.CharField(required=False)
+#     provider_name_2 = forms.CharField(required=False)
+#     provider_name_custom_2 = forms.CharField(required=False)
+#     policy_no_2 = forms.CharField(required=False)
+#     nominee_name_2 = forms.CharField(required = False)
+#     sum_insured_2 = forms.IntegerField(required = False)
+#     yesno = forms.CharField(required = False)
 
 #Pending
 class InvestmentForm(forms.Form):

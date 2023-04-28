@@ -64,6 +64,11 @@ urlpatterns = [
 	
 	## Editing Assets
 	path("v2/assets/bank/edit/<uuid>",assets_bank_editform,name="assets-bank-editform"),
+	path("v2/assets/epf/edit/<uuid>",assets_epf_editform,name="assets-epf-editform"),
+	path("v2/assets/socso/edit/<uuid>",assets_socso_editform,name="assets-socso-editform"),
+	path("v2/assets/insurance/edit/<uuid>",assets_insurance_editform,name="assets-insurance-editform"),
+	path("v2/assets/securityinvestment/edit/<uuid>",assets_securityinvestment_editform,name="assets-securityinvestment-editform"),
+	path("v2/assets/unittrustinvestment/edit/<uuid>",assets_unittrustinvestment_editform,name="assets-unittrustinvestment-editform"),
 	path("assets/bank/edit/<uuid>",edit_bank_account_form,name="edit_bank_account_form"),
 	path("assets/epf/edit/<uuid>",edit_epf_socso_form,name="edit_epf_socso_form"),
 	path("assets/insurance/edit/<uuid>",edit_insurance_form,name="edit_insurance_form"),

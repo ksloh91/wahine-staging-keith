@@ -109,7 +109,7 @@
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_epf_socso_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-epf-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div>
 													<br>
 													{% endif %}
@@ -124,7 +124,7 @@
 														<small>Last Updated: {{x.created_at}}</small>
 													</div><br>
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_epf_socso_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-socso-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div>
 													<br>
 													{% endif %}
@@ -162,7 +162,7 @@
 													</div>
 													<br>
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_insurance_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-insurance-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -197,7 +197,7 @@
 													<br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_investment_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-securityinvestment-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -216,7 +216,7 @@
 													<br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_investment_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-unittrustinvestment-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
