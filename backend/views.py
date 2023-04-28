@@ -652,14 +652,14 @@ def assets_insurance_editform(request,uuid):
     item_type = 'Insurance'
 
     if request.POST:
-        instance.data['insurance_type'] = form.data['insurance_type']
-        instance.data['policy_no'] = form.data['policy_no']
-        instance.data['provider_name'] = form.data['provider_name']
-        instance.data['nominee_name'] = form.data['nominee_name']
-        instance.data['sum_insured'] = form.data['sum_insured']
-        instance.data['item_type'] = "Insurance"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+        form.insurance_type = insurance_type
+        form.policy_no = policy_no
+        form.provider_name = provider_name
+        form.nominee_name = nominee_name
+        form.sum_insured = sum_insured
+        form.item_type = "Insurance"
+        form.updated_at = datetime.datetime.now()
+        form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Insurance data successfully updated.')
         return redirect('dashboard-new')
@@ -741,77 +741,45 @@ def edit_investment_form(request,uuid):
     return render(request,'backend/edit-assets-4-investment.html',context)
 
 def assets_securityinvestment_editform(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    investment_type = instance.data['investment_type']
-    if instance.data['fund_name']:
-        fund_name = instance.data['fund_name']
-    else:
-        fund_name = ''
-    account_no = instance.data['account_no']
-
-    if instance.data['account_value']:
-        account_value = instance.data['account_value']
-    else:
-        account_value = ''
+    instance = SecuritiesInvestment.objects.get(uuid=uuid)
+    form = SecuritiesInvestmentForm(request.POST or None, instance=instance)
+    account_type = instance.account_type
+    broker_name = instance.broker_name
+    account_no = instance.account_no
+    account_value = instance.account_value
     item_type = 'Investment'
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={
-        'item_type':item_type,
-        'investment_type':investment_type,
-        'fund_name':fund_name,
-        'account_no':account_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['investment_type'] = form.data['investment_type']
-        instance.data['fund_name'] = form.data['fund_name']
-        instance.data['account_no'] = form.data['account_no']
-        instance.data['account_value'] = form.data['account_value']
-        instance.data['item_type'] = "Investment"
-        instance.updated_at = datetime.datetime.now()
+    if request.POST and form.is_valid():
+        form.investment_type = investment_type
+        form.fund_name = fund_name
+        form.account_no = account_no
+        form.account_value = account_value
+        form.updated_at = datetime.datetime.now()
         instance.save()
-        print(instance)
         messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
-        return redirect('dashboard')
-    context = {'form':form,'investment_type':investment_type,'fund_name':fund_name,'account_no':account_no,'account_value':account_value}
+        return redirect('dashboard-new')
+    context = {'form':form,'account_type':account_type,'broker_name':broker_name,'account_no':account_no,'account_value':account_value}
     return render(request,'backend/edit-assets-4-investment.html',context)
 
 def assets_unittrustinvestment_editform(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    investment_type = instance.data['investment_type']
-    if instance.data['fund_name']:
-        fund_name = instance.data['fund_name']
-    else:
-        fund_name = ''
-    account_no = instance.data['account_no']
-
-    if instance.data['account_value']:
-        account_value = instance.data['account_value']
-    else:
-        account_value = ''
+    instance = UnitTrustInvestment.objects.get(uuid=uuid)
+    form = UnitTrustInvestmentForm(request.POST or None, instance=instance)
+    account_type = instance.account_type
+    broker_name = instance.broker_name
+    account_no = instance.account_no
+    account_value = instance.account_value
     item_type = 'Investment'
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={
-        'item_type':item_type,
-        'investment_type':investment_type,
-        'fund_name':fund_name,
-        'account_no':account_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['investment_type'] = form.data['investment_type']
-        instance.data['fund_name'] = form.data['fund_name']
-        instance.data['account_no'] = form.data['account_no']
-        instance.data['account_value'] = form.data['account_value']
-        instance.data['item_type'] = "Investment"
-        instance.updated_at = datetime.datetime.now()
+    if request.POST and form.is_valid():
+        form.account_type = account_type
+        form.broker_name = broker_name
+        form.account_no = account_no
+        form.account_value = account_value
+        form.updated_at = datetime.datetime.now()
         instance.save()
-        print(instance)
         messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
-        return redirect('dashboard')
-    context = {'form':form,'investment_type':investment_type,'fund_name':fund_name,'account_no':account_no,'account_value':account_value}
+        return redirect('dashboard-new')
+    context = {'form':form,'account_type':account_type,'broker_name':broker_name,'account_no':account_no,'account_value':account_value}
     return render(request,'backend/edit-assets-4-investment.html',context)
 
 def property_form(request):

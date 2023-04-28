@@ -243,6 +243,26 @@ class BankForm(forms.ModelForm):
 
         return account_no
 
+class SecuritiesInvestmentForm(forms.ModelForm):
+    class Meta:
+        model = SecuritiesInvestment
+        fields = ('account_type',
+                  'account_no',
+                  'broker_name',
+                  'account_value',
+                )
+
+class UnitTrustInvestmentForm(forms.ModelForm):
+    class Meta:
+        model = UnitTrustInvestment
+        fields = ('unittrust_name',
+                  'account_no',
+                  'agent_name',
+                  'agent_contact_no',
+                  'account_value',
+                )
+
+
 
 BankModelFormset = modelformset_factory(
     Bank,
