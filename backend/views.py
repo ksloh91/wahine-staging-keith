@@ -651,10 +651,11 @@ def assets_insurance_editform(request,uuid):
 
     item_type = 'Insurance'
 
-    if request.POST:
+    print(form.errors)
+    if request.POST and form.is_valid():
         form.insurance_type = insurance_type
         form.policy_no = policy_no
-        form.provider_name = provider_name
+        form.provider = provider
         form.nominee_name = nominee_name
         form.sum_insured = sum_insured
         form.item_type = "Insurance"

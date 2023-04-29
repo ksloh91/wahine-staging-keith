@@ -90,7 +90,6 @@ INSURANCE_PROVIDER_CHOICES = [
         ('AXA Affin Life Insurance Berhad','AXA Affin Life Insurance Berhad'),
         ('Berjaya Sompo Insurance Berhad','Berjaya Sompo Insurance Berhad'),
         ('Chubb Insurance Malaysia Berhad','Chubb Insurance Malaysia Berhad'),
-        ('Danajamin Nasional Berhad','Danajamin Nasional Berhad'),
         ('Etiqa Family Takaful Berhad','Etiqa Family Takaful Berhad'),
         ('Etiqa General Insurance Berhad','Etiqa General Insurance Berhad'),
         ('Etiqa General Takaful Berhad','Etiqa General Takaful Berhad'),
