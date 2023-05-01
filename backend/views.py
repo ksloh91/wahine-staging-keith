@@ -749,27 +749,7 @@ def assets_securityinvestment_editform(request,uuid):
     account_no = instance.account_no
     account_value = instance.account_value
     item_type = 'Investment'
-
-    if request.POST and form.is_valid():
-        form.investment_type = investment_type
-        form.fund_name = fund_name
-        form.account_no = account_no
-        form.account_value = account_value
-        form.updated_at = datetime.datetime.now()
-        instance.save()
-        messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
-        return redirect('dashboard-new')
-    context = {'form':form,'account_type':account_type,'broker_name':broker_name,'account_no':account_no,'account_value':account_value}
-    return render(request,'backend/edit-assets-4-investment.html',context)
-
-def assets_unittrustinvestment_editform(request,uuid):
-    instance = UnitTrustInvestment.objects.get(uuid=uuid)
-    form = UnitTrustInvestmentForm(request.POST or None, instance=instance)
-    account_type = instance.account_type
-    broker_name = instance.broker_name
-    account_no = instance.account_no
-    account_value = instance.account_value
-    item_type = 'Investment'
+    print(form.errors)
 
     if request.POST and form.is_valid():
         form.account_type = account_type
@@ -781,7 +761,30 @@ def assets_unittrustinvestment_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
         return redirect('dashboard-new')
     context = {'form':form,'account_type':account_type,'broker_name':broker_name,'account_no':account_no,'account_value':account_value}
-    return render(request,'backend/edit-assets-4-investment.html',context)
+    return render(request,'backend/edit-assets-4-securityinvestment.html',context)
+
+def assets_unittrustinvestment_editform(request,uuid):
+    instance = UnitTrustInvestment.objects.get(uuid=uuid)
+    form = UnitTrustInvestmentForm(request.POST or None, instance=instance)
+    unittrust_name = instance.unittrust_name
+    account_no = instance.account_no
+    agent_name  = instance.agent_name
+    agent_contact_no = instance.agent_contact_no
+    account_value = instance.account_value
+    item_type = 'Investment'
+
+    if request.POST and form.is_valid():
+        form.unittrust_name = unittrust_name
+        form.account_no = account_no
+        form.account_value = account_value
+        form.agent_name = agent_name
+        form.agent_contact_no = agent_contact_no
+        form.updated_at = datetime.datetime.now()
+        instance.save()
+        messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
+        return redirect('dashboard-new')
+    context = {'form':form,'unittrust_name':unittrust_name,'agent_name':agent_name,'agent_contact_no':agent_contact_no,'account_no':account_no,'account_value':account_value}
+    return render(request,'backend/edit-assets-4-unittrustinvestment.html',context)
 
 def property_form(request):
     form = PropertyForm()
@@ -814,52 +817,29 @@ def property_form(request):
     return render(request,'backend/assets-5-property.html',context)
 
 def edit_property_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    property_type = instance.data['property_type']
-    residential_type = instance.data['residential_type']
-    address = instance.data['address']
-    if instance.data['state']:
-        state = instance.data['state']
-    else:
-        state = ''
-    if instance.data['postcode']:
-        postcode = instance.data['postcode']
-    else:
-        postcode = ''
-    if instance.data['titleno']:
-        titleno = instance.data['titleno']
-    else:
-        titleno = ''
-    spa_price = ''
+    instance = Property.objects.get(uuid=uuid)
+    form = PropertyForm(request.POST or None, instance=instance)
+    property_type = instance.property_type
+    residential_type = instance.residential_type
+    address = instance.address
+    state = instance.state
+    postcode = instance.postcode
+    titleno = instance.titleno
     item_type = 'Property'
-
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'property_type':property_type,
-        'residential_type':residential_type,
-        'address':address,
-        'state':state,
-        'postcode':postcode,
-        'titleno':titleno,
-        'spa_price':spa_price,
-        }
-        )
-
-    if request.POST:
-        instance.data['property_type'] = form.data['property_type']
-        instance.data['residential_type'] = form.data['residential_type']
-        instance.data['address'] = form.data['address']
-        instance.data['state'] = form.data['state']
-        instance.data['postcode'] = form.data['postcode']
-        instance.data['titleno'] = form.data['titleno']
-        instance.data['spa_price'] = form.data['spa_price']
-        instance.data['item_type'] = 'Property'
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
-        print(instance)
+    print(form.errors)
+    if request.POST and form.is_valid():
+        form.property_type = property_type
+        form.residential_type = residential_type
+        form.address = address
+        form.state = state
+        form.postcode = postcode
+        form.titleno = titleno
+        form.updated_at = datetime.datetime.now()
+        form.save()
         messages.add_message(request, messages.INFO, 'Property data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
 
-    context = {'form':form,'property_type':property_type,'residential_type':residential_type,'address':address,'state':state,'postcode':postcode,'titleno':titleno,'spa_price':spa_price}
+    context = {'form':form,'property_type':property_type,'residential_type':residential_type,'address':address,'state':state,'postcode':postcode,'titleno':titleno}
     return render(request,'backend/edit-assets-5-property.html',context)
 
 def vehicles_form(request):
@@ -890,29 +870,21 @@ def vehicles_form(request):
     return render(request,'backend/assets-6-vehicles.html',context)
 
 def edit_vehicle_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    vehicle_type = instance.data['vehicle_type']
-    make_model = instance.data['make_model']
-    registration_no = instance.data['registration_no']
+    instance = Vehicle.objects.get(uuid=uuid)
+    form = VehicleForm(request.POST or None, instance=instance)
+    vehicle_type = instance.vehicle_type
+    make_model = instance.make_model
+    registration_no = instance.registration_no
     item_type = 'Vehicle'
-
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'vehicle_type':vehicle_type,
-        'make_model':make_model,
-        'registration_no':registration_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['vehicle_type'] = form.data['vehicle_type']
-        instance.data['make_model'] = form.data['make_model']
-        instance.data['registration_no'] = form.data['registration_no']
-        instance.data['item_type'] = 'Vehicle'
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
-        print(instance)
+    print(form.errors)
+    if request.POST and form.is_valid():
+        form.vehicle_type = vehicle_type
+        form.make_model = make_model
+        form.registration_no = registration_no
+        form.updated_at = datetime.datetime.now()
+        form.save()
         messages.add_message(request, messages.INFO, 'Vehicle data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
 
     context = {'form':form,'vehicle_type':vehicle_type,'make_model':make_model,'registration_no':registration_no}
     return render(request,'backend/edit-assets-6-vehicle.html',context)
@@ -939,28 +911,21 @@ def asset_others_form(request):
     return render(request,'backend/assets-7-others.html',context)
 
 def edit_asset_others_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    asset_name = instance.data['asset_name']
-    asset_value = instance.data['asset_value']
+    instance = OtherAsset.objects.get(uuid=uuid)
+    form = OtherAssetForm(request.POST or None, instance=instance)
+    name = instance.name
+    value = instance.value
     item_type = 'Other Assets'
-
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'asset_name':asset_name,
-        'asset_value':asset_value,
-        }
-        )
-
-    if request.POST:
-        instance.data['asset_name'] = form.data['asset_name']
-        instance.data['asset_value'] = form.data['asset_value']
-        instance.data['item_type'] = 'Other Assets'
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
-        print(instance)
+    print(form.errors)
+    if request.POST and form.is_valid():
+        form.name = name
+        form.value = value
+        form.updated_at = datetime.datetime.now()
+        form.save()
         messages.add_message(request, messages.INFO, 'Other assets data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
 
-    context = {'form':form,'asset_name':asset_name,'asset_value':asset_value}
+    context = {'form':form,'name':name,'value':value}
     return render(request,'backend/edit-assets-7-others.html',context)
 
 

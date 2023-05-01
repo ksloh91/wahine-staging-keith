@@ -413,8 +413,8 @@ class PropertyForm(forms.ModelForm):
             'address',
             'state',
             'postcode',
-            'titleno',
-            'user']
+            'titleno',]
+
     def clean_postcode(self):
         postcode = str(self.cleaned_data.get('postcode', False))
         if re.search('[a-zA-Z]', postcode):
@@ -428,20 +428,6 @@ class PropertyForm(forms.ModelForm):
                 params={'postcode': postcode},
             )
         return postcode
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # self.fields['residential_type'].widget = forms.Select(choices=PROPERTY_TYPE_CHOICES)
-        self.fields['residential_type'].widget.attrs['class'] = 'form-control'
-        self.fields['residential_type'].queryset = ResidentialType.objects.none()
-
-        if 'property_type' in self.data:
-            try:
-                property_type_id = int(self.data.get('property_type'))
-                self.fields['residential_type'].queryset = PropertyType.objects.filter(property_type_id=property_type_id).order_by('name')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['residential_type'].queryset = self.instance.property_type.residential_type_set.order_by('name')
 
 PropertyModelFormset = modelformset_factory(
     Property,form=PropertyForm,
@@ -763,15 +749,15 @@ class InvestmentForm(forms.ModelForm):
 #         model = Property
 #         fields = ['account_type','bank_name','account_no','account_value',]
 
-# class VehicleForm(forms.ModelForm):
-#     class Meta:
-#         model = Vehicle
-#         fields = ['account_type','bank_name','account_no','account_value',]
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = ['vehicle_type','make_model','registration_no',]
 
-# class OtherAssetForm(forms.ModelForm):
-#     class Meta:
-#         model = OtherAsset
-#         fields = ['name','value',]
+class OtherAssetForm(forms.ModelForm):
+    class Meta:
+        model = OtherAsset
+        fields = ['name','value',]
 
 class EditItemModelForm(forms.ModelForm):
 
@@ -945,30 +931,14 @@ class InvestmentForm(forms.Form):
     yesno = forms.CharField(required = False)
 
 
-class PropertyForm(forms.Form):
-    property_type = forms.CharField(required = False)
-    residential_type = forms.CharField(required = False)
-    address = forms.CharField()
-    state = forms.CharField(required = False)
-    postcode = forms.CharField(required = False)
-    titleno = forms.CharField(required = False)
-    property_type_2 = forms.CharField(required = False)
-    residential_type_2 = forms.CharField(required = False)
-    address_2 = forms.CharField(required = False)
-    state_2= forms.CharField(required = False)
-    postcode_2 = forms.CharField(required = False)
-    titleno_2 = forms.CharField(required = False)
-    ## Removed spa_price field  5/12/2022
-    yesno = forms.CharField(required = False)
-
-class VehicleForm(forms.Form):
-    vehicle_type = forms.CharField(required = False)
-    make_model = forms.CharField()
-    registration_no = forms.CharField()
-    vehicle_type_2 = forms.CharField(required = False)
-    make_model_2 = forms.CharField(required = False)
-    registration_no_2 = forms.CharField(required = False)
-    yesno = forms.CharField(required = False)
+# class VehicleForm(forms.Form):
+#     vehicle_type = forms.CharField(required = False)
+#     make_model = forms.CharField()
+#     registration_no = forms.CharField()
+#     vehicle_type_2 = forms.CharField(required = False)
+#     make_model_2 = forms.CharField(required = False)
+#     registration_no_2 = forms.CharField(required = False)
+#     yesno = forms.CharField(required = False)
 
 class AssetOthersForm(forms.Form):
     asset_name = forms.CharField(required = False)
