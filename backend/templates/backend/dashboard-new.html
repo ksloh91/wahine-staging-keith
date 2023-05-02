@@ -347,7 +347,7 @@
 
 													<br>
 													<!-- Others #1 -->
-													{% for x in crypto %}
+													{% for x in cryptos %}
 													{% if not x.nodata %}
 													<div>
 														<small class="Color-Secondary">{{forloop.counter}}</small><br>
@@ -357,7 +357,7 @@
 													</div><br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_asset_others_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'edit_crypto_form' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}

@@ -900,10 +900,6 @@ def asset_others_form(request):
                 return redirect('assets_overview')
             asset_name = form.cleaned_data['asset_name']
             asset_value = form.cleaned_data['asset_value']
-            # asset_name_2 = form.cleaned_data['asset_name']
-            # asset_value_2 = form.cleaned_data['asset_value']
-            # asset_name_3 = form.cleaned_data['asset_name']
-            # asset_value_3 = form.cleaned_data['asset_value']
             item = Item.objects.create(user=request.user,data={'asset_name':asset_name,'asset_value':asset_value},item_type='Other Assets',created_by=request.user)
             messages.add_message(request, messages.INFO, 'Assets successfully updated.')
             return redirect('assets_overview')
@@ -927,6 +923,26 @@ def edit_asset_others_form(request,uuid):
 
     context = {'form':form,'name':name,'value':value}
     return render(request,'backend/edit-assets-7-others.html',context)
+
+def edit_crypto_form(request,uuid):
+    instance = Crypto.objects.get(uuid=uuid)
+    form = CryptoForm(request.POST or None, instance=instance)
+    crypto_type = instance.crypto_type
+    wallet_name = instance.wallet_name
+    value = instance.value
+    item_type = 'Other Assets'
+    print(form.errors)
+    if request.POST and form.is_valid():
+        form.crypto_type = crypto_type
+        form.wallet_name = wallet_name
+        form.value = value
+        form.updated_at = datetime.datetime.now()
+        form.save()
+        messages.add_message(request, messages.INFO, 'Other assets data successfully updated.')
+        return redirect('dashboard-new')
+
+    context = {'form':form,'crypto_type':crypto_type,'wallet_name':wallet_name,'value':value}
+    return render(request,'backend/edit-assets-8-crypto.html',context)
 
 
 def liability_credit_card_form(request):

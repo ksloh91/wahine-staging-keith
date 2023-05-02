@@ -754,6 +754,11 @@ class VehicleForm(forms.ModelForm):
         model = Vehicle
         fields = ['vehicle_type','make_model','registration_no',]
 
+class CryptoForm(forms.ModelForm):
+    class Meta:
+        model = Crypto
+        fields = ['crypto_type','wallet_name','value',]
+
 class OtherAssetForm(forms.ModelForm):
     class Meta:
         model = OtherAsset
