@@ -40,32 +40,22 @@ class JsonAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Subscription)
-class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('user','plan','created_at',)
+# @admin.register(Subscription)
+# class SubscriptionAdmin(admin.ModelAdmin):
+#     list_display = ('user','plan','created_at',)
 
 admin.site.register(Item, JsonAdmin)
 
-## Assets ##
-admin.site.register(Bank)
-admin.site.register(Epf)
-admin.site.register(Socso)
-admin.site.register(SecuritiesInvestment)
-admin.site.register(UnitTrustInvestment)
-admin.site.register(Property)
-admin.site.register(Insurance)
-admin.site.register(Vehicle)
-admin.site.register(Crypto)
-admin.site.register(OtherAsset)
+
 ## Assets ##
 
 ## Liabilities ##
-admin.site.register(CreditCard)
-admin.site.register(PersonalLoan)
-admin.site.register(VehicleLoan)
-admin.site.register(PropertyLoan)
-admin.site.register(OtherLiability)
+# admin.site.register(CreditCard)
+# admin.site.register(PersonalLoan)
+# admin.site.register(VehicleLoan)
+# admin.site.register(PropertyLoan)
+# admin.site.register(OtherLiability)
 
 
-admin.site.register(PropertyType)
-admin.site.register(ResidentialType)
+# admin.site.register(PropertyType)
+# admin.site.register(ResidentialType)
