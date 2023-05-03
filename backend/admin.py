@@ -44,7 +44,7 @@ class UserAdmin(admin.ModelAdmin):
 # class SubscriptionAdmin(admin.ModelAdmin):
 #     list_display = ('user','plan','created_at',)
 
-admin.site.register(Item, JsonAdmin)
+# admin.site.register(Item, JsonAdmin)
 
 
 ## Assets ##
