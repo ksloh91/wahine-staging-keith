@@ -17,6 +17,7 @@ from django_registration.backends.activation.views import RegistrationView
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
+	## Creating Assets
 	path("v2/assets/bank",assets_bank_modelform,name="assets-bank-createform"),
 	path("v2/assets/epf",assets_epf_modelform,name="assets-epf-createform"),
 	path("v2/assets/socso",assets_socso_modelform,name="assets-socso-createform"),
@@ -28,6 +29,19 @@ urlpatterns = [
 	path("v2/assets/others",assets_other_modelform,name="assets-other-createform"),
 	path("v2/assets/crypto",assets_crypto_modelform,name="assets-crypto-createform"),
 
+	## Editing Assets
+	path("v2/assets/bank/delete/<uuid>",assets_bank_deleteform.as_view(),name="assets-bank-deleteform"),
+	path("v2/assets/bank/edit/<uuid>",assets_bank_editform,name="assets-bank-editform"),
+	path("v2/assets/epf/edit/<uuid>",assets_epf_editform,name="assets-epf-editform"),
+	path("v2/assets/socso/edit/<uuid>",assets_socso_editform,name="assets-socso-editform"),
+	path("v2/assets/insurance/edit/<uuid>",assets_insurance_editform,name="assets-insurance-editform"),
+	path("v2/assets/securityinvestment/edit/<uuid>",assets_securityinvestment_editform,name="assets-securityinvestment-editform"),
+	path("v2/assets/unittrustinvestment/edit/<uuid>",assets_unittrustinvestment_editform,name="assets-unittrustinvestment-editform"),
+	path("v2/assets/property/edit/<uuid>",assets_property_editform,name="assets-property-editform"),
+	path("v2/assets/vehicles/edit/<uuid>",assets_vehicle_editform,name="assets-vehicle-editform"),
+	path("v2/assets/others/edit/<uuid>",assets_other_editform,name="assets-other-editform"),
+	path("v2/assets/crypto/edit/<uuid>",assets_crypto_editform,name="assets-crypto-editform"),
+
 	path("v2/liabilities/creditcard",liabilities_creditcard_modelform,name="liabilities-creditcard-createform"),
 	path("v2/liabilities/personalloan",liabilities_personalloan_modelform,name="liabilities-personalloan-createform"),
 	path("v2/liabilities/vehicle",liabilities_vehicleloan_modelform,name="liabilities-vehicleloan-createform"),
@@ -38,7 +52,6 @@ urlpatterns = [
 	path("v2/liabilities/overview",liabilities_overview,name="liabilities-overview"),
 
     path('ajax/load-residential-type/', load_residential_type, name='data-residential-type-url'),
-
 	path("",index,name="index"),
 	path("joinnow",joinnow,name="joinnow"),
 	path("whoweare/",whoweare,name="whoweare"),
@@ -49,37 +62,9 @@ urlpatterns = [
 	path("profile/",profile,name="profile"),
 	path("plan/",selectplan,name="plan"),
 	path("faq/",faq,name="faq"),
-	path("dashboard/",dashboard,name="dashboard"),
+	# path("dashboard/",dashboard,name="dashboard"),
 	path("dashboard-new/",dashboard_new,name="dashboard-new"),
 	path("logout/",logout_view,name="logout"),
-	## Onboarding Assets 
-	path("assets/overview",assets_overview,name="assets_overview"),
-	path("assets/bank",bank_account_form,name="bank_account_form"),
-	path("assets/epf",epf_socso_form,name="epf_socso_form"),
-	path("assets/insurance/",insurance_form,name="insurance_form"),
-	path("assets/investment/",investment_form,name="investment_form"),
-	path("assets/property/",property_form,name="property_form"),
-	path("assets/vehicles/",vehicles_form,name="vehicles_form"),
-	path("assets/others/",asset_others_form,name="asset_others_form"),
-	
-	## Editing Assets
-	path("v2/assets/bank/edit/<uuid>",assets_bank_editform,name="assets-bank-editform"),
-	path("v2/assets/epf/edit/<uuid>",assets_epf_editform,name="assets-epf-editform"),
-	path("v2/assets/socso/edit/<uuid>",assets_socso_editform,name="assets-socso-editform"),
-	path("v2/assets/insurance/edit/<uuid>",assets_insurance_editform,name="assets-insurance-editform"),
-	path("v2/assets/securityinvestment/edit/<uuid>",assets_securityinvestment_editform,name="assets-securityinvestment-editform"),
-	path("v2/assets/unittrustinvestment/edit/<uuid>",assets_unittrustinvestment_editform,name="assets-unittrustinvestment-editform"),
-	path("v2/assets/property/edit/<uuid>",edit_property_form,name="edit_property_form"),
-	path("v2/assets/vehicles/edit/<uuid>",edit_vehicle_form,name="edit_vehicles_form"),
-	path("v2/assets/others/edit/<uuid>",edit_asset_others_form,name="edit_asset_others_form"),
-	path("v2/assets/crypto/edit/<uuid>",edit_crypto_form,name="edit_crypto_form"),
-	## Onboarding Liabilities
-	path("liabilities/overview",liabilities_overview,name="liabilities_overview"),
-	path("liabilities/card/",liability_credit_card_form,name="credit_card_form"),
-	path("liabilities/personal/",personal_loan_form,name="personal_loan_form"),
-	path("liabilities/vehicles/",vehicles_loan_form,name="vehicles_loan_form"),
-	path("liabilities/property/",property_loan_form,name="property_loan_form"),
-	path("liabilities/others/",liabilities_others_form,name="liabilities_others_form"),
 
 	## Editing Liabilities
 	path("liabilities/card/edit/<uuid>",edit_liability_credit_card_form,name="edit_credit_card_form"),
@@ -91,8 +76,6 @@ urlpatterns = [
 	## Onboarding Trigger Events
 	path("triggers/notifier/",notifier_list_form,name="notifier_list_form"),
 	path("triggers/accesslist/",access_list_form,name="access_list_form"),
- 	
- 	path("dashboard/", dashboard,name="dashboard"),
  	path("admin/", admin.site.urls),
 
  	

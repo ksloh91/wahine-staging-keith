@@ -70,7 +70,7 @@
 													</div><br>
 													<div class="mt-3">
 														<a class="btn Btn-Secondary-2" href="{% url 'assets-bank-editform' uuid=x.uuid %}" role="button">Edit</a>
-													</div>
+										</div>
 													<br>
 
 {% endif %}
@@ -254,7 +254,7 @@
 													</div><br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_property_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-property-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -289,7 +289,7 @@
 													</div>
 													<br>
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_vehicles_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-vehicle-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -325,7 +325,7 @@
 													</div><br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_asset_others_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-other-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -357,7 +357,7 @@
 													</div><br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_crypto_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-crypto-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}

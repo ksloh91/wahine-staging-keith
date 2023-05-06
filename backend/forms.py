@@ -543,7 +543,7 @@ CryptoModelFormset = modelformset_factory(
 class EpfForm(forms.ModelForm):
     class Meta:
         model = Epf
-        fields = ['account_no','account_value','nominee_name']
+        fields = ['account_no','account_value','nominee_name','user']
         widgets={
             'account_no': forms.TextInput(attrs={
             'class': 'form-control',
