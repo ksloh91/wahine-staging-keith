@@ -1077,7 +1077,7 @@ def dashboard_new(request):
 class assets_bank_deleteform(DeleteView):
     model = Bank
     context_object_name = 'bank'
-    success_url = '/dashboard-new '
+    success_url = '/dashboard-new'
 
     def get_object(self, queryset=None):
         return Bank.objects.get(uuid=self.kwargs.get("uuid"))
@@ -1085,3 +1085,87 @@ class assets_bank_deleteform(DeleteView):
     def form_valid(self, form):
         messages.success(self.request, "The item was deleted successfully.")
         return super(assets_bank_deleteform,self).form_valid(form)
+
+class assets_insurance_deleteform(DeleteView):
+    model = Insurance
+    context_object_name = 'insurance'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return Insurance.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_insurance_deleteform,self).form_valid(form)
+
+class assets_securityinvestment_deleteform(DeleteView):
+    model = SecuritiesInvestment
+    context_object_name = 'securityinvestment'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return SecuritiesInvestment.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_securityinvestment_deleteform,self).form_valid(form)
+
+class assets_unittrustinvestment_deleteform(DeleteView):
+    model = UnitTrustInvestment
+    context_object_name = 'unittrustinvestment'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return UnitTrustInvestment.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_unittrustinvestment_deleteform,self).form_valid(form)
+
+class assets_property_deleteform(DeleteView):
+    model = Property
+    context_object_name = 'property'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return Property.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_property_deleteform,self).form_valid(form)
+
+class assets_vehicle_deleteform(DeleteView):
+    model = Vehicle
+    context_object_name = 'vehicle'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return Vehicle.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_vehicle_deleteform,self).form_valid(form)
+
+class assets_other_deleteform(DeleteView):
+    model = OtherAsset
+    context_object_name = 'otherasset'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return OtherAsset.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_other_deleteform,self).form_valid(form)
+
+class assets_crypto_deleteform(DeleteView):
+    model = Crypto
+    context_object_name = 'crypto'
+    success_url = '/dashboard-new'
+
+    def get_object(self, queryset=None):
+        return Crypto.objects.get(uuid=self.kwargs.get("uuid"))
+    
+    def form_valid(self, form):
+        messages.success(self.request, "The item was deleted successfully.")
+        return super(assets_crypto_deleteform,self).form_valid(form)

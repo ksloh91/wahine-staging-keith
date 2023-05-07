@@ -30,7 +30,6 @@ urlpatterns = [
 	path("assets/crypto",assets_crypto_modelform,name="assets-crypto-createform"),
 
 	## Editing Assets
-	path("assets/bank/delete/<uuid>",assets_bank_deleteform.as_view(),name="assets-bank-deleteform"),
 	path("assets/bank/edit/<uuid>",assets_bank_editform,name="assets-bank-editform"),
 	path("assets/epf/edit/<uuid>",assets_epf_editform,name="assets-epf-editform"),
 	path("assets/socso/edit/<uuid>",assets_socso_editform,name="assets-socso-editform"),
@@ -41,6 +40,17 @@ urlpatterns = [
 	path("assets/vehicles/edit/<uuid>",assets_vehicle_editform,name="assets-vehicle-editform"),
 	path("assets/others/edit/<uuid>",assets_other_editform,name="assets-other-editform"),
 	path("assets/crypto/edit/<uuid>",assets_crypto_editform,name="assets-crypto-editform"),
+
+	path("assets/bank/delete/<uuid>",assets_bank_deleteform.as_view(),name="assets-bank-deleteform"),
+	# path("assets/epf/delete/<uuid>",assets_epf_deleteform,name="assets-epf-deleteform"),
+	# path("assets/socso/delete/<uuid>",assets_socso_deleteform,name="assets-socso-deleteform"),
+	path("assets/insurance/delete/<uuid>",assets_insurance_deleteform.as_view(),name="assets-insurance-deleteform"),
+	path("assets/securityinvestment/delete/<uuid>",assets_securityinvestment_deleteform.as_view(),name="assets-securityinvestment-deleteform"),
+	path("assets/unittrustinvestment/delete/<uuid>",assets_unittrustinvestment_deleteform.as_view(),name="assets-unittrustinvestment-deleteform"),
+	path("assets/property/delete/<uuid>",assets_property_deleteform.as_view(),name="assets-property-deleteform"),
+	path("assets/vehicles/delete/<uuid>",assets_vehicle_deleteform.as_view(),name="assets-vehicle-deleteform"),
+	path("assets/others/delete/<uuid>",assets_other_deleteform.as_view(),name="assets-other-deleteform"),
+	path("assets/crypto/delete/<uuid>",assets_crypto_deleteform.as_view(),name="assets-crypto-deleteform"),
 
 	path("liabilities/creditcard",liabilities_creditcard_modelform,name="liabilities-creditcard-createform"),
 	path("liabilities/personalloan",liabilities_personalloan_modelform,name="liabilities-personalloan-createform"),
@@ -54,7 +64,7 @@ urlpatterns = [
 	path("liabilities/vehicles/edit/<uuid>",liabilities_vehicleloan_editform,name="iabilities-vehicleloan-editform"),
 	path("liabilities/property/edit/<uuid>",liabilities_propertyloan_editform,name="liabilities-propertyloan-editform"),
 	path("liabilities/others/edit/<uuid>",liabilities_other_editform,name="liabilities-other-editform"),
-	
+
 	path("assets/overview",assets_overview,name="assets-overview"),
 	path("liabilities/overview",liabilities_overview,name="liabilities-overview"),
 
