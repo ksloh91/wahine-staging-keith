@@ -764,6 +764,34 @@ class OtherAssetForm(forms.ModelForm):
         model = OtherAsset
         fields = ['name','value',]
 
+class CreditCardForm(forms.ModelForm):
+    class Meta:
+        model = CreditCard
+        fields = ['bank_name','account_no','amount_outstanding',]
+
+
+class PersonalLoanForm(forms.ModelForm):
+    class Meta:
+        model = PersonalLoan
+        fields = ['bank_name','account_no','amount_outstanding','loan_tenure',]
+
+
+class VehicleLoanForm(forms.ModelForm):
+    class Meta:
+        model = VehicleLoan
+        fields = ['bank_name','account_no','amount_outstanding','loan_tenure',]
+
+
+class PropertyLoanForm(forms.ModelForm):
+    class Meta:
+        model = PropertyLoan
+        fields = ['bank_name','account_no','amount_outstanding','loan_tenure',]
+
+class OtherLiabilityForm(forms.ModelForm):
+    class Meta:
+        model = OtherLiability
+        fields = ['name','value',]
+
 class EditItemModelForm(forms.ModelForm):
 
     def __init__(self, *args, instance=None, **kwargs):
@@ -954,58 +982,58 @@ class AssetOthersForm(forms.Form):
     asset_value_3 = forms.CharField(required = False)
     yesno = forms.CharField(required = False)
 
-class CreditCardForm(forms.Form):
-    bank_name = forms.CharField()
-    account_no = forms.CharField(required = False)
-    amount_outstanding = forms.CharField(required = False)
-    bank_name_2 = forms.CharField(required = False)
-    account_no_2 = forms.CharField(required = False)
-    amount_outstanding_2 = forms.CharField(required = False)
-    yesno = forms.CharField(required = False)
+# class CreditCardForm(forms.Form):
+#     bank_name = forms.CharField()
+#     account_no = forms.CharField(required = False)
+#     amount_outstanding = forms.CharField(required = False)
+#     bank_name_2 = forms.CharField(required = False)
+#     account_no_2 = forms.CharField(required = False)
+#     amount_outstanding_2 = forms.CharField(required = False)
+#     yesno = forms.CharField(required = False)
 
-class PersonalLoanForm(forms.Form):
-    bank_name = forms.CharField()
-    account_no = forms.CharField()
-    loan_amount = forms.IntegerField()
-    loan_tenure = forms.CharField()
-    bank_name_2 = forms.CharField(required=False)
-    account_no_2 = forms.CharField(required=False)
-    loan_amount_2 = forms.IntegerField(required=False)
-    loan_tenure_2 = forms.CharField(required=False)
-    loan_interest = forms.CharField(required = False)
-    yesno = forms.CharField(required = False)
+# class PersonalLoanForm(forms.Form):
+#     bank_name = forms.CharField()
+#     account_no = forms.CharField()
+#     loan_amount = forms.IntegerField()
+#     loan_tenure = forms.CharField()
+#     bank_name_2 = forms.CharField(required=False)
+#     account_no_2 = forms.CharField(required=False)
+#     loan_amount_2 = forms.IntegerField(required=False)
+#     loan_tenure_2 = forms.CharField(required=False)
+#     loan_interest = forms.CharField(required = False)
+#     yesno = forms.CharField(required = False)
 
-class PropertyLoanForm(forms.Form):
-    bank_name = forms.CharField()
-    account_no = forms.CharField()
-    loan_amount = forms.IntegerField()
-    loan_tenure = forms.CharField()
-    bank_name_2 = forms.CharField(required=False)
-    account_no_2 = forms.CharField(required=False)
-    loan_amount_2 = forms.IntegerField(required=False)
-    loan_tenure_2 = forms.CharField(required=False)
-    yesno = forms.CharField(required = False)
+# class PropertyLoanForm(forms.Form):
+#     bank_name = forms.CharField()
+#     account_no = forms.CharField()
+#     loan_amount = forms.IntegerField()
+#     loan_tenure = forms.CharField()
+#     bank_name_2 = forms.CharField(required=False)
+#     account_no_2 = forms.CharField(required=False)
+#     loan_amount_2 = forms.IntegerField(required=False)
+#     loan_tenure_2 = forms.CharField(required=False)
+#     yesno = forms.CharField(required = False)
 
-class VehicleLoanForm(forms.Form):
-    bank_name = forms.CharField()
-    account_no = forms.CharField()
-    loan_amount = forms.IntegerField()
-    loan_tenure = forms.CharField()
-    bank_name_2 = forms.CharField(required=False)
-    account_no_2 = forms.CharField(required=False)
-    loan_amount_2 = forms.IntegerField(required=False)
-    loan_tenure_2 = forms.CharField(required=False)
-    loan_interest = forms.CharField(required = False)
-    yesno = forms.CharField(required = False)
+# class VehicleLoanForm(forms.Form):
+#     bank_name = forms.CharField()
+#     account_no = forms.CharField()
+#     loan_amount = forms.IntegerField()
+#     loan_tenure = forms.CharField()
+#     bank_name_2 = forms.CharField(required=False)
+#     account_no_2 = forms.CharField(required=False)
+#     loan_amount_2 = forms.IntegerField(required=False)
+#     loan_tenure_2 = forms.CharField(required=False)
+#     loan_interest = forms.CharField(required = False)
+#     yesno = forms.CharField(required = False)
 
-class LiabilitiesOthersForm(forms.Form):
-    liability_name = forms.CharField(required = False)
-    liability_value = forms.IntegerField(required = False)
-    liability_name_2 = forms.CharField(required = False)
-    liability_value_2 = forms.IntegerField(required = False)
-    liability_name_3 = forms.CharField(required = False)
-    liability_value_3 = forms.IntegerField(required = False)
-    yesno = forms.CharField(required = False)
+# class LiabilitiesOthersForm(forms.Form):
+#     liability_name = forms.CharField(required = False)
+#     liability_value = forms.IntegerField(required = False)
+#     liability_name_2 = forms.CharField(required = False)
+#     liability_value_2 = forms.IntegerField(required = False)
+#     liability_name_3 = forms.CharField(required = False)
+#     liability_value_3 = forms.IntegerField(required = False)
+#     yesno = forms.CharField(required = False)
 
 class NotifierForm(forms.Form):
     notifier_name = forms.CharField()

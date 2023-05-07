@@ -587,7 +587,7 @@ def assets_epf_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'EPF data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'account_value':account_value,'account_no':account_no,'nominee_name':nominee_name}
+    context = {'instance':instance,'form':form,'account_value':account_value,'account_no':account_no,'nominee_name':nominee_name}
     return render(request,'backend/edit-assets-2-epf.html',context)
 
 def assets_socso_editform(request,uuid):
@@ -607,7 +607,7 @@ def assets_socso_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Socso data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'account_value':account_value,'account_no':account_no,'nominee_name':nominee_name}
+    context = {'instance':instance,'form':form,'account_value':account_value,'account_no':account_no,'nominee_name':nominee_name}
     return render(request,'backend/edit-assets-2-socso.html',context)
 
 def assets_insurance_editform(request,uuid):
@@ -635,7 +635,7 @@ def assets_insurance_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Insurance data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'insurance_type':insurance_type,'provider':provider,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured}
+    context = {'instance':instance,'form':form,'insurance_type':insurance_type,'provider':provider,'policy_no':policy_no,'nominee_name':nominee_name,'sum_insured':sum_insured}
     return render(request,'backend/edit-assets-3-insurance.html',context)
 
 def assets_securityinvestment_editform(request,uuid):
@@ -657,7 +657,7 @@ def assets_securityinvestment_editform(request,uuid):
         instance.save()
         messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
         return redirect('dashboard-new')
-    context = {'form':form,'account_type':account_type,'broker_name':broker_name,'account_no':account_no,'account_value':account_value}
+    context = {'instance':instance,'form':form,'account_type':account_type,'broker_name':broker_name,'account_no':account_no,'account_value':account_value}
     return render(request,'backend/edit-assets-4-securityinvestment.html',context)
 
 def assets_unittrustinvestment_editform(request,uuid):
@@ -680,7 +680,7 @@ def assets_unittrustinvestment_editform(request,uuid):
         instance.save()
         messages.add_message(request, messages.INFO, 'Investment data successfully updated.')
         return redirect('dashboard-new')
-    context = {'form':form,'unittrust_name':unittrust_name,'agent_name':agent_name,'agent_contact_no':agent_contact_no,'account_no':account_no,'account_value':account_value}
+    context = {'instance':instance,'form':form,'unittrust_name':unittrust_name,'agent_name':agent_name,'agent_contact_no':agent_contact_no,'account_no':account_no,'account_value':account_value}
     return render(request,'backend/edit-assets-4-unittrustinvestment.html',context)
 
 def assets_property_editform(request,uuid):
@@ -706,7 +706,7 @@ def assets_property_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Property data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'property_type':property_type,'residential_type':residential_type,'address':address,'state':state,'postcode':postcode,'titleno':titleno}
+    context = {'instance':instance,'form':form,'property_type':property_type,'residential_type':residential_type,'address':address,'state':state,'postcode':postcode,'titleno':titleno}
     return render(request,'backend/edit-assets-5-property.html',context)
 
 def assets_vehicle_editform(request,uuid):
@@ -726,7 +726,7 @@ def assets_vehicle_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Vehicle data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'vehicle_type':vehicle_type,'make_model':make_model,'registration_no':registration_no}
+    context = {'instance':instance,'form':form,'vehicle_type':vehicle_type,'make_model':make_model,'registration_no':registration_no}
     return render(request,'backend/edit-assets-6-vehicle.html',context)
 
 def assets_other_editform(request,uuid):
@@ -744,7 +744,7 @@ def assets_other_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Other assets data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'name':name,'value':value}
+    context = {'instance':instance,'form':form,'name':name,'value':value}
     return render(request,'backend/edit-assets-7-others.html',context)
 
 def assets_crypto_editform(request,uuid):
@@ -764,232 +764,93 @@ def assets_crypto_editform(request,uuid):
         messages.add_message(request, messages.INFO, 'Other assets data successfully updated.')
         return redirect('dashboard-new')
 
-    context = {'form':form,'crypto_type':crypto_type,'wallet_name':wallet_name,'value':value}
+    context = {'instance':instance,'form':form,'crypto_type':crypto_type,'wallet_name':wallet_name,'value':value}
     return render(request,'backend/edit-assets-8-crypto.html',context)
 
 ## Editing Assets End ##
-def liability_credit_card_form(request):
-    form = CreditCardForm()
-    if request.POST:
-        form = CreditCardForm(request.POST)
-        if form.data['yesno'] == 'no':
-            messages.add_message(request, messages.INFO, 'No Credit Card Added.')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Credit Card',created_by=request.user)
-            return redirect('personal_loan_form')
-        if form.is_valid():
-            bank_name = form.cleaned_data['bank_name']
-            account_no = form.cleaned_data['account_no']
-            amount_outstanding = form.cleaned_data['amount_outstanding']
-            bank_name_2 = form.cleaned_data['bank_name_2']
-            account_no_2 = form.cleaned_data['account_no_2']
-            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding},item_type='Credit Card',created_by=request.user)
-            if account_no_2 and bank_name_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2},item_type='Credit Card',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Credit Card Info Added.')
-            messages.add_message(request, messages.INFO, 'Credit Card Info Added.')
-            return redirect('personal_loan_form')
-    context = {'form':form}
-    return render(request,'backend/liabilities-1-credit-card.html',context)
-
-
 def edit_liability_credit_card_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    if instance.data['amount_outstanding']:
-        amount_outstanding = instance.data['amount_outstanding']
-    else:
-        amount_outstanding = ''
-    account_no = instance.data['account_no']
-    bank_name = instance.data['bank_name']
+    instance = CreditCard.objects.get(uuid=uuid)
+    form = CreditCardForm(request.POST or None, instance=instance)
+    account_no = instance.account_no
+    bank_name = instance.bank_name
+    amount_outstanding = instance.amount_outstanding
     item_type = 'Credit Card'
+    print(form.errors)
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={
-        'item_type':item_type,
-        'bank_name':bank_name,
-        'amount_outstanding':amount_outstanding,
-        'account_no':account_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['bank_name'] = form.data['bank_name']
-        instance.data['amount_outstanding'] = form.data['amount_outstanding']
-        instance.data['account_no'] = form.data['account_no']
-        instance.data['item_type'] = "Credit Card"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+    if request.POST and form.is_valid():
+        form.bank_name = bank_name
+        form.amount_outstanding = amount_outstanding
+        form.account_no = account_no
+        form.item_type = "Credit Card"
+        form.updated_at = datetime.datetime.now()
+        form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Credit card data successfully updated.')
-        return redirect('dashboard')
-    context = {'form':form,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
+        return redirect('dashboard-new')
+    context = {'instance':instance,'form':form,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-1-credit-card.html',context)
 
-def personal_loan_form(request):
-    form = PersonalLoanForm()
-    if request.POST:
-        form = PersonalLoanForm(request.POST)
-        if form.data['yesno'] == 'no':
-            messages.add_message(request, messages.INFO, 'No Personal Loan Added.')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Personal Loan',created_by=request.user)
-            return redirect('vehicles_loan_form')
-        if form.is_valid():
-            loan_tenure = form.cleaned_data['loan_tenure']
-            bank_name = form.cleaned_data['bank_name']
-            account_no = form.cleaned_data['account_no']
-            amount_outstanding = form.cleaned_data['amount_outstanding']
-            loan_tenure_2 = form.cleaned_data['loan_tenure_2']
-            bank_name_2 = form.cleaned_data['bank_name_2']
-            account_no_2 = form.cleaned_data['account_no_2']
-            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding,'loan_tenure':loan_tenure},item_type='Personal Loan',created_by=request.user)
-            if bank_name_2 and account_no_2 and amount_outstanding_2 and loan_tenure_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2,'loan_tenure':loan_tenure_2},item_type='Personal Loan',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Added Personal Loan.')
-            messages.add_message(request, messages.INFO, 'Added Personal Loan.')
-            return redirect('vehicles_loan_form')
-    context = {'form':form}
-    return render(request,'backend/liabilities-2-personal-loan.html',context)
-
 def edit_personal_loan_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    account_no = instance.data['account_no']
-    amount_outstanding = instance.data['amount_outstanding']
-    loan_tenure = instance.data['loan_tenure']
-    bank_name = instance.data['bank_name']
+    instance = PersonalLoan.objects.get(uuid=uuid)
+    form = PersonalLoanForm(request.POST or None, instance=instance)
+    account_no = instance.account_no
+    amount_outstanding = instance.amount_outstanding
+    loan_tenure = instance.loan_tenure
+    bank_name = instance.bank_name
     item_type = 'Personal Loan'
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={
-        'item_type':item_type,
-        'bank_name':bank_name,
-        'amount_outstanding':amount_outstanding,
-        'loan_tenure':loan_tenure,
-        'account_no':account_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['bank_name'] = form.data['bank_name']
-        instance.data['loan_tenure'] = form.data['loan_tenure']
-        instance.data['amount_outstanding'] = form.data['amount_outstanding']
-        instance.data['account_no'] = form.data['account_no']
-        instance.data['item_type'] = "Personal Loan"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+    if request.POST and form.is_valid():
+        form.bank_name = bank_name
+        form.loan_tenure = loan_tenure
+        form.amount_outstanding = amount_outstanding
+        form.account_no = account_no
+        form.updated_at = datetime.datetime.now()
+        form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Personal loan data successfully updated.')
-        return redirect('dashboard')
-    context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
+        return redirect('dashboard-new')
+    context = {'instance':instance,'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-2-personal-loan.html',context)
 
-def vehicles_loan_form(request):
-    form = VehicleLoanForm()
-    if request.POST:
-        form = VehicleLoanForm(request.POST)
-        if form.data['yesno'] == 'no':
-            messages.add_message(request, messages.INFO, 'No Vehicle Loan Added.')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Vehicle Loan',created_by=request.user)
-            return redirect('property_loan_form')
-        if form.is_valid():
-            loan_tenure = form.cleaned_data['loan_tenure']
-            bank_name = form.cleaned_data['bank_name']
-            account_no = form.cleaned_data['account_no']
-            amount_outstanding = form.cleaned_data['amount_outstanding']
-            loan_tenure_2 = form.cleaned_data['loan_tenure_2']
-            bank_name_2 = form.cleaned_data['bank_name_2']
-            account_no_2 = form.cleaned_data['account_no_2']
-            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding,'loan_tenure':loan_tenure},item_type='Vehicle Loan',created_by=request.user)
-            messages.add_message(request, messages.INFO, 'Vehicle Loan Added.')
-            if bank_name_2 and account_no_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2,'loan_tenure':loan_tenure_2},item_type='Vehicle Loan',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Vehicle Loan Added.')
-            return redirect('property_loan_form')
-    context = {'form':form}
-    return render(request,'backend/liabilities-3-vehicle-loan.html',context)
-
 def edit_vehicle_loan_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    account_no = instance.data['account_no']
-    amount_outstanding = instance.data['amount_outstanding']
-    loan_tenure = instance.data['loan_tenure']
-    bank_name = instance.data['bank_name']
+    instance = VehicleLoan.objects.get(uuid=uuid)
+    form = VehicleLoanForm(request.POST or None, instance=instance)
+    account_no = instance.account_no
+    amount_outstanding = instance.amount_outstanding
+    loan_tenure = instance.loan_tenure
+    bank_name = instance.bank_name
     item_type = 'Vehicle Loan'
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={
-        'item_type':item_type,
-        'bank_name':bank_name,
-        'amount_outstanding':amount_outstanding,
-        'loan_tenure':loan_tenure,
-        'account_no':account_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['bank_name'] = form.data['bank_name']
-        instance.data['loan_tenure'] = form.data['loan_tenure']
-        instance.data['amount_outstanding'] = form.data['amount_outstanding']
-        instance.data['account_no'] = form.data['account_no']
-        instance.data['item_type'] = "Vehicle Loan"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+    if request.POST and form.is_valid():
+        form.bank_name = bank_name
+        form.loan_tenure = loan_tenure
+        form.amount_outstanding = amount_outstanding
+        form.account_no = account_no
+        form.updated_at = datetime.datetime.now()
+        form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Vehicle loan data successfully updated.')
         return redirect('dashboard')
     context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-3-vehicle-loan.html',context)
 
-
-def property_loan_form(request):
-    form = PropertyLoanForm()
-    if request.POST:
-        form = PropertyLoanForm(request.POST)
-        if form.data['yesno'] == 'no':
-            messages.add_message(request, messages.INFO, 'No Property Loan Added.')
-            item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Property Loan',created_by=request.user)
-            return redirect('liabilities_others_form')
-        if form.is_valid():
-            loan_tenure = form.cleaned_data['loan_tenure']
-            bank_name = form.cleaned_data['bank_name']
-            account_no = form.cleaned_data['account_no']
-            amount_outstanding = form.cleaned_data['amount_outstanding']
-            loan_tenure_2 = form.cleaned_data['loan_tenure_2']
-            bank_name_2 = form.cleaned_data['bank_name_2']
-            account_no_2 = form.cleaned_data['account_no_2']
-            amount_outstanding_2 = form.cleaned_data['amount_outstanding_2']
-            item = Item.objects.create(user=request.user,data={'bank_name':bank_name,'account_no':account_no,'amount_outstanding':amount_outstanding,'loan_tenure':loan_tenure},item_type='Property Loan',created_by=request.user)
-            if bank_name_2 and account_no_2:
-                item2 = Item.objects.create(user=request.user,data={'bank_name':bank_name_2,'account_no':account_no_2,'amount_outstanding':amount_outstanding_2,'loan_tenure':loan_tenure_2},item_type='Property Loan',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Property Loan Added.')
-            messages.add_message(request, messages.INFO, 'Property Loan Added.')
-            return redirect('liabilities_others_form')
-    context = {'form':form}
-    return render(request,'backend/liabilities-4-property.html',context)
-
 def edit_property_loan_form(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
-    account_no = instance.data['account_no']
-    amount_outstanding = instance.data['amount_outstanding']
-    loan_tenure = instance.data['loan_tenure']
-    bank_name = instance.data['bank_name']
+    instance = PropertyLoan.objects.get(uuid=uuid)
+    form = PropertyLoanForm(request.POST or None, instance=instance)
+    account_no = instance.account_no
+    amount_outstanding = instance.amount_outstanding
+    loan_tenure = instance.loan_tenure
+    bank_name = instance.bank_name
     item_type = 'Property Loan'
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={
-        'item_type':item_type,
-        'bank_name':bank_name,
-        'amount_outstanding':amount_outstanding,
-        'loan_tenure':loan_tenure,
-        'account_no':account_no,
-        }
-        )
-
-    if request.POST:
-        instance.data['bank_name'] = form.data['bank_name']
-        instance.data['loan_tenure'] = form.data['loan_tenure']
-        instance.data['amount_outstanding'] = form.data['amount_outstanding']
-        instance.data['account_no'] = form.data['account_no']
+    if request.POST and form.is_valid():
+        form.bank_name = bank_name
+        form.loan_tenure = loan_tenure
+        form.amount_outstanding = amount_outstanding
+        form.account_no = account_no
         instance.data['item_type'] = "Vehicle Loan"
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+        form.updated_at = datetime.datetime.now()
+        form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Property loan data successfully updated.')
         return redirect('dashboard')
