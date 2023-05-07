@@ -57,6 +57,10 @@
 													<br>
 													<h5 class="Color-Secondary">Bank Account</h5>
 													<br>
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-bank-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Bank Asset #1 -->
 													{% for x in banks %}
 													{% if not x.nodata %}
@@ -148,6 +152,11 @@
 													<br>
 													<h5 class="Color-Secondary">Insurance</h5>
 													<br>
+
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-insurance-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Life Insurance #1 -->
 													{% for x in insurances %}
 													{% if not x.nodata %}
@@ -183,6 +192,11 @@
 													<br>
 													<h5 class="Color-Secondary">Investment</h5>
 													<br>
+
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-securities-investment-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Public Investment #1 -->
 													{% for x in security_investments %}
 													{% if not x.nodata %}
@@ -239,6 +253,10 @@
 													<h5 class="Color-Secondary">Property</h5>
 													<br>
 
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-property-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Property #1 -->
 													{% for x in properties %}
 													{% if not x.nodata %}
@@ -274,8 +292,11 @@
 													<br>
 													<h5 class="Color-Secondary">Vehicles</h5>
 													<br>
-													<br>
-													<br>
+
+													<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-vehicle-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Vehicles #1 -->
 													{% for x in vehicles %}
 													{% if not x.nodata %}
@@ -311,9 +332,10 @@
 													<br>
 													<h5 class="Color-Secondary">Others</h5>
 													<br>
-													<br>
-
-													<br>
+<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-other-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Others #1 -->
 													{% for x in other_assets %}
 													{% if not x.nodata %}
@@ -343,9 +365,11 @@
 													<br>
 													<h5 class="Color-Secondary">Crypto</h5>
 													<br>
-													<br>
 
-													<br>
+<div class="mt-3">
+														<a class="btn Btn-Secondary-2" href="{% url 'assets-crypto-createform' %}" role="button">Add New</a>
+										</div>
+										<br>
 													<!-- Others #1 -->
 													{% for x in cryptos %}
 													{% if not x.nodata %}

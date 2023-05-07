@@ -380,7 +380,7 @@ def assets_crypto_modelform(request):
         if 'skip' in request.POST:
             item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Crypto Assets',created_by=request.user)
             messages.success(request, "Saved successfully.")
-            return redirect('assets_overview')
+            return redirect('assets-overview')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
             post_data['form-%d-user' % i] = request.user
@@ -390,7 +390,7 @@ def assets_crypto_modelform(request):
         if formset.is_valid():
             formset.save()
             messages.success(request, "Saved successfully.")
-            return redirect('assets_overview')
+            return redirect('assets-overview')
 
         messages.error(request, "Please correct the errors in the form and try again.")
         return render(request,"backend/assets-crypto-create.html",context)
@@ -1238,7 +1238,7 @@ def dashboard_new(request):
 class assets_bank_deleteform(DeleteView):
     model = Bank
     context_object_name = 'bank'
-    success_url = '/dashboard-new'
+    success_url = '/dashboard-new '
 
     def get_object(self, queryset=None):
         return Bank.objects.get(uuid=self.kwargs.get("uuid"))
