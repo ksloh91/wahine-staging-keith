@@ -510,7 +510,7 @@ def liabilities_other_modelform(request):
         if 'skip' in request.POST:
             item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Other Liabilities',created_by=request.user)
             messages.success(request, "Saved successfully.")
-            return redirect('liabilities_overview')
+            return redirect('liabilities-overview')
         post_data = request.POST.copy()
         for i in range(int(post_data['form-TOTAL_FORMS'])):
             post_data['form-%d-user' % i] = request.user
@@ -520,7 +520,7 @@ def liabilities_other_modelform(request):
         if formset.is_valid():
             formset.save()
             messages.success(request, "Saved successfully.")
-            return redirect('liabilities_overview')
+            return redirect('liabilities-overview')
 
         messages.error(request, "Please correct the errors in the form and try again.")
         return render(request,"backend/liabilities-other-create.html",context)
@@ -768,7 +768,7 @@ def assets_crypto_editform(request,uuid):
     return render(request,'backend/edit-assets-8-crypto.html',context)
 
 ## Editing Assets End ##
-def edit_liability_credit_card_form(request,uuid):
+def liabilities_creditcard_editform(request,uuid):
     instance = CreditCard.objects.get(uuid=uuid)
     form = CreditCardForm(request.POST or None, instance=instance)
     account_no = instance.account_no
@@ -790,7 +790,7 @@ def edit_liability_credit_card_form(request,uuid):
     context = {'instance':instance,'form':form,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-1-credit-card.html',context)
 
-def edit_personal_loan_form(request,uuid):
+def liabilities_personalloan_editform(request,uuid):
     instance = PersonalLoan.objects.get(uuid=uuid)
     form = PersonalLoanForm(request.POST or None, instance=instance)
     account_no = instance.account_no
@@ -812,7 +812,7 @@ def edit_personal_loan_form(request,uuid):
     context = {'instance':instance,'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-2-personal-loan.html',context)
 
-def edit_vehicle_loan_form(request,uuid):
+def liabilities_vehicleloan_editform(request,uuid):
     instance = VehicleLoan.objects.get(uuid=uuid)
     form = VehicleLoanForm(request.POST or None, instance=instance)
     account_no = instance.account_no
@@ -830,11 +830,11 @@ def edit_vehicle_loan_form(request,uuid):
         form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Vehicle loan data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
     context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-3-vehicle-loan.html',context)
 
-def edit_property_loan_form(request,uuid):
+def liabilities_propertyloan_editform(request,uuid):
     instance = PropertyLoan.objects.get(uuid=uuid)
     form = PropertyLoanForm(request.POST or None, instance=instance)
     account_no = instance.account_no
@@ -853,49 +853,27 @@ def edit_property_loan_form(request,uuid):
         form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Property loan data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
     context = {'form':form,'loan_tenure':loan_tenure,'amount_outstanding':amount_outstanding,'bank_name':bank_name,'account_no':account_no}
     return render(request,'backend/edit-liabilities-4-property-loan.html',context)
 
-def liabilities_others_form(request):
-    form = LiabilitiesOthersForm()
-    if request.POST:
-        form = LiabilitiesOthersForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data['yesno'] == 'no':
-                messages.add_message(request, messages.INFO, 'No Liabilities Added.')
-                item = Item.objects.create(user=request.user,data={'nodata':True},item_type='Other Liabilities',created_by=request.user)
-                return redirect('notifier_list_form')
-            liability_name = form.cleaned_data['liability_name']
-            liability_value = form.cleaned_data['liability_value']
-            item = Item.objects.create(user=request.user,data={'liability_value':liability_value,'liability_name':liability_name},item_type='Other Liabilities',created_by=request.user)
-            messages.add_message(request, messages.INFO, 'Added Other Liabilities.')
-            return redirect('notifier_list_form')
-    context = {'form':form}
-    return render(request,'backend/liabilities-5-others.html',context)
-
-def edit_liabilities_others_form(request,uuid):
+def liabilities_other_editform(request,uuid):
     instance = Item.objects.get(uuid=uuid)
-    liability_name = instance.data['liability_name']
-    liability_value = instance.data['liability_value']
+    form = OtherLiabilityForm(request.POST or None, instance=instance)
+    liability_name = instance.name
+    liability_value = instance.value
     item_type = 'Other Liabilities'
 
-    form = EditItemModelForm(request.POST,instance=instance,initial={'item_type':item_type,
-        'liability_name':liability_name,
-        'liability_value':liability_value,
-        }
-        )
-    if request.POST:
-        instance.data['liability_name'] = form.data['liability_name']
-        instance.data['liability_value'] = form.data['liability_value']
-        instance.data['item_type'] = 'Other Liabilities'
-        instance.updated_at = datetime.datetime.now()
-        instance.save()
+    if request.POST and form.is_valid():
+        form.name = liability_name
+        form.value = liability_value
+        form.updated_at = datetime.datetime.now()
+        form.save()
         print(instance)
         messages.add_message(request, messages.INFO, 'Other liabilities data successfully updated.')
-        return redirect('dashboard')
+        return redirect('dashboard-new')
 
-    context = {'form':form,'liability_name':liability_name,'liability_value':liability_value}
+    context = {'instance':instance,'form':form,'liability_name':liability_name,'liability_value':liability_value}
     return render(request,'backend/edit-liabilities-5-others.html',context)
 
 def notifier_list_form(request):

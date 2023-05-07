@@ -430,7 +430,7 @@
 													</div><br>
 												
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_credit_card_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'liabilities-creditcard-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 
 {% endif %}
@@ -468,7 +468,7 @@
 													</div><br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_personal_loan_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'liabilities-personalloan-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -502,7 +502,7 @@
 													<br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_vehicles_loan_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'liabilities-vehicleloan-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -535,7 +535,7 @@
 													</div>
 													<br>
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_property_loan_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'liabilities-propertyloan-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
@@ -567,7 +567,7 @@
 													</div><br>
 
 													<div class="mt-3">
-														<a class="btn Btn-Secondary-2" href="{% url 'edit_liabilities_other_form' uuid=x.uuid %}" role="button">Edit</a>
+														<a class="btn Btn-Secondary-2" href="{% url 'liabilities-other-editform' uuid=x.uuid %}" role="button">Edit</a>
 													</div><br>
 													{% endif %}
 													{% endfor %}
