@@ -256,8 +256,8 @@ class UnitTrustInvestmentForm(forms.ModelForm):
         model = UnitTrustInvestment
         fields = ('unittrust_name',
                   'account_no',
-                  'agent_name',
-                  'agent_contact_no',
+                  # 'agent_name',
+                  # 'agent_contact_no',
                   'account_value',
                 )
 
