@@ -368,8 +368,8 @@ UnitTrustInvestmentModelFormset = modelformset_factory(
     fields=('unittrust_name',
             'account_no',
             'account_value',
-            'agent_name',
-            'agent_contact_no',
+            # 'agent_name',
+            # 'agent_contact_no',
             'user',
             ),
     extra=1,
@@ -382,14 +382,14 @@ UnitTrustInvestmentModelFormset = modelformset_factory(
             'class': 'form-control',
             'placeholder': 'Enter account no. here'
         }),
-        'agent_name': forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter agent no. here'
-        }),
-        'agent_contact_no': forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter contact no. here'
-        }),
+        # 'agent_name': forms.TextInput(attrs={
+        #     'class': 'form-control',
+        #     'placeholder': 'Enter agent no. here'
+        # }),
+        # 'agent_contact_no': forms.TextInput(attrs={
+        #     'class': 'form-control',
+        #     'placeholder': 'Enter contact no. here'
+        # }),
         'account_value': forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Enter account value here'

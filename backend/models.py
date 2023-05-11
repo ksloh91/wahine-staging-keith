@@ -179,8 +179,8 @@ class UnitTrustInvestment(TimeStampedModel):
     created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
     unittrust_name = models.CharField(max_length=128)
     account_no = models.CharField(max_length=128)
-    agent_name = models.CharField(max_length=128,null=True,blank=True)
-    agent_contact_no = models.CharField(max_length=128,null=True,blank=True)
+    # agent_name = models.CharField(max_length=128,null=True,blank=True)
+    # agent_contact_no = models.CharField(max_length=128,null=True,blank=True)
     account_value = models.FloatField(max_length=128,null=True,blank=True)
 
     def __str__(self):
