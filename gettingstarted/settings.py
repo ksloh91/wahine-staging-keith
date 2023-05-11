@@ -31,7 +31,7 @@ SECRET_KEY = "fjd12489hHFG*$&H9h4r78TG08hyfO$*Ghy"
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 if 'SECRET_KEY' in os.environ:
     SECRET_KEY = os.environ["SECRET_KEY"]
-    
+
 ## X-Frame-Options
 X_FRAME_OPTIONS = 'DENY'
 #X-Content-Type-Options
@@ -40,6 +40,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 15768000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = TRUE
 
 SESSION_COOKIE_SECURE = True
 ### SMTP Sendinblue
@@ -82,9 +83,27 @@ INSTALLED_APPS = [
 
 CSRF_TRUSTED_ORIGINS = ['https://wahine.wcapital.asia/','https://wahine.wcapital.asia']
 
+CSP_DEFAULT_SRC = ("'none'",)
+
+CSP_IMG_SRC = ("'self'",'https://wahine.s3.amazonaws.com/')
+
+# CSP_STYLE_SRC = ("'unsafe-inline'",'https://cdn.jsdelivr.net/','https://wahine.s3.amazonaws.com/','https://cdnjs.cloudflare.com/','https://ka-f.fontawesome.com/')
+CSP_STYLE_SRC = ("'unsafe-inline'")
+CSP_SCRIPT_SRC = ("'unsafe-inline'")
+
+CSP_FONT_SRC = ("'unsafe-inline'", 'https://fonts.gstatic.com/')
+
+
+CSP_INCLUDE_NONCE_IN = [
+    'script-src',
+    'script-src-elem'
+]
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
+    "django_permissions_policy.PermissionsPolicyMiddleware",
+    # 'csp.middleware.CSPMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -95,6 +114,24 @@ MIDDLEWARE = [
     # "django_htmx.middleware.HtmxMiddleware",
 ]
 
+PERMISSIONS_POLICY = {
+    "accelerometer": [],
+    "ambient-light-sensor": [],
+    "autoplay": [],
+    "camera": [],
+    "display-capture": [],
+    "document-domain": [],
+    "encrypted-media": [],
+    "fullscreen": [],
+    "geolocation": [],
+    "gyroscope": [],
+    "interest-cohort": [],
+    "magnetometer": [],
+    "microphone": [],
+    "midi": [],
+    "payment": [],
+    "usb": [],
+}
 AUTH_USER_MODEL="backend.User"
 ROOT_URLCONF = "gettingstarted.urls"
 
