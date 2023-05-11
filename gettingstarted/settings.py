@@ -31,7 +31,17 @@ SECRET_KEY = "fjd12489hHFG*$&H9h4r78TG08hyfO$*Ghy"
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 if 'SECRET_KEY' in os.environ:
     SECRET_KEY = os.environ["SECRET_KEY"]
+    
+## X-Frame-Options
+X_FRAME_OPTIONS = 'DENY'
+#X-Content-Type-Options
+SECURE_CONTENT_TYPE_NOSNIFF = True
+## Strict-Transport-Security
+SECURE_HSTS_SECONDS = 15768000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
+SESSION_COOKIE_SECURE = True
 ### SMTP Sendinblue
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
