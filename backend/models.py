@@ -175,7 +175,7 @@ class SecuritiesInvestment(TimeStampedModel):
 
 class UnitTrustInvestment(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
-    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_unittrust_investment')
+    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_unittrust_investment',null=True)
     created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
     unittrust_name = models.CharField(max_length=128)
     account_no = models.CharField(max_length=128)
