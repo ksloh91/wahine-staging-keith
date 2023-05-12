@@ -57,5 +57,5 @@ class UserAdmin(admin.ModelAdmin):
 # admin.site.register(OtherLiability)
 
 
-# admin.site.register(PropertyType)
-# admin.site.register(ResidentialType)
+admin.site.register(PropertyType)
+admin.site.register(ResidentialType)
