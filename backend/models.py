@@ -295,6 +295,34 @@ class OtherLiability(TimeStampedModel):
     class Meta:
         verbose_name_plural = "Other Liabilities"
 
+class Notifier(TimeStampedModel):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=128)
+    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_notifier')
+    created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
+    email = models.CharField(max_length=128,null=True,blank=True)
+    ic = models.CharField(max_length=128,null=True,blank=True)
+    contact_no = models.CharField(max_length=128,null=True,blank=True)
+    relationship = models.CharField(max_length=128,null=True,blank=True)
+    event = models.CharField(max_length=128,null=True,blank=True)
+
+    def __str__(self):
+        return self.name
+
+class AccessList(TimeStampedModel):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    user = models.ForeignKey('backend.User',on_delete=models.CASCADE,related_name='user_accesslist')
+    name = models.CharField(max_length=128)
+    created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
+    email = models.CharField(max_length=128,null=True,blank=True)
+    ic = models.CharField(max_length=128,null=True,blank=True)
+    contact_no = models.CharField(max_length=128,null=True,blank=True)
+    relationship = models.CharField(max_length=128,null=True,blank=True)
+    event = models.CharField(max_length=128,null=True,blank=True)
+
+    def __str__(self):
+        return self.name
+        
 ## Property 
 class PropertyType(TimeStampedModel):
     name = models.CharField(max_length=128)

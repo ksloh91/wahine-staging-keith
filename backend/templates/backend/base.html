@@ -392,6 +392,16 @@ $(document).ready(function() {
     $('#exampleModal').modal('show');
   }); 
 </script>
+    <script>
+ function validateSize(input) {
+  const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+  if (fileSize > 5) {
+    alert('File size exceeds 5 MiB');
+    input.value = ''; //for clearing with Jquery
+  } else {
+    // Proceed further
+  }
+}</script>
 
 <!-- Formset Logic -->
 </body>

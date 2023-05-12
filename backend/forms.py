@@ -911,20 +911,83 @@ class EditItemModelForm(forms.ModelForm):
         model = Item
         fields = ['item_type']
 
-class NotifierForm(forms.Form):
-    notifier_name = forms.CharField()
-    notifier_email = forms.CharField()
-    notifier_ic = forms.CharField(required = False)
-    notifier_contactno = forms.CharField(required = False)
-    notifier_relationship = forms.CharField(required = False)
-    notifier_event = forms.MultipleChoiceField(choices=EVENT_CHOICES,required = False)
-    notifier_name_2 = forms.CharField(required = False)
-    notifier_email_2 = forms.CharField(required = False)
-    notifier_ic_2 = forms.CharField(required = False)
-    notifier_contactno_2 = forms.CharField(required = False)
-    notifier_relationship_2 = forms.CharField(required = False)
-    notifier_event_2 = forms.MultipleChoiceField(choices=EVENT_CHOICES,required = False)
-    yesno = forms.CharField(required = False)
+class NotifierForm(forms.ModelForm):
+    class Meta:
+        model = Notifier
+        fields = [
+            "name",
+            "email",
+            "ic",
+            "contact_no",
+            "relationship",
+            "event",
+        ]
+
+class AccessListForm(forms.ModelForm):
+    class Meta:
+        model = Notifier
+        fields = [
+            "name",
+            "email",
+            "ic",
+            "contact_no",
+            "relationship",
+            "event",
+        ]
+
+NotifierModelFormset = modelformset_factory(
+    Notifier,
+    fields=(
+            "name",
+            "email",
+            "ic",
+            "contact_no",
+            "relationship",
+            "event",
+            "user",
+            ),
+    extra=1,
+    widgets={
+        'name': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter name here'
+        }),
+        'email': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter email here'
+        }),
+        'ic': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter IC here'
+        }),
+        'contact_no': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter contact number here'
+        }),
+        'relationship': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter relationship here'
+        }),
+        'event': forms.Select(choices=EVENT_CHOICES,attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter event here'
+        }),
+    }
+)
+# class NotifierForm(forms.Form):
+#     notifier_name = forms.CharField()
+#     notifier_email = forms.CharField()
+#     notifier_ic = forms.CharField(required = False)
+#     notifier_contactno = forms.CharField(required = False)
+#     notifier_relationship = forms.CharField(required = False)
+#     notifier_event = forms.MultipleChoiceField(choices=EVENT_CHOICES,required = False)
+#     notifier_name_2 = forms.CharField(required = False)
+#     notifier_email_2 = forms.CharField(required = False)
+#     notifier_ic_2 = forms.CharField(required = False)
+#     notifier_contactno_2 = forms.CharField(required = False)
+#     notifier_relationship_2 = forms.CharField(required = False)
+#     notifier_event_2 = forms.MultipleChoiceField(choices=EVENT_CHOICES,required = False)
+#     yesno = forms.CharField(required = False)
 
 class AccessListForm(forms.Form):
     accesslist_name = forms.CharField()

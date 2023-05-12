@@ -858,7 +858,7 @@ def liabilities_propertyloan_editform(request,uuid):
     return render(request,'backend/edit-liabilities-4-property-loan.html',context)
 
 def liabilities_other_editform(request,uuid):
-    instance = Item.objects.get(uuid=uuid)
+    instance = OtherLiability.objects.get(uuid=uuid)
     form = OtherLiabilityForm(request.POST or None, instance=instance)
     liability_name = instance.name
     liability_value = instance.value
@@ -877,52 +877,54 @@ def liabilities_other_editform(request,uuid):
     return render(request,'backend/edit-liabilities-5-others.html',context)
 
 def notifier_list_form(request):
-    form = NotifierForm()
-    if request.POST:
-        form = NotifierForm(request.POST)
-        if form.is_valid():
-            notifier_name = form.cleaned_data['notifier_name']
-            notifier_email = form.cleaned_data['notifier_email']
-            notifier_ic = form.cleaned_data['notifier_ic']
-            notifier_contactno = form.cleaned_data['notifier_contactno']
-            notifier_relationship = form.cleaned_data['notifier_relationship']
-            notifier_event = form.cleaned_data['notifier_event']
-            notifier_name_2 = form.cleaned_data['notifier_name_2']
-            notifier_email_2 = form.cleaned_data['notifier_email_2']
-            notifier_ic_2 = form.cleaned_data['notifier_ic_2']
-            notifier_contactno_2 = form.cleaned_data['notifier_contactno_2']
-            notifier_relationship_2 = form.cleaned_data['notifier_relationship_2']
-            notifier_event_2 = form.cleaned_data['notifier_event_2']
-            item = Item.objects.create(user=request.user,data={'notifier_name':notifier_name,'notifier_email':notifier_email,'notifier_relationship':notifier_relationship,'notifier_event':notifier_event,'notifier_contactno':notifier_contactno,'notifier_ic':notifier_ic},item_type='Notifier List',created_by=request.user)
-            if notifier_name_2 and notifier_contactno_2 and notifier_ic_2:
-                item = Item.objects.create(user=request.user,data={'notifier_name':notifier_name_2,'notifier_email':notifier_email_2,'notifier_relationship':notifier_relationship_2,'notifier_event':notifier_event_2,'notifier_contactno':notifier_contactno_2,'notifier_ic':notifier_ic_2},item_type='Notifier List',created_by=request.user)
-                messages.add_message(request, messages.INFO, 'Added notifier.')
-            messages.add_message(request, messages.INFO, 'Added notifier.')
+    if request.method == 'POST':
+        if 'skip' in request.POST:
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Notifier List',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('access_list_form')
-        else:
-            messages.add_message(request, messages.INFO, 'Please add a valid notifier with name and email.')
-            return redirect('notifier_list_form')
-    context = {'form':form}
-    return render(request,'backend/notifier-list-form.html',context)
+        post_data = request.POST.copy()
+        for i in range(int(post_data['form-TOTAL_FORMS'])):
+            post_data['form-%d-user' % i] = request.user
+        formset = NotifierModelFormset(post_data)
+        context = {'formset':formset}
+
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, "Saved successfully.")
+            return redirect('access_list_form')
+
+        messages.error(request, "Please correct the errors in the form and try again.")
+        return render(request,"backend/notifier-list-form.html",context)
+
+    # we don't want to display the already saved model instances
+    formset = NotifierModelFormset(queryset=Notifier.objects.none())
+    context = {'formset':formset}
+    return render(request,"backend/notifier-list-form.html",context)
 
 def access_list_form(request):
-    form = AccessListForm()
-    if request.POST:
-        form = AccessListForm(request.POST)
-        if form.is_valid():
-            accesslist_name = form.cleaned_data['accesslist_name']
-            accesslist_email = form.cleaned_data['accesslist_email']
-            accesslist_ic = form.cleaned_data['accesslist_ic']
-            accesslist_contactno = form.cleaned_data['accesslist_contactno']
-            accesslist_relationship = form.cleaned_data['accesslist_relationship']
-
-            item = Item.objects.create(user=request.user,data={'accesslist_name':accesslist_name,'accesslist_email':accesslist_email,'accesslist_relationship':accesslist_relationship,'accesslist_contactno':accesslist_contactno,'accesslist_ic':accesslist_ic},item_type='Access List',created_by=request.user)
-            messages.add_message(request, messages.INFO, 'Added Access List.')
+    if request.method == 'POST':
+        if 'skip' in request.POST:
+            item = Item.objects.get_or_create(user=request.user,data={'nodata':True},item_type='Access List',created_by=request.user)
+            messages.success(request, "Saved successfully.")
             return redirect('dashboard-new')
-        else:
-            messages.add_message(request, messages.INFO, 'Please make sure to key in Name and Email.')
-    context = {'form':form}
-    return render(request,'backend/access-list-form.html',context)
+        post_data = request.POST.copy()
+        for i in range(int(post_data['form-TOTAL_FORMS'])):
+            post_data['form-%d-user' % i] = request.user
+        formset = NotifierModelFormset(post_data)
+        context = {'formset':formset}
+
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, "Saved successfully.")
+            return redirect('dashboard-new')
+
+        messages.error(request, "Please correct the errors in the form and try again.")
+        return render(request,"backend/access-list-form.html",context)
+
+    # we don't want to display the already saved model instances
+    formset = NotifierModelFormset(queryset=Notifier.objects.none())
+    context = {'formset':formset}
+    return render(request,"backend/access-list-form.html",context)
 
 def assets_overview(request):
     user = request.user

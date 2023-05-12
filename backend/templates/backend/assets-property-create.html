@@ -95,18 +95,18 @@
         <small class="text-danger">{{ form.postcode.errors }}</small>
       </div>
       <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
-        <label for="{{ form.titleno.id_for_label }}">{{form.titleno.label}}</label>
+        <label for="{{ form.titleno.id_for_label }}">Title No</label>
         {{form.titleno}}
         <small class="text-danger">{{ form.postcode.titleno.errors }}</small>
       </div>
 
 <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
 <label class="form-label" for="customFile">Upload File</label>
-<input type="file" class="" id="customFile" />
+<input onchange="validateSize(this)" type="file" class="" id="customFile" />
       </div>
 <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
 <label class="form-label" for="customFile2">Upload File</label>
-<input type="file" class="" id="customFile2" />
+<input onchange="validateSize(this)" type="file" class="" id="customFile2" />
       </div>
         <!-- End process each form fields manually -->
 
@@ -188,4 +188,5 @@
 
     });
   </script>
+
 {% endblock %}

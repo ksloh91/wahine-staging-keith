@@ -215,7 +215,7 @@ STATICFILES_DIRS = (
 )
 # Enable WhiteNoise's GZip compression of static assets.
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Test Runner Config
 class HerokuDiscoverRunner(DiscoverRunner):
@@ -242,3 +242,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # COMPRESS_ENABLED = True
 
 # STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
+## AWS S3 Settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_LOCATION = 'static'
+AWS_ACCESS_KEY_ID ='AKIAQCR227DLH242C34W' 
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME ='taosolutions'
+AWS_S3_CUSTOM_DOMAIN='%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {    
+     'CacheControl': 'max-age=86400',
+}
+
+DEFAULT_FILE_STORAGE = 'gettingstarted.storages.MediaStorage'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+] 
+
+STATIC_URL='https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_FINDERS = ('django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+AWS_DEFAULT_ACL = None
+AWS_S3_FILE_OVERWRITE = False
