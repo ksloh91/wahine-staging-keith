@@ -38,7 +38,7 @@
       </div>
 
       <div class="col-4">
-        <label for="{{ form.account_value.id_for_label }}">{{form.account_value.label}}<i class="fas fa-info-circle px-1" title="Only numerical value; No Symbols or Special Characters Allowed"></i></label>
+        <label for="{{ form.account_value.id_for_label }}">{{form.account_value.label}}<i class="fas fa-info-circle px-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Only numerical value; No Symbols or Special Characters Allowed"></i></label>
         {{form.account_value}}
         <small class="text-danger">{{ form.account_value.errors }}</small>
       </div>

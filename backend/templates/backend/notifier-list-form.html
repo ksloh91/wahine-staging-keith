@@ -47,7 +47,7 @@
       </div>
 
       <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
-        <label for="{{ form.email.id_for_label }}">{{form.email.label}}<i class="fas fa-info-circle px-1" title="A notification email will be sent to notifier for verification"></i></label>
+        <label for="{{ form.email.id_for_label }}">{{form.email.label}}<i class="fas fa-info-circle px-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="An email will be sent to notifier for verification. Please get in touch with us if your notifier doesn’t receive an email within 2 business days."></i></label>
         {{form.email}}
         <small class="text-danger">{{ form.email.errors }}</small>
       </div>

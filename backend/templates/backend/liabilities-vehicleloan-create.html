@@ -69,7 +69,7 @@
       </div>
 
       <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
-        <label for="{{ form.amount_outstanding.id_for_label }}">{{form.amount_outstanding.label}}<i class="fas fa-info-circle px-1" title="Only numerical value; No Symbols or Special Characters Allowed"></i></label>
+        <label for="{{ form.amount_outstanding.id_for_label }}">{{form.amount_outstanding.label}}<i class="fas fa-info-circle px-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Only numerical value; No Symbols or Special Characters Allowed"></i></label>
         {{form.amount_outstanding}}
         <small class="text-danger">{{ form.amount_outstanding.errors }}</small>
       </div>
