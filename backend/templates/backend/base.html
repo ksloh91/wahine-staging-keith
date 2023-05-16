@@ -377,9 +377,11 @@ function deleteForm(prefix, btn) {
 
 $(document).on('click', '.add-form-row', function(e){
     e.preventDefault();
-    cloneMore('.form-row:last', 'form');
+    var newRow = cloneMore('.form-row:last', 'form');
+    $('[data-bs-toggle="tooltip"]', newRow).tooltip(); // Initialize tooltips for the new row
     return false;
 });
+
 $(document).on('click', '.remove-form-row', function(e){
     e.preventDefault();
     deleteForm('form', $(this));

@@ -90,7 +90,7 @@
       </div>
 
       <div class="col-12 col-lg-4 col-md-4 col-sm-6 py-2">
-        <label for="{{ form.account_value.id_for_label }}">{{form.account_value.label}}<i class="fas fa-info-circle px-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Only numerical value; No Symbols or Special Characters Allowed"></i>
+        <label for="{{ form.account_value.id_for_label }}">{{form.account_value.label}}<i class="fas fa-info-circle px-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Only numerical value; No Symbols or Special Characters Allowed"></i>
         </label>
         {{form.account_value}}
         <small class="text-danger">{{ form.account_value.errors }}</small>
@@ -141,13 +141,5 @@
 </div>
 </div>
 <script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-  });
-</script>
 
 {% endblock %}
