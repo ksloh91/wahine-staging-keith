@@ -83,27 +83,29 @@ INSTALLED_APPS = [
 
 CSRF_TRUSTED_ORIGINS = ['https://wahine.wcapital.asia/','https://wahine.wcapital.asia']
 
-CSP_DEFAULT_SRC = ("'none'",)
+CSP_DEFAULT_SRC = ("'self'")
+CSP_CONNECT_SRC = ("'self'",'https://csmetrics.hotjar.com/','https://www.google-analytics.com/g/collect','https://ka-f.fontawesome.com/releases/v6.4.0/css/free.min.css','https://ka-f.fontawesome.com/releases/v6.4.0/css/free-v4-shims.min.css','https://ka-f.fontawesome.com/releases/v6.4.0/css/free-v5-font-face.min.css','https://ka-f.fontawesome.com/releases/v6.4.0/css/free-v4-font-face.min.css',)
 
 CSP_IMG_SRC = ("'self'",'https://wahine.s3.amazonaws.com/')
+CSP_STYLE_SRC = ("'unsafe-inline'",'https://fonts.googleapis.com/','https://cdn.jsdelivr.net/','https://wahine.s3.amazonaws.com/','https://cdnjs.cloudflare.com/','https://ka-f.fontawesome.com/')
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_SCRIPT_SRC_ELEM = ("'unsafe-inline'",'https://code.jquery.com/jquery-3.3.1.min.js','https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js','https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js','https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js','https://www.googletagmanager.com/','https://static.hotjar.com/c/hotjar-3298355.js','https://kit.fontawesome.com/c616ac1eb5.js',)
 
-# CSP_STYLE_SRC = ("'unsafe-inline'",'https://cdn.jsdelivr.net/','https://wahine.s3.amazonaws.com/','https://cdnjs.cloudflare.com/','https://ka-f.fontawesome.com/')
-CSP_STYLE_SRC = ("'unsafe-inline'")
-CSP_SCRIPT_SRC = ("'unsafe-inline'")
+CSP_FONT_SRC = ("'self'",
+ 'https://fonts.gstatic.com/',
+ 'https://cdnjs.cloudflare.com/',
+ 'https://fonts.googleapis.com/',
+ 'https://ka-f.fontawesome.com/',
+ 'https://cdn.jsdelivr.net/',
+ )
 
-CSP_FONT_SRC = ("'unsafe-inline'", 'https://fonts.gstatic.com/')
-
-
-CSP_INCLUDE_NONCE_IN = [
-    'script-src',
-    'script-src-elem'
-]
+# CSP_INCLUDE_NONCE_IN = ['script-src',]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django_permissions_policy.PermissionsPolicyMiddleware",
-    # 'csp.middleware.CSPMiddleware',
+    'csp.middleware.CSPMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
