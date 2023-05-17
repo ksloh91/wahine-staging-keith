@@ -54,7 +54,7 @@ class UserAdmin(admin.ModelAdmin):
 # admin.site.register(PersonalLoan)
 # admin.site.register(VehicleLoan)
 # admin.site.register(PropertyLoan)
-# admin.site.register(OtherLiability)
+admin.site.register(Notifier)
 
 
 admin.site.register(PropertyType)

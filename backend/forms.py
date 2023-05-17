@@ -968,8 +968,46 @@ NotifierModelFormset = modelformset_factory(
             'class': 'form-control',
             'placeholder': 'Enter relationship here'
         }),
-        'event': forms.Select(choices=EVENT_CHOICES,attrs={
+        'event': forms.CheckboxSelectMultiple(choices=EVENT_CHOICES,attrs={
+            'placeholder': 'Enter event here'
+        }),
+    }
+)
+
+AccesslistModelFormset = modelformset_factory(
+    AccessList,
+    fields=(
+            "name",
+            "email",
+            "ic",
+            "contact_no",
+            "relationship",
+            "event",
+            "user",
+            ),
+    extra=1,
+    widgets={
+        'name': forms.TextInput(attrs={
             'class': 'form-control',
+            'placeholder': 'Enter name here'
+        }),
+        'email': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter email here'
+        }),
+        'ic': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter IC here'
+        }),
+        'contact_no': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter contact number here'
+        }),
+        'relationship': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter relationship here'
+        }),
+        'event': forms.CheckboxSelectMultiple(choices=EVENT_CHOICES,attrs={
             'placeholder': 'Enter event here'
         }),
     }
