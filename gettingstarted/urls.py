@@ -61,7 +61,7 @@ urlpatterns = [
 	## Editing Liabilities
 	path("liabilities/card/edit/<uuid>",liabilities_creditcard_editform,name="liabilities-creditcard-editform"),
 	path("liabilities/personal/edit/<uuid>",liabilities_personalloan_editform,name="liabilities-personalloan-editform"),
-	path("liabilities/vehicles/edit/<uuid>",liabilities_vehicleloan_editform,name="iabilities-vehicleloan-editform"),
+	path("liabilities/vehicles/edit/<uuid>",liabilities_vehicleloan_editform,name="liabilities-vehicleloan-editform"),
 	path("liabilities/property/edit/<uuid>",liabilities_propertyloan_editform,name="liabilities-propertyloan-editform"),
 	path("liabilities/others/edit/<uuid>",liabilities_other_editform,name="liabilities-other-editform"),
 
