@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.shortcuts import render,redirect
 from backend.forms import *
 import uuid
@@ -890,6 +891,15 @@ def notifier_list_form(request):
 
         if formset.is_valid():
             formset.save()
+            for i in formset: 
+                email = i.cleaned_data.get('email')
+                send_mail(
+                    "Wahine - You have been added as a notifier",
+                    "You have been added as a notifier by " + str(request.user),
+                    "wahine@wcapital.asia",
+                    [email],
+                    fail_silently=False,
+                    )
             messages.success(request, "Saved successfully.")
             return redirect('access_list_form')
 
