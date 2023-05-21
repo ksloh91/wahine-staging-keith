@@ -625,27 +625,27 @@
 <script>
 	// setup 
 	const data = {
-		labels: ['Insurance', 'Investment','Bank','Other Assets'],
+		labels: ['Insurance','EPF','Properties','Investment','Bank','Crypto','Other Assets'],
 		datasets: [{
 			label: 'Asset Value',
-			data: [{{insurance_total}}, {{investment_total}},{{bank_total}},{{other_asset_total}}],
+			data: [{{insurance_total}},{{epf_total}},{{properties_total}}, {{investment_total}},{{bank_total}},{{cryptos_total}},{{other_asset_total}}],
 			backgroundColor: [
 				'#e63a54',
 				'#d8f4ff',
 				"#110f48",
-				// "gray",
+				"gray",
 				"#55BCB9",
-				// "#8f1346",
-				// "#ffba00"
+				"#8f1346",
+				"#ffba00"
 			],
 			borderColor: [
 				'#e63a54',
 				'#d8f4ff',
 				"#110f48",
-				// "gray",
+				"gray",
 				"#55BCB9",
-				// "#8f1346",
-				// "#ffba00"
+				"#8f1346",
+				"#ffba00"
 			],
 			borderWidth: 1,
 			cutout: '85%',

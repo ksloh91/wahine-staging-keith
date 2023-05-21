@@ -992,9 +992,40 @@ def dashboard_new(request):
             investment_total += float(x['account_value'])
 
     epf = Epf.objects.filter(user=user)
+    epf_total = 0
+    epf_values = epf.values('account_value')
+    for x in epf_values:
+        if x['account_value'] == "" or x['account_value'] is None:
+            epf_total = epf_total
+        else:
+            epf_total += float(x['account_value'])
+
     socso = Socso.objects.filter(user=user)
-    properties = Property.objects.filter(user=user)
+    socso_total = 0
+    socso_values = socso.values('account_value')
+    for x in socso_values:
+        if x['account_value'] == "" or x['account_value'] is None:
+            socso_total = socso_total
+        else:
+            socso_total += float(x['account_value'])
+    
     vehicles = Vehicle.objects.filter(user=user)
+    # vehicles_total = 0
+    # vehicles_values = vehicles.values('spa_price')
+    # for x in vehicles_values:
+    #     if x['spa_price'] == "" or x['spa_price'] is None:
+    #         vehicles_total = vehicles_total
+    #     else:
+    #         vehicles_total += float(x['spa_price'])
+
+    properties = Property.objects.filter(user=user)
+    properties_total = 0
+    properties_values = properties.values('spa_price')
+    for x in properties_values:
+        if x['spa_price'] == "" or x['spa_price'] is None:
+            properties_total = properties_total
+        else:
+            properties_total += float(x['spa_price'])
 
     cryptos = Crypto.objects.filter(user=user)
     crypto_total = 0
@@ -1068,7 +1099,9 @@ def dashboard_new(request):
                 'unittrust_investments':unittrust_investments,
                 'investment_total':investment_total,
                 'properties':properties,
+                'properties_total':properties_total,
                 'vehicles':vehicles,
+                # 'vehicles_total':vehicles_total,
                 'cryptos':cryptos,
                 'crypto_total':crypto_total,
                 'other_assets':other_assets,

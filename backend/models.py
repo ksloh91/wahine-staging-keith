@@ -117,6 +117,7 @@ class Socso(TimeStampedModel):
     created_by = models.ForeignKey('backend.User',on_delete=models.CASCADE,null=True)
     account_no = models.CharField(max_length=128)
     nominee_name = models.CharField(max_length=128,null=True,blank=True)
+    account_value = models.FloatField(max_length=128,null=True,blank=True)
 
     def __str__(self):
         return self.account_no
@@ -196,6 +197,7 @@ class Property(TimeStampedModel):
     state = models.CharField(max_length=128,null=True,blank=True)
     postcode = models.CharField(max_length=128,null=True,blank=True)
     titleno = models.CharField(max_length=128,null=True,blank=True)
+    spa_price = models.FloatField(max_length=128,null=True,blank=True)
 
     def __str__(self):
         return self.property_type
@@ -322,7 +324,7 @@ class AccessList(TimeStampedModel):
 
     def __str__(self):
         return self.name
-        
+
 ## Property 
 class PropertyType(TimeStampedModel):
     name = models.CharField(max_length=128)
