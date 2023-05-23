@@ -15,7 +15,10 @@
 
 {% block content %}
 <body>
-   
+   <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+
    <!-- Section 2 -->
     <div class="container mt-5 pb-3">
         <br>
@@ -227,6 +230,21 @@
           </div>
       </div>
     </div>
+    <div class="container-fluid pb-5">
+      <div class="row pb-5">
+        <div class="col-12 text-center">
+          <!-- Your embedded video player code -->
+            <div class="fb-video" data-href="https://www.facebook.com/100087563592086/videos/935562087477068/" data-width="500" data-show-text="true" data-allowfullscreen="true">
+              <div class="fb-xfbml-parse-ignore">
+                <blockquote cite="https://www.facebook.com/100087563592086/videos/935562087477068/">
+                  <a href="https://www.facebook.com/100087563592086/videos/935562087477068/">Women's Financial and Mental Well-being: Breaking Taboos and Taking Charge, with Azreen Pharmy and Jessica Wee's Inspiring Conversations.</a>
+                </blockquote>
+              </div>
+            </div>
+          </div>    
+        </div>
+      </div>
+    </div>
     <!-- <div class="container-fluid pb-5">
        <div class="row pb-5">
         <div class="col-12">
@@ -243,7 +261,7 @@
               <div class="carousel-cell medium-articles"></div>
               <div class="carousel-cell medium-articles"></div>
             </div>
-            </div>
+            </div>  
           </div>
         </div>
     </div> -->
